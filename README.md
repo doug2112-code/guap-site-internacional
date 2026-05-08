@@ -1,1 +1,1 @@
-# guap-site-internacional
+# site-guap
