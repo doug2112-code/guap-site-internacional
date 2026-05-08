@@ -2,13 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import { defaultLocale, localeOptions, siteLocales } from './content/siteLocales.js'
 
-const getInitialLocale = () => {
-  if (typeof window === 'undefined') {
-    return defaultLocale
-  }
+const whatsappUrl = 'https://wa.me/5561995596710'
+const instagramUrl = 'https://www.instagram.com/guap.company/'
 
-  const savedLocale = window.localStorage.getItem('guap-locale')
-  return siteLocales[savedLocale] ? savedLocale : defaultLocale
+const getInitialLocale = () => {
+  return defaultLocale
 }
 
 function SectionTransition({ tone }) {
@@ -47,7 +45,6 @@ function App() {
 
   useEffect(() => {
     document.documentElement.lang = locale === 'ja' ? 'ja' : locale === 'pt' ? 'pt-BR' : 'en'
-    window.localStorage.setItem('guap-locale', locale)
   }, [locale])
 
   useEffect(() => {
@@ -315,7 +312,7 @@ function App() {
             ))}
           </div>
 
-          <a className="nav-cta" href="#contact">
+          <a className="nav-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
             {copy.navCta}
           </a>
         </div>
@@ -340,14 +337,8 @@ function App() {
               <span className="kicker">{copy.hero.kicker}</span>
               <h1>{copy.hero.title}</h1>
               <p className="hero-description">{copy.hero.description}</p>
-              <div className="hero-storyline">
-                {copy.hero.storyline.map((item) => (
-                  <span key={item}>{item}</span>
-                ))}
-              </div>
-
               <div className="hero-actions">
-                <a className="primary-button" href="#contact">
+                <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
                   {copy.hero.primaryCta}
                 </a>
                 <a className="secondary-button" href="#results">
@@ -423,7 +414,7 @@ function App() {
           </div>
 
           <div className="section-cta-row">
-            <a className="primary-button" href="#contact">
+            <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
               {copy.hero.primaryCta}
             </a>
             <a className="secondary-button" href="#capabilities">
@@ -569,7 +560,7 @@ function App() {
 
           <div className="section-action-row">
             <p>{copy.capabilities.ctaText}</p>
-            <a className="secondary-button section-inline-cta" href="#contact">
+            <a className="secondary-button section-inline-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
               {copy.capabilities.cta}
             </a>
           </div>
@@ -631,7 +622,7 @@ function App() {
               <strong>{copy.results.ctaTitle}</strong>
               <p>{copy.results.ctaText}</p>
             </div>
-            <a className="primary-button conversion-strip-cta" href="#contact">
+            <a className="primary-button conversion-strip-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
               {copy.results.cta}
             </a>
           </div>
@@ -721,7 +712,7 @@ function App() {
                   ))}
                 </ul>
 
-                <a className="primary-button service-modal-cta" href="#contact" onClick={closeServiceModal}>
+                <a className="primary-button service-modal-cta" href={whatsappUrl} target="_blank" rel="noreferrer" onClick={closeServiceModal}>
                   {selectedService.cta}
                 </a>
               </div>
@@ -753,8 +744,8 @@ function App() {
         </div>
 
         <div className="footer-bottom">
-          <a className="footer-instagram" href="https://instagram.com/guap" target="_blank" rel="noreferrer">
-            instagram.com/guap
+          <a className="footer-instagram" href={instagramUrl} target="_blank" rel="noreferrer">
+            instagram.com/guap.company
           </a>
           <span className="footer-cnpj">CNPJ 53.756.084/0001-54</span>
         </div>

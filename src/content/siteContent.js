@@ -6,9 +6,9 @@ export const navItems = [
 ]
 
 export const heroStats = [
-  { value: '+42%', label: 'better leads' },
-  { value: '3.8x', label: 'stronger pages' },
-  { value: '-31%', label: 'lower CPL' },
+  { value: '¥2M+', label: 'generated in Japan' },
+  { value: '$100K+', label: 'generated in the U.S.' },
+  { value: 'Lower', label: 'CPL' },
 ]
 
 export const aiSignals = ['AI', 'Traffic', 'Brand', 'Systems', 'Automation']
@@ -47,110 +47,104 @@ export const partnerLogos = [
 
 export const capabilities = [
   {
-    slug: 'websites',
-    eyebrow: 'Websites',
-    title: 'Websites',
-    description: 'Clear pages that sell faster.',
-    impact: 'Not a brochure. A sales path.',
-    bullets: ['Fast pages', 'Clear offer', 'Direct action'],
-    details: [
-      'First impression with more trust.',
-      'Clear hierarchy. Obvious next step.',
-    ],
-    cta: 'See website scope',
-    image: '/solutions-websites.svg',
-  },
-  {
-    slug: 'branding',
-    eyebrow: 'Branding',
-    title: 'Branding',
-    description: 'Identity that feels more valuable.',
-    impact: 'Look as strong as you operate.',
-    bullets: ['Clear perception', 'Premium direction', 'Sharper message'],
-    details: [
-      'How the company looks, sounds and is remembered.',
-      'More status. More trust. More clarity.',
-    ],
-    cta: 'See brand scope',
-    image: '/solutions-branding.svg',
-  },
-  {
-    slug: 'traffic',
-    eyebrow: 'Traffic',
-    title: 'Paid traffic',
-    description: 'Better traffic into better pages.',
-    impact: 'Less leak after the click.',
-    bullets: ['Ad-page match', 'Less friction', 'Better lead flow'],
-    details: [
-      'Ads, pages and contact flow aligned.',
-      'Fewer weak steps. Better cost efficiency.',
-    ],
-    cta: 'See traffic scope',
-    image: '/solutions-traffic.svg',
-  },
-  {
-    slug: 'social',
-    eyebrow: 'Social',
-    title: 'Social media',
-    description: 'Social that supports the sale.',
-    impact: 'Active. Relevant. Trusted.',
-    bullets: ['Clear content', 'Brand consistency', 'Better channel signal'],
-    details: [
-      'No random posting.',
-      'A cleaner presence across the funnel.',
-    ],
-    cta: 'See social scope',
-    image: '/solutions-social.svg',
-  },
-  {
     slug: 'systems',
-    eyebrow: 'Systems',
-    title: 'AI & systems',
-    description: 'AI and flows behind growth.',
-    impact: 'Less manual. More control.',
-    bullets: ['Smart automation', 'Faster response', 'Connected operation'],
+    eyebrow: 'AI & systems',
+    title: 'AI & Systems',
+    description: 'Intelligent flows that turn demand into response.',
+    impact: 'Growth needs rhythm behind the screen.',
+    bullets: ['AI workflows', 'Sales routing', 'Operational clarity'],
     details: [
-      'Marketing, sales and operations connected.',
-      'Faster execution. Cleaner visibility.',
+      'We connect acquisition, qualification and follow-up into a cleaner growth system.',
+      'Less manual delay. More visibility across the path from lead to revenue.',
     ],
-    cta: 'See systems scope',
+    cta: 'Discuss systems',
     image: '/solutions-systems.svg',
   },
   {
     slug: 'data',
     eyebrow: 'Data',
-    title: 'Data & bottlenecks',
-    description: 'Find the leak before scaling.',
-    impact: 'Do not scale waste.',
-    bullets: ['Conversion gaps', 'Lead diagnostics', 'Clear decisions'],
+    title: 'Data & Bottlenecks',
+    description: 'Find the weak step before scaling spend.',
+    impact: 'GUAP exposes what is slowing conversion.',
+    bullets: ['Funnel diagnosis', 'Lead quality signals', 'Cost clarity'],
     details: [
-      'Where performance breaks.',
-      'What to fix first.',
+      'We read the path from click to contact and identify where value leaks.',
+      'The goal is cleaner decisions before bigger budgets.',
     ],
-    cta: 'See diagnostic scope',
+    cta: 'Map bottlenecks',
     image: '/solutions-data.svg',
+  },
+  {
+    slug: 'branding',
+    eyebrow: 'Branding',
+    title: 'Branding',
+    description: 'A sharper identity for premium trust.',
+    impact: 'Your digital presence should match the level of the business.',
+    bullets: ['Premium positioning', 'Clear message', 'Stronger perception'],
+    details: [
+      'We shape how the company looks, sounds and is remembered.',
+      'More status, more clarity and less explanation before the sale.',
+    ],
+    cta: 'Refine the brand',
+    image: '/solutions-branding.svg',
+  },
+  {
+    slug: 'websites',
+    eyebrow: 'Websites',
+    title: 'Converting Websites',
+    description: 'Premium pages built to guide action.',
+    impact: 'Not a brochure. A conversion path.',
+    bullets: ['Fast pages', 'Clear offer', 'Direct action'],
+    details: [
+      'We build the first impression, hierarchy and CTA path around trust.',
+      'The page should explain less and convert more.',
+    ],
+    cta: 'Plan the website',
+    image: '/solutions-websites.svg',
+  },
+  {
+    slug: 'traffic',
+    eyebrow: 'Paid traffic',
+    title: 'Paid Traffic',
+    description: 'Acquisition aligned with the full sales path.',
+    impact: 'Traffic only works when the destination is ready.',
+    bullets: ['Campaign strategy', 'Landing alignment', 'Lower waste'],
+    details: [
+      'We align ads, pages and response so spend has a stronger path to revenue.',
+      'Cleaner audiences, cleaner offers and fewer weak steps after the click.',
+    ],
+    cta: 'Improve acquisition',
+    image: '/solutions-traffic.svg',
   },
 ]
 
 export const resultMetrics = [
   {
-    number: '+$100k',
-    label: 'US revenue',
-    detail: 'Strategies applied to business solutions.',
-    start: 18,
-    end: 100,
-    prefix: '+$',
-    suffix: 'k',
-  },
-  {
     number: '+¥2M',
-    label: 'Tokyo revenue',
-    detail: 'Growth work for companies in Japan.',
+    label: 'generated in Japan',
+    detail: 'Growth systems applied for companies in Tokyo.',
     start: 0.4,
     end: 2,
     prefix: '+¥',
     suffix: 'M',
     decimals: 1,
+  },
+  {
+    number: '+$100K',
+    label: 'generated in the U.S.',
+    detail: 'Strategies applied to business solutions in the United States.',
+    start: 18,
+    end: 100,
+    prefix: '+$',
+    suffix: 'K',
+  },
+  {
+    number: 'Lower CPL',
+    label: 'lower CPL',
+    detail: 'Cleaner pages and campaigns reduce wasted demand.',
+    start: 6,
+    end: 31,
+    negative: true,
   },
 ]
 
@@ -176,9 +170,9 @@ export const caseStudies = [
 ]
 
 export const contactLinks = [
+  { label: 'WhatsApp', value: '+55 61 99559-6710', href: 'https://wa.me/5561995596710' },
   { label: 'Brazil email', value: 'contato@guapcompany.com.br', href: 'mailto:contato@guapcompany.com.br' },
   { label: 'Global email', value: 'contact@guapcompany.com.br', href: 'mailto:contact@guapcompany.com.br' },
   { label: 'CEO email', value: 'douglascontact@guapcompany.com.br', href: 'mailto:douglascontact@guapcompany.com.br' },
-  { label: 'Brazil', value: '+55 61 99669-7100', href: 'tel:+5561996697100' },
-  { label: 'United States', value: '+1 (305) 555-0147', href: 'tel:+13055550147' },
+  { label: 'Instagram', value: '@guap.company', href: 'https://www.instagram.com/guap.company/' },
 ]

@@ -834,7 +834,7 @@
 
 .hero-panel h1 {
   margin-top: 10px;
-  max-width: 11.8ch;
+  max-width: 14.5ch;
   margin-inline: 0;
   font-size: clamp(1.5rem, 2vw, 2.12rem);
 }
@@ -1678,11 +1678,15 @@
 
 .section-mood-cyanlight h2,
 .section-mood-cyanlight h3,
-.section-mood-cyanlight p,
 .section-mood-cyanlight strong,
 .section-mood-cyanlight .kicker,
 .section-mood-cyanlight .market-flag {
   color: var(--text-dark);
+}
+
+.section-mood-cyanlight p,
+.section-mood-cyanlight .market-card p {
+  color: rgba(14, 25, 44, 0.72);
 }
 
 .section-mood-cyanlight .kicker::before,
@@ -2770,8 +2774,8 @@
 }
 
 .metrics-grid-compact {
-  grid-template-columns: repeat(2, minmax(260px, 1fr));
-  width: min(100%, 860px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(100%, 1040px);
   margin-top: 18px;
   margin-inline: auto;
 }
@@ -4982,7 +4986,7 @@
   .results-visual,
   .proof-card-visual,
   .dashboard-visual {
-    width: min(100%, 520px);
+    width: min(100%, 282px);
     max-width: 100%;
     min-height: clamp(240px, 54vw, 360px);
     justify-self: center;
@@ -5332,9 +5336,12 @@
   }
 
   .topbar-actions {
-    width: min(100%, 306px);
+    display: grid;
+    width: min(100%, 274px);
     grid-template-columns: auto minmax(0, 1fr);
-    justify-self: stretch;
+    align-items: center;
+    gap: 8px;
+    justify-self: center;
     margin-inline: auto;
   }
 
@@ -5355,7 +5362,7 @@
   }
 
   .topbar .nav-cta {
-    max-width: 188px;
+    max-width: 158px;
   }
 
   .section-transition {
@@ -5411,14 +5418,14 @@
   .hero-panel h1,
   .section-copy h2,
   .authority-copy h2 {
-    width: min(100%, 12.8ch);
+    width: min(100%, 15.5ch);
     max-width: calc(100vw - 48px);
     overflow-wrap: anywhere;
     text-wrap: balance;
   }
 
   .hero-panel h1 {
-    font-size: clamp(1.82rem, 8.4vw, 2.18rem);
+    font-size: clamp(1.72rem, 7.8vw, 2.18rem);
   }
 
   .section-copy h2,
@@ -5426,17 +5433,23 @@
     font-size: clamp(1.72rem, 7.8vw, 2.04rem);
   }
 
+  .ecosystem-section .section-copy h2 {
+    max-width: min(100%, 12.5ch);
+  }
+
   .hero-storyline,
-  .authority-strip,
   .markets-rail {
-    display: flex;
-    flex-wrap: wrap;
-    width: min(100%, 330px);
+    display: grid;
+    grid-template-columns: 1fr;
+    width: min(100%, 282px);
     gap: 8px;
   }
 
+  .authority-strip {
+    display: none;
+  }
+
   .hero-storyline span,
-  .authority-strip span,
   .markets-rail span {
     flex: 1 1 auto;
     min-width: min(100%, 142px);
@@ -5460,21 +5473,22 @@
 
   .hero-stats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    max-width: 342px;
-    gap: 7px;
+    width: min(100%, 282px);
+    max-width: 282px;
+    gap: 6px;
   }
 
   .hero-stats .stat-card {
-    min-height: 78px;
-    padding: 11px 6px;
+    min-height: 74px;
+    padding: 10px 5px;
   }
 
   .stat-card strong {
-    font-size: clamp(1rem, 5.4vw, 1.24rem);
+    font-size: clamp(0.92rem, 4.8vw, 1.12rem);
   }
 
   .stat-card span {
-    font-size: 0.66rem;
+    font-size: 0.58rem;
     line-height: 1.2;
   }
 
@@ -5528,8 +5542,18 @@
   }
 
   .metric-card p {
-    max-width: 18ch;
+    max-width: 22ch;
     margin-inline: auto;
+  }
+
+  .section-mood-cyanlight .section-copy h2,
+  .section-mood-cyanlight .section-copy p,
+  .section-mood-cyanlight .kicker {
+    color: var(--text-dark);
+  }
+
+  .section-mood-cyanlight .market-card p {
+    color: rgba(14, 25, 44, 0.72);
   }
 
   .floating-card-left {

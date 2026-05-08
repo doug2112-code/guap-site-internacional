@@ -16,7 +16,7 @@ export const localeOptions = [
   { code: 'pt', short: 'PT', label: 'Português' },
 ]
 
-export const defaultLocale = 'pt'
+export const defaultLocale = 'en'
 
 const englishCopy = {
   navCta: 'Book a call',
@@ -26,10 +26,9 @@ const englishCopy = {
   languageLabel: 'Language',
   hero: {
     aria: 'GUAP home',
-    kicker: 'GUAP / digital growth',
-    title: 'Your business is strong. Digital should show it.',
-    description: 'First clarity. Then trust. Then sales.',
-    storyline: ['Look stronger', 'Guide better', 'Sell more'],
+    kicker: 'GUAP / digital growth systems',
+    title: 'Digital growth for companies ready to look global.',
+    description: 'We build the strategy, pages, data and systems behind cleaner revenue.',
     primaryCta: 'Talk to GUAP',
     secondaryCta: 'See results',
     sceneCore: ['Growth layer', 'Clear signal. More sales.'],
@@ -53,10 +52,10 @@ const englishCopy = {
   ecosystem: {
     kicker: 'The journey',
     title: 'From first impression to next client.',
-    description: 'Brand, page, traffic and response moving as one.',
+    description: 'Brand, page, traffic, data and response moving as one system.',
     noteTitle: 'The whole chain',
     note: 'Perception. Click. Page. Response.',
-    nodes: ['AI', 'Brand', 'Traffic', 'Sales', 'Systems', 'Social'],
+    nodes: ['AI', 'Brand', 'Traffic', 'Sales', 'Systems', 'Data'],
   },
   markets: {
     kicker: 'Markets',
@@ -73,11 +72,11 @@ const englishCopy = {
   },
   capabilities: {
     kicker: 'Solutions',
-    title: 'Each layer removes friction.',
-    description: 'Page, brand, traffic and systems tell the same story.',
+    title: 'Growth is designed in layers.',
+    description: 'AI, data, brand, websites and acquisition built as one digital growth system.',
     openLabel: 'Open service details',
     cardAction: 'Explore layer',
-    ctaText: 'If the block is unclear, start with the diagnostic.',
+    ctaText: 'Start where the revenue path is weakest.',
     cta: 'Map the bottleneck',
   },
   results: {
@@ -125,10 +124,9 @@ const ptCopy = {
   languageLabel: 'Idioma',
   hero: {
     aria: 'Início GUAP',
-    kicker: 'GUAP / crescimento digital',
-    title: 'Seu negócio já é forte. O digital precisa parecer.',
-    description: 'Primeiro vem clareza. Depois confiança. Então venda.',
-    storyline: ['Parecer forte', 'Guiar melhor', 'Vender mais'],
+    kicker: 'GUAP / sistemas de crescimento digital',
+    title: 'Crescimento digital para empresas prontas para parecer globais.',
+    description: 'Estratégia, páginas, dados e sistemas para uma receita mais limpa.',
     primaryCta: 'Falar com a GUAP',
     secondaryCta: 'Ver resultados',
     sceneCore: ['Camada de crescimento', 'Sinal claro. Mais vendas.'],
@@ -152,10 +150,10 @@ const ptCopy = {
   ecosystem: {
     kicker: 'A jornada',
     title: 'Da primeira impressão ao próximo cliente.',
-    description: 'Marca, página, tráfego e resposta trabalhando como uma coisa só.',
+    description: 'Marca, página, tráfego, dados e resposta trabalhando como um sistema.',
     noteTitle: 'A cadeia inteira',
     note: 'Percepção. Clique. Página. Resposta.',
-    nodes: ['IA', 'Marca', 'Tráfego', 'Vendas', 'Sistemas', 'Social'],
+    nodes: ['IA', 'Marca', 'Tráfego', 'Vendas', 'Sistemas', 'Dados'],
   },
   markets: {
     kicker: 'Mercados',
@@ -172,11 +170,11 @@ const ptCopy = {
   },
   capabilities: {
     kicker: 'Soluções',
-    title: 'Cada camada remove um atrito.',
-    description: 'A página, a marca, o tráfego e os sistemas contam a mesma história.',
+    title: 'Crescimento se constrói em camadas.',
+    description: 'IA, dados, marca, sites e aquisição como um sistema de crescimento digital.',
     openLabel: 'Abrir detalhes do serviço',
     cardAction: 'Explorar camada',
-    ctaText: 'Se não sabe onde trava, começamos pelo diagnóstico.',
+    ctaText: 'Comece onde o caminho da receita está mais fraco.',
     cta: 'Mapear gargalo',
   },
   results: {
@@ -349,9 +347,9 @@ export const siteLocales = {
       { label: 'Provas', href: '#results' },
     ],
     heroStats: [
-      { value: '+42%', label: 'leads melhores' },
-      { value: '3.8x', label: 'páginas fortes' },
-      { value: '-31%', label: 'CPL menor' },
+      { value: '¥2M+', label: 'gerados no Japão' },
+      { value: '$100K+', label: 'gerados nos EUA' },
+      { value: 'CPL', label: 'menor' },
     ],
     aiSignals: ['IA', 'Tráfego', 'Marca', 'Sistemas', 'Automação'],
     markets: [
@@ -361,24 +359,24 @@ export const siteLocales = {
     ],
     partnerLogos,
     capabilities: translateCapabilities(capabilities, [
-      { eyebrow: 'Sites', title: 'Sites', description: 'A página vira caminho.', impact: 'Não é brochure. É caminho de venda.', bullets: ['Página rápida', 'Oferta clara', 'Ação direta'], details: ['Primeira impressão com mais confiança.', 'Hierarquia clara. Próximo passo óbvio.'], cta: 'Ver escopo de site' },
-      { eyebrow: 'Branding', title: 'Branding', description: 'A marca passa valor.', impact: 'Parecer tão forte quanto você opera.', bullets: ['Percepção clara', 'Direção premium', 'Mensagem afiada'], details: ['Como a empresa parece, soa e fica na memória.', 'Mais status. Mais confiança. Mais clareza.'], cta: 'Ver escopo de marca' },
-      { eyebrow: 'Tráfego', title: 'Tráfego pago', description: 'O clique encontra clareza.', impact: 'Menos vazamento depois do clique.', bullets: ['Anúncio e página alinhados', 'Menos atrito', 'Leads melhores'], details: ['Campanha, página e contato no mesmo caminho.', 'Menos etapas fracas. Melhor eficiência.'], cta: 'Ver escopo de tráfego' },
-      { eyebrow: 'Social', title: 'Social media', description: 'A presença sustenta a escolha.', impact: 'Ativo. Relevante. Confiável.', bullets: ['Conteúdo claro', 'Marca consistente', 'Sinal melhor'], details: ['Sem postagem aleatória.', 'Uma presença mais forte no funil.'], cta: 'Ver escopo social' },
-      { eyebrow: 'Sistemas', title: 'IA e sistemas', description: 'A resposta ganha ritmo.', impact: 'Menos manual. Mais controle.', bullets: ['Automação inteligente', 'Resposta rápida', 'Operação conectada'], details: ['Marketing, vendas e operação conectados.', 'Execução rápida. Visibilidade limpa.'], cta: 'Ver escopo de sistemas' },
-      { eyebrow: 'Dados', title: 'Dados e gargalos', description: 'O desperdício aparece.', impact: 'Não escale desperdício.', bullets: ['Gaps de conversão', 'Diagnóstico de leads', 'Decisões claras'], details: ['Onde a performance quebra.', 'O que corrigir primeiro.'], cta: 'Ver escopo de diagnóstico' },
+      { eyebrow: 'IA e sistemas', title: 'IA e sistemas', description: 'Fluxos inteligentes para transformar demanda em resposta.', impact: 'Crescimento precisa de ritmo por trás da tela.', bullets: ['Fluxos com IA', 'Roteamento comercial', 'Clareza operacional'], details: ['Conectamos aquisição, qualificação e follow-up em um sistema de crescimento.', 'Menos atraso manual. Mais visibilidade do lead até a receita.'], cta: 'Conversar sobre sistemas' },
+      { eyebrow: 'Dados', title: 'Dados e gargalos', description: 'Encontre o ponto fraco antes de escalar verba.', impact: 'A GUAP mostra onde a conversão perde força.', bullets: ['Diagnóstico de funil', 'Qualidade de lead', 'Clareza de custo'], details: ['Lemos o caminho do clique ao contato para encontrar vazamentos.', 'A meta é decidir melhor antes de investir mais.'], cta: 'Mapear gargalos' },
+      { eyebrow: 'Branding', title: 'Branding', description: 'Identidade mais forte para confiança premium.', impact: 'O digital precisa refletir o nível da empresa.', bullets: ['Posicionamento premium', 'Mensagem clara', 'Percepção forte'], details: ['Modelamos como a empresa parece, soa e fica na memória.', 'Mais status, mais clareza e menos explicação antes da venda.'], cta: 'Refinar a marca' },
+      { eyebrow: 'Sites', title: 'Sites que convertem', description: 'Páginas premium feitas para guiar ação.', impact: 'Não é brochure. É caminho de conversão.', bullets: ['Páginas rápidas', 'Oferta clara', 'Ação direta'], details: ['Construímos primeira impressão, hierarquia e CTA em torno de confiança.', 'A página deve explicar menos e converter mais.'], cta: 'Planejar o site' },
+      { eyebrow: 'Tráfego pago', title: 'Tráfego pago', description: 'Aquisição alinhada ao caminho de venda.', impact: 'Tráfego só funciona quando o destino está pronto.', bullets: ['Estratégia de campanha', 'Página alinhada', 'Menos desperdício'], details: ['Alinhamos anúncio, página e resposta para a verba ter caminho real até receita.', 'Audiências, ofertas e etapas mais limpas depois do clique.'], cta: 'Melhorar aquisição' },
     ]),
     resultMetrics: translateMetrics(resultMetrics, [
-      { label: 'EUA', detail: 'Faturados com estratégias aplicadas em soluções para negócios.' },
-      { label: 'Tóquio', detail: 'Gerados em empresas de Tokyo, Japão.' },
+      { label: 'gerados no Japão', detail: 'Sistemas de crescimento aplicados para empresas em Tóquio.' },
+      { label: 'gerados nos EUA', detail: 'Estratégias aplicadas em soluções para negócios nos Estados Unidos.' },
+      { label: 'CPL menor', detail: 'Páginas e campanhas mais limpas reduzem desperdício.' },
     ]),
     caseStudies,
     contactLinks: [
-      { ...contactLinks[0], label: 'Email Brasil' },
-      { ...contactLinks[1], label: 'Email global' },
-      { ...contactLinks[2], label: 'Email CEO' },
-      { ...contactLinks[3], label: 'Brasil' },
-      { ...contactLinks[4], label: 'Estados Unidos' },
+      { ...contactLinks[0], label: 'WhatsApp' },
+      { ...contactLinks[1], label: 'Email Brasil' },
+      { ...contactLinks[2], label: 'Email global' },
+      { ...contactLinks[3], label: 'Email CEO' },
+      { ...contactLinks[4], label: 'Instagram' },
     ],
   },
   ja: {
@@ -390,9 +388,9 @@ export const siteLocales = {
       { label: '実績', href: '#results' },
     ],
     heroStats: [
-      { value: '+42%', label: '良いリード' },
-      { value: '3.8x', label: '強いページ' },
-      { value: '-31%', label: '低いCPL' },
+      { value: '¥2M+', label: '日本で創出' },
+      { value: '$100K+', label: '米国で創出' },
+      { value: 'Lower', label: 'CPL' },
     ],
     aiSignals: ['AI', '広告', 'ブランド', 'システム', '自動化'],
     markets: [
@@ -402,24 +400,24 @@ export const siteLocales = {
     ],
     partnerLogos,
     capabilities: translateCapabilities(capabilities, [
-      { eyebrow: 'Webサイト', title: 'Webサイト', description: '早く売れる、明確なページ。', impact: 'パンフレットではなく、販売導線。', bullets: ['速いページ', '明確な提案', '直接行動'], details: ['第一印象に信頼を。', '明確な階層。自然な次の一歩。'], cta: 'Webサイト範囲を見る' },
-      { eyebrow: 'ブランド', title: 'ブランド', description: '価値が伝わるアイデンティティ。', impact: '事業の強さに見え方を合わせる。', bullets: ['明確な認知', 'プレミアムな方向性', '鋭いメッセージ'], details: ['どう見え、どう聞こえ、どう記憶されるか。', 'ステータス。信頼。明確さ。'], cta: 'ブランド範囲を見る' },
-      { eyebrow: '広告', title: '有料広告', description: '良い流入を、良いページへ。', impact: 'クリック後の漏れを減らす。', bullets: ['広告とページ', '少ない摩擦', '良いリード'], details: ['キャンペーン、ページ、問い合わせを一本化。', '弱いステップを減らし、効率を上げる。'], cta: '広告範囲を見る' },
-      { eyebrow: 'SNS', title: 'SNS運用', description: '販売を支えるSNS。', impact: '活動的。信頼できる。', bullets: ['明確な内容', '一貫したブランド', '良いシグナル'], details: ['ランダム投稿ではない。', 'ファネル全体で強い存在感。'], cta: 'SNS範囲を見る' },
-      { eyebrow: 'システム', title: 'AIとシステム', description: '成長の裏側のAIとフロー。', impact: '手作業を減らし、管理しやすく。', bullets: ['賢い自動化', '速い対応', 'つながる運用'], details: ['マーケティング、営業、運用を接続。', '速い実行。明確な可視化。'], cta: 'システム範囲を見る' },
-      { eyebrow: 'データ', title: 'データとボトルネック', description: '伸ばす前に漏れを見つける。', impact: '無駄を拡大しない。', bullets: ['転換ギャップ', 'リード診断', '明確な判断'], details: ['成果が崩れる場所。', '最初に直す場所。'], cta: '診断範囲を見る' },
+      { eyebrow: 'AIとシステム', title: 'AIとシステム', description: '需要を対応へ変えるインテリジェントな流れ。', impact: '成長には画面の裏側のリズムが必要。', bullets: ['AIワークフロー', '営業ルーティング', '運用の可視化'], details: ['獲得、選別、フォローを一つの成長システムに接続。', '手作業の遅れを減らし、売上までの道筋を見える化。'], cta: 'システムを相談' },
+      { eyebrow: 'データ', title: 'データとボトルネック', description: '広告費を増やす前に弱いステップを見つける。', impact: 'GUAPは転換を遅くする場所を見える化する。', bullets: ['ファネル診断', 'リード品質', 'コストの明確化'], details: ['クリックから問い合わせまでの漏れを読む。', '大きな投資の前に、より良い判断へ。'], cta: 'ボトルネックを見る' },
+      { eyebrow: 'ブランド', title: 'ブランド', description: 'プレミアムな信頼をつくるアイデンティティ。', impact: 'デジタルは事業のレベルに合わせるべき。', bullets: ['プレミアムな位置付け', '明確なメッセージ', '強い認知'], details: ['企業がどう見え、どう聞こえ、どう記憶されるかを設計。', '販売前の説明を減らし、信頼を高める。'], cta: 'ブランドを整える' },
+      { eyebrow: 'Webサイト', title: '売れるWebサイト', description: '行動へ導くプレミアムページ。', impact: 'パンフレットではなく、転換導線。', bullets: ['速いページ', '明確な提案', '直接行動'], details: ['第一印象、情報階層、CTAを信頼中心に設計。', '説明を減らし、転換を高めるページへ。'], cta: 'Webサイトを計画' },
+      { eyebrow: '有料広告', title: '有料広告', description: '販売導線とつながる獲得設計。', impact: '到着先が整って初めて広告は効く。', bullets: ['キャンペーン戦略', 'ページ連動', '無駄を減らす'], details: ['広告、ページ、対応を売上への道として接続。', 'クリック後の弱いステップを減らす。'], cta: '獲得を改善' },
     ]),
     resultMetrics: translateMetrics(resultMetrics, [
-      { label: 'US', detail: 'Business solutions with applied strategy.' },
-      { label: '東京', detail: 'Generated for companies in Tokyo, Japan.' },
+      { label: '日本で創出', detail: '東京の企業に適用した成長システム。' },
+      { label: '米国で創出', detail: '米国のビジネスソリューションに適用した戦略。' },
+      { label: '低いCPL', detail: 'ページと広告の無駄を減らす。' },
     ]),
     caseStudies,
     contactLinks: [
-      { ...contactLinks[0], label: 'ブラジルメール' },
-      { ...contactLinks[1], label: 'グローバルメール' },
-      { ...contactLinks[2], label: 'CEOメール' },
-      { ...contactLinks[3], label: 'ブラジル' },
-      { ...contactLinks[4], label: '米国' },
+      { ...contactLinks[0], label: 'WhatsApp' },
+      { ...contactLinks[1], label: 'ブラジルメール' },
+      { ...contactLinks[2], label: 'グローバルメール' },
+      { ...contactLinks[3], label: 'CEOメール' },
+      { ...contactLinks[4], label: 'Instagram' },
     ],
   },
 }
