@@ -386,6 +386,15 @@ function App() {
               </div>
             </div>
           </div>
+
+          <div className="growth-system-path" aria-label={copy.ecosystem.noteTitle}>
+            {copy.ecosystem.flow.map((step, index) => (
+              <span key={step}>
+                <strong>{String(index + 1).padStart(2, '0')}</strong>
+                {step}
+              </span>
+            ))}
+          </div>
         </section>
 
         <SectionTransition tone="transition-signal" />
@@ -478,8 +487,9 @@ function App() {
                   <span className="market-link market-link-b"></span>
                   <span className="market-link market-link-c"></span>
                   <span className="market-node market-node-us">{copy.markets.rail[0]}</span>
-                  <span className="market-node market-node-ca">{copy.markets.rail[1]}</span>
-                  <span className="market-node market-node-jp">{copy.markets.rail[2]}</span>
+                  <span className="market-node market-node-jp">{copy.markets.rail[1]}</span>
+                  <span className="market-node market-node-pt">{copy.markets.rail[2]}</span>
+                  <span className="market-node market-node-br">{copy.markets.rail[3]}</span>
                   <span className="market-core">GUAP</span>
                 </div>
               </div>
@@ -727,29 +737,67 @@ function App() {
 
       <footer className="footer-card footer-warp reveal-panel" id="contact" data-reveal>
         <div className="footer-layout">
-          <div className="section-copy">
+          <div className="section-copy footer-brand">
+            <img className="footer-logo-mark" src="/guap-wordmark.svg" alt="GUAP" />
             <span className="kicker">{copy.footer.kicker}</span>
             <h2>{copy.footer.title}</h2>
             <p className="footer-description">{copy.footer.description}</p>
+            <p className="footer-positioning">{copy.footer.positioning}</p>
           </div>
 
-          <ul className="contact-list">
-            {contactLinks.map((link) => (
-              <li key={link.label}>
-                <span>{link.label}</span>
-                <a href={link.href}>{link.value}</a>
-              </li>
-            ))}
-          </ul>
+          <div className="footer-directory">
+            <ul className="contact-list">
+              {contactLinks.map((link) => (
+                <li key={link.label}>
+                  <span>{link.label}</span>
+                  <a
+                    href={link.href}
+                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+                  >
+                    {link.value}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div className="footer-link-columns">
+              <div>
+                <strong>{copy.footer.marketsTitle}</strong>
+                {copy.footer.markets.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+              <div>
+                <strong>{copy.footer.servicesTitle}</strong>
+                {copy.footer.services.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="footer-bottom">
+          <span>{copy.footer.copyright}</span>
           <a className="footer-instagram" href={instagramUrl} target="_blank" rel="noreferrer">
-            instagram.com/guap.company
+            Instagram
           </a>
-          <span className="footer-cnpj">CNPJ 53.756.084/0001-54</span>
+          <a className="footer-instagram" href={whatsappUrl} target="_blank" rel="noreferrer">
+            WhatsApp
+          </a>
+          <span>{copy.footer.legal}</span>
         </div>
       </footer>
+
+      <a className="sticky-growth-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
+        <span>{copy.results.ctaKicker}</span>
+        <strong>{copy.hero.primaryCta}</strong>
+      </a>
+
+      <a className="mobile-whatsapp-cta" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label={copy.hero.primaryCta}>
+        {copy.hero.primaryCta}
+      </a>
     </div>
   )
 }
