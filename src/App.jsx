@@ -40,9 +40,12 @@ function App() {
   const [metricValues, setMetricValues] = useState(() => initialMetricValues)
   const [activeService, setActiveService] = useState(null)
   const [activeMarketIndex, setActiveMarketIndex] = useState(0)
+  const [isMarketPaused, setIsMarketPaused] = useState(false)
   const [isClosingService, setIsClosingService] = useState(false)
   const serviceModalCloseTimer = useRef(null)
   const serviceModalTitleRef = useRef(null)
+  const marketTouchStartX = useRef(null)
+  const marketResumeTimer = useRef(null)
 
   useEffect(() => {
     document.documentElement.lang = locale === 'ja' ? 'ja' : locale === 'pt' ? 'pt-BR' : 'en'
@@ -208,7 +211,11 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (marketStories.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (
+      isMarketPaused ||
+      marketStories.length < 2 ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
       return undefined
     }
 
@@ -217,7 +224,7 @@ function App() {
     }, 6500)
 
     return () => window.clearInterval(timerId)
-  }, [marketStories.length])
+  }, [isMarketPaused, marketStories.length])
 
   const openServiceModal = (slug) => {
     window.clearTimeout(serviceModalCloseTimer.current)
@@ -256,7 +263,13 @@ function App() {
     }
   }, [activeService, closeServiceModal])
 
-  useEffect(() => () => window.clearTimeout(serviceModalCloseTimer.current), [])
+  useEffect(
+    () => () => {
+      window.clearTimeout(serviceModalCloseTimer.current)
+      window.clearTimeout(marketResumeTimer.current)
+    },
+    [],
+  )
 
   const formatMetricValue = (metric, index) => {
     const value = metricValues[index] ?? metric.start
@@ -295,6 +308,30 @@ function App() {
   const stepMarket = (direction) => {
     const total = marketStories.length
     setActiveMarketIndex((currentIndex) => (currentIndex + direction + total) % total)
+  }
+
+  const pauseMarketBriefly = (duration = 1200) => {
+    window.clearTimeout(marketResumeTimer.current)
+    setIsMarketPaused(true)
+    marketResumeTimer.current = window.setTimeout(() => setIsMarketPaused(false), duration)
+  }
+
+  const handleMarketTouchStart = (event) => {
+    window.clearTimeout(marketResumeTimer.current)
+    setIsMarketPaused(true)
+    marketTouchStartX.current = event.touches[0]?.clientX ?? null
+  }
+
+  const handleMarketTouchEnd = (event) => {
+    const startX = marketTouchStartX.current
+    const endX = event.changedTouches[0]?.clientX ?? null
+    marketTouchStartX.current = null
+
+    if (startX !== null && endX !== null && Math.abs(startX - endX) > 42) {
+      stepMarket(startX > endX ? 1 : -1)
+    }
+
+    pauseMarketBriefly(900)
   }
 
   return (
@@ -419,14 +456,6 @@ function App() {
             </div>
           </div>
 
-          <div className="growth-system-path" aria-label={copy.ecosystem.noteTitle}>
-            {copy.ecosystem.flow.map((step, index) => (
-              <span key={step}>
-                <strong>{String(index + 1).padStart(2, '0')}</strong>
-                {step}
-              </span>
-            ))}
-          </div>
         </section>
 
         <SectionTransition tone="transition-signal" />
@@ -513,7 +542,10 @@ function App() {
                   key={story.slug}
                   type="button"
                   aria-pressed={activeMarketIndex === index}
-                  onClick={() => setActiveMarketIndex(index)}
+                  onClick={() => {
+                    pauseMarketBriefly()
+                    setActiveMarketIndex(index)
+                  }}
                 >
                   <span>{story.flag}</span>
                   {story.country}
@@ -522,7 +554,15 @@ function App() {
             </div>
           </div>
 
-          <div className={`market-stage ${activeMarketStory.visual}`} aria-label={copy.markets.aria}>
+          <div
+            key={activeMarketStory.slug}
+            className={`market-stage ${activeMarketStory.visual} ${isMarketPaused ? 'is-paused' : ''}`}
+            aria-label={copy.markets.aria}
+            onMouseEnter={() => setIsMarketPaused(true)}
+            onMouseLeave={() => setIsMarketPaused(false)}
+            onTouchStart={handleMarketTouchStart}
+            onTouchEnd={handleMarketTouchEnd}
+          >
             <div className="market-stage-bg" aria-hidden="true">
               <span className="market-light light-one"></span>
               <span className="market-light light-two"></span>
@@ -561,7 +601,14 @@ function App() {
           </div>
 
           <div className="market-controls">
-            <button type="button" aria-label="Previous market" onClick={() => stepMarket(-1)}>
+            <button
+              type="button"
+              aria-label="Previous market"
+              onClick={() => {
+                pauseMarketBriefly()
+                stepMarket(-1)
+              }}
+            >
               ‹
             </button>
             <div className="market-progress" aria-hidden="true">
@@ -569,7 +616,14 @@ function App() {
                 <span className={activeMarketIndex === index ? 'is-active' : ''} key={story.slug}></span>
               ))}
             </div>
-            <button type="button" aria-label="Next market" onClick={() => stepMarket(1)}>
+            <button
+              type="button"
+              aria-label="Next market"
+              onClick={() => {
+                pauseMarketBriefly()
+                stepMarket(1)
+              }}
+            >
               ›
             </button>
           </div>
