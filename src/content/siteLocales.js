@@ -1,11 +1,9 @@
 import {
   aiSignals,
   capabilities,
-  caseStudies,
   contactLinks,
   heroStats,
   marketStories,
-  markets,
   navItems,
   partnerLogos,
   resultMetrics,
@@ -29,7 +27,7 @@ const englishCopy = {
     aria: 'GUAP home',
     kicker: 'GUAP / digital growth systems',
     title: 'Your business is stronger than your digital presence.',
-    description: 'GUAP builds the brand, website, AI, data and sales systems that make that value visible and easier to buy.',
+    description: 'GUAP turns hidden business value into brand, systems and revenue infrastructure built for international markets.',
     primaryCta: 'Talk to GUAP',
     secondaryCta: 'See proof',
     sceneCore: ['Growth system', 'Brand. Data. Revenue.'],
@@ -41,7 +39,7 @@ const englishCopy = {
   authority: {
     kicker: 'The growth problem',
     title: 'Value is not enough if the market cannot see it.',
-    description: 'Weak positioning creates weak trust. Weak pages create weak conversion. Slow systems lose demand.',
+    description: 'Weak positioning lowers trust. Weak pages lower conversion. Slow systems lose demand.',
     outcomesLabel: 'Core outcomes',
     outcomes: ['Clearer authority', 'Higher conversion', 'Faster sales response'],
     points: [
@@ -53,7 +51,7 @@ const englishCopy = {
   ecosystem: {
     kicker: 'Operating system',
     title: 'Brand to revenue, connected.',
-    description: 'A premium business needs more than campaigns. It needs a digital structure that turns attention into qualified demand.',
+    description: 'Premium companies do not need more noise. They need a connected structure from first impression to revenue.',
     noteTitle: 'GUAP growth path',
     note: 'Brand -> Website -> Data -> AI -> Traffic -> Revenue',
     nodes: ['AI', 'Brand', 'Traffic', 'Sales', 'Systems', 'Data'],
@@ -62,7 +60,7 @@ const englishCopy = {
   markets: {
     kicker: 'Markets',
     title: 'Built for owners selling across borders.',
-    description: 'For U.S., Japan, Portugal, Brazil and international operators who need trust before the first conversation.',
+    description: 'Real systems, real markets: Japan, the United States, Portugal, Brazil and international operators.',
     railLabel: 'Markets overview',
     rail: ['United States', 'Japan', 'Portugal', 'Brazil'],
     aria: 'International result stories',
@@ -70,13 +68,13 @@ const englishCopy = {
   partners: {
     kicker: 'Perception',
     title: 'When digital catches up, buyers decide faster.',
-    description: 'Restaurants, automotive businesses, tourism operators and premium services need the market to understand their value instantly.',
+    description: 'Restaurants, automotive brands, tourism operators and premium services need value to be understood instantly.',
     quote: 'Sharper signal. Higher trust. Cleaner demand.',
   },
   capabilities: {
     kicker: 'Solutions',
     title: 'Growth is built in layers.',
-    description: 'AI systems, API integrations, branding, websites, data intelligence and paid traffic working as one commercial architecture.',
+    description: 'AI, APIs, brand, website, data and acquisition working as one commercial architecture.',
     openLabel: 'Open service details',
     cardAction: 'Open layer',
     ctaText: 'Start where the revenue path is leaking.',
@@ -100,7 +98,7 @@ const englishCopy = {
   proof: {
     kicker: 'Systems',
     title: 'Behind growth, there is structure.',
-    description: 'AI, automation, routing and data make the commercial path faster and more visible.',
+    description: 'AI, automation, routing and data make the path from demand to revenue faster and visible.',
     cardLabel: 'Automation layer',
     cardTitle: 'AI flows for response and follow-up.',
     cardText: 'More speed. Less lost demand.',
@@ -136,7 +134,7 @@ const ptCopy = {
     aria: 'Início GUAP',
     kicker: 'GUAP / sistemas de crescimento digital',
     title: 'Sua empresa é mais forte do que o seu digital mostra.',
-    description: 'A GUAP constrói marca, site, IA, dados e sistemas de venda para tornar esse valor visível e mais fácil de comprar.',
+    description: 'A GUAP transforma valor escondido em marca, sistemas e infraestrutura de receita para mercados internacionais.',
     primaryCta: 'Falar com a GUAP',
     secondaryCta: 'Ver resultados',
     sceneCore: ['Sistema de crescimento', 'Marca. Dados. Receita.'],
@@ -160,7 +158,7 @@ const ptCopy = {
   ecosystem: {
     kicker: 'Sistema operacional',
     title: 'Da marca à receita, tudo conectado.',
-    description: 'Empresa premium não precisa só de campanha. Precisa de estrutura digital para transformar atenção em demanda qualificada.',
+    description: 'Empresa premium não precisa de mais ruído. Precisa de uma estrutura conectada da primeira impressão à receita.',
     noteTitle: 'Caminho de crescimento GUAP',
     note: 'Marca -> Site -> Dados -> IA -> Tráfego -> Receita',
     nodes: ['IA', 'Marca', 'Tráfego', 'Vendas', 'Sistemas', 'Dados'],
@@ -169,7 +167,7 @@ const ptCopy = {
   markets: {
     kicker: 'Mercados',
     title: 'Para empresários que vendem além da fronteira.',
-    description: 'Estados Unidos, Japão, Portugal, Brasil e operações internacionais exigem confiança antes da primeira conversa.',
+    description: 'Sistemas reais em mercados reais: Japão, Estados Unidos, Portugal, Brasil e operações internacionais.',
     railLabel: 'Visão dos mercados',
     rail: ['Estados Unidos', 'Japão', 'Portugal', 'Brasil'],
     aria: 'Histórias de resultado internacionais',
@@ -177,13 +175,13 @@ const ptCopy = {
   partners: {
     kicker: 'Prova',
     title: 'Quando o digital alcança a operação, a decisão acelera.',
-    description: 'Restaurantes, negócios automotivos, turismo e serviços premium precisam que o mercado entenda o valor em segundos.',
+    description: 'Restaurantes, marcas automotivas, turismo e serviços premium precisam ser entendidos em segundos.',
     quote: 'Sinal mais forte. Mais confiança. Demanda mais limpa.',
   },
   capabilities: {
     kicker: 'Soluções',
     title: 'Crescimento é construído em camadas.',
-    description: 'IA, integrações, branding, sites, inteligência de dados e tráfego pago como uma arquitetura comercial.',
+    description: 'IA, APIs, marca, site, dados e aquisição como uma só arquitetura comercial.',
     openLabel: 'Abrir detalhes do serviço',
     cardAction: 'Abrir camada',
     ctaText: 'Comece onde o caminho da receita está vazando.',
@@ -207,7 +205,7 @@ const ptCopy = {
   proof: {
     kicker: 'Sistemas',
     title: 'Por trás do crescimento existe estrutura.',
-    description: 'IA, automação, roteamento e dados tornam o caminho comercial mais rápido e visível.',
+    description: 'IA, automação, roteamento e dados tornam o caminho da demanda até a receita mais rápido e visível.',
     cardLabel: 'Camada de automação',
     cardTitle: 'Fluxos de IA para resposta e follow-up.',
     cardText: 'Mais velocidade. Menos demanda perdida.',
@@ -243,7 +241,7 @@ const jaCopy = {
     aria: 'GUAP ホーム',
     kicker: 'GUAP / デジタル成長システム',
     title: '事業の価値を、デジタルで正しく伝える。',
-    description: 'GUAPはブランド、Webサイト、AI、データ、営業システムをつなぎ、価値を見えやすく、選ばれやすくします。',
+    description: 'GUAPは見えにくい事業価値を、国際市場で選ばれるブランド、システム、売上基盤へ変えます。',
     storyline: ['明確な提案', '良い導線', '売上へ'],
     primaryCta: 'GUAPに相談',
     secondaryCta: '実績を見る',
@@ -268,7 +266,7 @@ const jaCopy = {
   ecosystem: {
     kicker: 'オペレーティングシステム',
     title: 'ブランドから売上まで、つなげる。',
-    description: 'プレミアムな事業にはキャンペーンだけでは足りません。問い合わせまでの構造が必要です。',
+    description: 'プレミアムな事業に必要なのは、ノイズではなく、第一印象から売上までの接続構造です。',
     noteTitle: 'GUAPの成長導線',
     note: 'ブランド -> Webサイト -> データ -> AI -> 広告 -> 売上',
     nodes: ['AI', 'ブランド', '広告', '営業', 'システム', 'データ'],
@@ -277,7 +275,7 @@ const jaCopy = {
   markets: {
     kicker: 'マーケット',
     title: '国境を越えて売る経営者へ。',
-    description: '米国、日本、ポルトガル、ブラジル。最初の会話の前に信頼をつくる。',
+    description: '日本、米国、ポルトガル、ブラジル。実市場で機能するデジタル成長システム。',
     railLabel: 'マーケット概要',
     rail: ['米国', '日本', 'ポルトガル', 'ブラジル'],
     aria: '国際的な成果ストーリー',
@@ -285,13 +283,13 @@ const jaCopy = {
   partners: {
     kicker: '相性の証明',
     title: 'デジタルが整うと、判断は速くなる。',
-    description: '飲食、自動車、観光、プレミアムサービス。価値を数秒で伝える必要があります。',
+    description: '飲食、自動車、観光、プレミアムサービス。価値は数秒で伝わる必要があります。',
     quote: '強いシグナル。高い信頼。きれいな需要。',
   },
   capabilities: {
     kicker: 'ソリューション',
     title: '成長はレイヤーで設計する。',
-    description: 'AI、API連携、ブランド、Webサイト、データ、広告を一つの商業構造へ。',
+    description: 'AI、API、ブランド、Web、データ、獲得を一つの商業構造へ。',
     openLabel: 'サービス詳細を開く',
     cardAction: 'レイヤーを開く',
     ctaText: '売上導線の漏れから始める。',
@@ -315,7 +313,7 @@ const jaCopy = {
   proof: {
     kicker: 'システム',
     title: '成長の裏側には構造がある。',
-    description: 'AI、自動化、ルーティング、データで営業導線を速く見える形へ。',
+    description: 'AI、自動化、ルーティング、データで需要から売上までを速く見える形へ。',
     cardLabel: '自動化レイヤー',
     cardTitle: '対応、選別、フォローのためのAIフロー。',
     cardText: '速く動き、需要を失わない。',
@@ -365,12 +363,10 @@ export const siteLocales = {
     navItems,
     heroStats,
     aiSignals,
-    markets,
     marketStories,
     partnerLogos,
     capabilities,
     resultMetrics,
-    caseStudies,
     contactLinks,
   },
   pt: {
@@ -387,12 +383,6 @@ export const siteLocales = {
       { value: 'CPL', label: 'menor' },
     ],
     aiSignals: ['IA', 'Marca', 'Site', 'Dados', 'Tráfego', 'Receita'],
-    markets: [
-      { ...markets[0], label: 'Estados Unidos', detail: 'Autoridade antes da primeira conversa.' },
-      { ...markets[1], label: 'Japão', detail: 'Sinal premium para compradores precisos.' },
-      { ...markets[2], label: 'Portugal', detail: 'Posicionamento claro para crescimento internacional.' },
-      { ...markets[3], label: 'Brasil / Global', detail: 'Execução rápida para operações internacionais.' },
-    ],
     marketStories: translateMarketStories(marketStories, [
       {
         country: 'Japão',
@@ -440,7 +430,6 @@ export const siteLocales = {
       { label: 'gerados nos EUA', detail: 'Arquitetura comercial aplicada nos Estados Unidos.' },
       { label: 'CPL menor', detail: 'Páginas e campanhas mais limpas reduzem desperdício.' },
     ]),
-    caseStudies,
     contactLinks: [
       { ...contactLinks[0], label: 'Brasil / WhatsApp' },
       { ...contactLinks[1], label: 'EUA' },
@@ -463,12 +452,6 @@ export const siteLocales = {
       { value: 'Lower', label: 'CPL' },
     ],
     aiSignals: ['AI', 'ブランド', 'Web', 'データ', '広告', '売上'],
-    markets: [
-      { ...markets[0], label: '米国', detail: '信頼を強く。リードをきれいに。' },
-      { ...markets[1], label: '日本', detail: '精度の高い買い手へプレミアムなシグナル。' },
-      { ...markets[2], label: 'ポルトガル', detail: '越境成長のための明確な位置付け。' },
-      { ...markets[3], label: 'ブラジル / グローバル', detail: '国際運用に速い実行力。' },
-    ],
     marketStories: translateMarketStories(marketStories, [
       {
         country: '日本',
@@ -516,7 +499,6 @@ export const siteLocales = {
       { label: '米国で創出', detail: '米国で適用した商業アーキテクチャ。' },
       { label: '低いCPL', detail: 'ページと広告の無駄を減らす。' },
     ]),
-    caseStudies,
     contactLinks: [
       { ...contactLinks[0], label: 'ブラジル / WhatsApp' },
       { ...contactLinks[1], label: '米国' },

@@ -41,6 +41,7 @@ function App() {
   const [activeService, setActiveService] = useState(null)
   const [activeMarketIndex, setActiveMarketIndex] = useState(0)
   const [isMarketPaused, setIsMarketPaused] = useState(false)
+  const [isPageReady, setIsPageReady] = useState(false)
   const [isClosingService, setIsClosingService] = useState(false)
   const serviceModalCloseTimer = useRef(null)
   const serviceModalTitleRef = useRef(null)
@@ -50,6 +51,11 @@ function App() {
   useEffect(() => {
     document.documentElement.lang = locale === 'ja' ? 'ja' : locale === 'pt' ? 'pt-BR' : 'en'
   }, [locale])
+
+  useEffect(() => {
+    const frameId = window.requestAnimationFrame(() => setIsPageReady(true))
+    return () => window.cancelAnimationFrame(frameId)
+  }, [])
 
   useEffect(() => {
     const shouldReduceScrollEffects =
@@ -335,7 +341,7 @@ function App() {
   }
 
   return (
-    <div className="site-shell">
+    <div className={`site-shell ${isPageReady ? 'is-page-ready' : ''}`}>
       <div className="ambient-layer ambient-grid" aria-hidden="true"></div>
       <div className="ambient-layer ambient-stars" aria-hidden="true"></div>
       <div className="ambient-layer ambient-glow ambient-glow-left" aria-hidden="true"></div>
@@ -558,10 +564,12 @@ function App() {
             key={activeMarketStory.slug}
             className={`market-stage ${activeMarketStory.visual} ${isMarketPaused ? 'is-paused' : ''}`}
             aria-label={copy.markets.aria}
+            aria-live="polite"
             onMouseEnter={() => setIsMarketPaused(true)}
             onMouseLeave={() => setIsMarketPaused(false)}
             onTouchStart={handleMarketTouchStart}
             onTouchEnd={handleMarketTouchEnd}
+            onTouchCancel={() => pauseMarketBriefly(900)}
           >
             <div className="market-stage-bg" aria-hidden="true">
               <span className="market-light light-one"></span>

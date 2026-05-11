@@ -13,33 +13,6 @@ export const heroStats = [
 
 export const aiSignals = ['AI', 'Brand', 'Website', 'Data', 'Traffic', 'Revenue']
 
-export const markets = [
-  {
-    flag: '🇺🇸',
-    label: 'United States',
-    detail: 'Authority before the first call.',
-    accent: 'accent-blue',
-  },
-  {
-    flag: '🇯🇵',
-    label: 'Japan',
-    detail: 'Premium signal for precise buyers.',
-    accent: 'accent-cyan',
-  },
-  {
-    flag: '🇵🇹',
-    label: 'Portugal',
-    detail: 'Clear positioning for cross-border growth.',
-    accent: 'accent-rose',
-  },
-  {
-    flag: '🇧🇷',
-    label: 'Brazil / Global',
-    detail: 'Fast execution for international operations.',
-    accent: 'accent-gold',
-  },
-]
-
 export const marketStories = [
   {
     slug: 'japan',
@@ -198,27 +171,6 @@ export const resultMetrics = [
     start: 6,
     end: 31,
     negative: true,
-  },
-]
-
-export const caseStudies = [
-  {
-    company: 'Tokyo Turismo',
-    market: 'Tokyo, Japan',
-    service: 'Growth, branding and website restructuring',
-    outcome: '+61% direct booking demand',
-  },
-  {
-    company: 'Northbay Dental Group',
-    market: 'California, United States',
-    service: 'Brand repositioning and landing architecture',
-    outcome: '+34% lead conversion rate',
-  },
-  {
-    company: 'Hudson Commerce',
-    market: 'New York, United States',
-    service: 'Paid traffic and sales messaging redesign',
-    outcome: '3.2x stronger campaign efficiency',
   },
 ]
 

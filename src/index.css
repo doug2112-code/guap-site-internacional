@@ -40,6 +40,7 @@
 }
 
 html {
+  background: var(--background);
   scroll-behavior: smooth;
 }
 
@@ -50,6 +51,15 @@ body {
   background: var(--background);
   color: inherit;
   overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  background: var(--background);
 }
 
 ::selection {
@@ -63,6 +73,7 @@ a {
 
 #root {
   min-height: 100vh;
+  background: var(--background);
 }
 
 h1,
