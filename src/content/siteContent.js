@@ -40,6 +40,53 @@ export const markets = [
   },
 ]
 
+export const marketStories = [
+  {
+    slug: 'japan',
+    country: 'Japan',
+    flag: '🇯🇵',
+    eyebrow: 'Tokyo automotive tourism',
+    headline: 'Japan was never about traffic. It was about infrastructure.',
+    text: 'We built premium digital systems for automotive tourism brands in Tokyo. From API-integrated websites connected to platforms like GetYourGuide to intelligent booking flows and international positioning systems.',
+    result: 'Over ¥2M+ generated through digital infrastructure, positioning and conversion systems.',
+    metrics: ['+¥2M generated', 'API integrations', 'Luxury automotive tourism', 'Tokyo Drift / Tokyo Classic Cars'],
+    visual: 'market-japan',
+  },
+  {
+    slug: 'united-states',
+    country: 'United States',
+    flag: '🇺🇸',
+    eyebrow: 'Restaurant growth systems',
+    headline: 'Restaurants don’t scale with ads. They scale with systems.',
+    text: 'We helped restaurant operators restructure delivery positioning, offers, menus and acquisition systems. Branding, infrastructure and conversion architecture turned stagnant revenue into predictable growth.',
+    result: 'Restaurants going from $30k/month to over $100k+ in revenue.',
+    metrics: ['+$100K revenue', 'Delivery growth', 'Acquisition systems', 'Conversion architecture'],
+    visual: 'market-us',
+  },
+  {
+    slug: 'portugal',
+    country: 'Portugal',
+    flag: '🇵🇹',
+    eyebrow: 'European positioning',
+    headline: 'Positioning creates trust before the first conversation.',
+    text: 'For international operators entering Europe, we created stronger digital positioning, clearer communication and premium brand perception.',
+    result: 'Businesses looked globally prepared before the first client interaction.',
+    metrics: ['International positioning', 'Premium branding', 'Cross-border communication', 'Digital authority'],
+    visual: 'market-portugal',
+  },
+  {
+    slug: 'brazil-global',
+    country: 'Brazil / Global',
+    flag: '🇧🇷',
+    eyebrow: 'AI infrastructure',
+    headline: 'We don’t scale ads. We scale infrastructure.',
+    text: 'GUAP operates as a digital growth infrastructure company, combining AI, branding, systems, conversion and technology.',
+    result: 'Businesses operate globally with more authority and predictability.',
+    metrics: ['AI Systems', 'Digital Infrastructure', 'Global Positioning', 'Performance Architecture'],
+    visual: 'market-global',
+  },
+]
+
 export const partnerLogos = [
   'Tokyo Turismo',
   'Northbay Dental',

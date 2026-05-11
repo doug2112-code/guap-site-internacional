@@ -29,7 +29,7 @@ function App() {
     contactLinks,
     copy,
     heroStats,
-    markets,
+    marketStories,
     navItems,
     partnerLogos,
     resultMetrics,
@@ -39,6 +39,7 @@ function App() {
   const [resultsActive, setResultsActive] = useState(false)
   const [metricValues, setMetricValues] = useState(() => initialMetricValues)
   const [activeService, setActiveService] = useState(null)
+  const [activeMarketIndex, setActiveMarketIndex] = useState(0)
   const [isClosingService, setIsClosingService] = useState(false)
   const serviceModalCloseTimer = useRef(null)
   const serviceModalTitleRef = useRef(null)
@@ -98,6 +99,19 @@ function App() {
         window.cancelAnimationFrame(frameId)
       }
     }
+  }, [])
+
+  useEffect(() => {
+    if (!window.location.hash) {
+      return undefined
+    }
+
+    const targetId = window.location.hash.slice(1)
+    const frameId = window.requestAnimationFrame(() => {
+      document.getElementById(targetId)?.scrollIntoView()
+    })
+
+    return () => window.cancelAnimationFrame(frameId)
   }, [])
 
   useEffect(() => {
@@ -193,6 +207,18 @@ function App() {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    if (marketStories.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined
+    }
+
+    const timerId = window.setInterval(() => {
+      setActiveMarketIndex((currentIndex) => (currentIndex + 1) % marketStories.length)
+    }, 6500)
+
+    return () => window.clearInterval(timerId)
+  }, [marketStories.length])
+
   const openServiceModal = (slug) => {
     window.clearTimeout(serviceModalCloseTimer.current)
     setIsClosingService(false)
@@ -254,6 +280,7 @@ function App() {
 
   const selectedService = capabilities.find((item) => item.slug === activeService) ?? null
   const selectedServiceIndex = selectedService ? capabilities.findIndex((item) => item.slug === selectedService.slug) : -1
+  const activeMarketStory = marketStories[activeMarketIndex] ?? marketStories[0]
 
   const stepServiceModal = (direction) => {
     if (!selectedService) {
@@ -263,6 +290,11 @@ function App() {
     const total = capabilities.length
     const nextIndex = (selectedServiceIndex + direction + total) % total
     setActiveService(capabilities[nextIndex].slug)
+  }
+
+  const stepMarket = (direction) => {
+    const total = marketStories.length
+    setActiveMarketIndex((currentIndex) => (currentIndex + direction + total) % total)
   }
 
   return (
@@ -466,44 +498,80 @@ function App() {
 
         <SectionTransition tone="transition-cyan" />
 
-        <section className="section-card markets-section section-mood-cyanlight reveal-panel" id="markets" data-reveal>
-          <div className="markets-head">
+        <section className="section-card markets-section markets-cinema reveal-panel" id="markets" data-reveal>
+          <div className="markets-cinema-head">
             <div className="section-copy section-copy-wide">
               <span className="kicker">{copy.markets.kicker}</span>
               <h2>{copy.markets.title}</h2>
               <p>{copy.markets.description}</p>
             </div>
 
-            <div className="markets-side">
-              <div className="markets-rail" aria-label={copy.markets.railLabel}>
-                {copy.markets.rail.map((item) => (
-                  <span key={item}>{item}</span>
-                ))}
-              </div>
-
-              <div className="markets-visual" aria-hidden="true">
-                <div className="market-constellation">
-                  <span className="market-link market-link-a"></span>
-                  <span className="market-link market-link-b"></span>
-                  <span className="market-link market-link-c"></span>
-                  <span className="market-node market-node-us">{copy.markets.rail[0]}</span>
-                  <span className="market-node market-node-jp">{copy.markets.rail[1]}</span>
-                  <span className="market-node market-node-pt">{copy.markets.rail[2]}</span>
-                  <span className="market-node market-node-br">{copy.markets.rail[3]}</span>
-                  <span className="market-core">GUAP</span>
-                </div>
-              </div>
+            <div className="markets-tabs" aria-label={copy.markets.railLabel}>
+              {marketStories.map((story, index) => (
+                <button
+                  className={`market-tab ${activeMarketIndex === index ? 'is-active' : ''}`}
+                  key={story.slug}
+                  type="button"
+                  aria-pressed={activeMarketIndex === index}
+                  onClick={() => setActiveMarketIndex(index)}
+                >
+                  <span>{story.flag}</span>
+                  {story.country}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="market-grid market-grid-elegant">
-            {markets.map((market) => (
-              <article className={`market-card ${market.accent}`} key={market.label}>
-                <span className="market-flag">{market.flag}</span>
-                <strong>{market.label}</strong>
-                <p>{market.detail}</p>
-              </article>
-            ))}
+          <div className={`market-stage ${activeMarketStory.visual}`} aria-label={copy.markets.aria}>
+            <div className="market-stage-bg" aria-hidden="true">
+              <span className="market-light light-one"></span>
+              <span className="market-light light-two"></span>
+              <span className="market-road"></span>
+              <span className="market-skyline"></span>
+              <span className="market-dashboard-lines"></span>
+              <span className="market-particles"></span>
+            </div>
+
+            <article className="market-story" key={activeMarketStory.slug}>
+              <div className="market-story-copy">
+                <span className="market-story-eyebrow">
+                  <span>{activeMarketStory.flag}</span>
+                  {activeMarketStory.eyebrow}
+                </span>
+                <h3>{activeMarketStory.headline}</h3>
+                <p>{activeMarketStory.text}</p>
+                <strong>{activeMarketStory.result}</strong>
+              </div>
+
+              <div className="market-story-visual" aria-hidden="true">
+                <span className="visual-orbit visual-orbit-one"></span>
+                <span className="visual-orbit visual-orbit-two"></span>
+                <span className="visual-core">{activeMarketStory.country}</span>
+                <span className="visual-node visual-node-one"></span>
+                <span className="visual-node visual-node-two"></span>
+                <span className="visual-node visual-node-three"></span>
+              </div>
+
+              <div className="market-story-metrics">
+                {activeMarketStory.metrics.map((metric) => (
+                  <span key={metric}>{metric}</span>
+                ))}
+              </div>
+            </article>
+          </div>
+
+          <div className="market-controls">
+            <button type="button" aria-label="Previous market" onClick={() => stepMarket(-1)}>
+              ‹
+            </button>
+            <div className="market-progress" aria-hidden="true">
+              {marketStories.map((story, index) => (
+                <span className={activeMarketIndex === index ? 'is-active' : ''} key={story.slug}></span>
+              ))}
+            </div>
+            <button type="button" aria-label="Next market" onClick={() => stepMarket(1)}>
+              ›
+            </button>
           </div>
         </section>
 

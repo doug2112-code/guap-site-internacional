@@ -4,6 +4,7 @@ import {
   caseStudies,
   contactLinks,
   heroStats,
+  marketStories,
   markets,
   navItems,
   partnerLogos,
@@ -64,6 +65,7 @@ const englishCopy = {
     description: 'For U.S., Japan, Portugal, Brazil and international operators who need trust before the first conversation.',
     railLabel: 'Markets overview',
     rail: ['United States', 'Japan', 'Portugal', 'Brazil'],
+    aria: 'International result stories',
   },
   partners: {
     kicker: 'Perception',
@@ -170,6 +172,7 @@ const ptCopy = {
     description: 'Estados Unidos, Japão, Portugal, Brasil e operações internacionais exigem confiança antes da primeira conversa.',
     railLabel: 'Visão dos mercados',
     rail: ['Estados Unidos', 'Japão', 'Portugal', 'Brasil'],
+    aria: 'Histórias de resultado internacionais',
   },
   partners: {
     kicker: 'Prova',
@@ -277,6 +280,7 @@ const jaCopy = {
     description: '米国、日本、ポルトガル、ブラジル。最初の会話の前に信頼をつくる。',
     railLabel: 'マーケット概要',
     rail: ['米国', '日本', 'ポルトガル', 'ブラジル'],
+    aria: '国際的な成果ストーリー',
   },
   partners: {
     kicker: '相性の証明',
@@ -349,6 +353,12 @@ const translateMetrics = (items, values) =>
     ...values[index],
   }))
 
+const translateMarketStories = (items, values) =>
+  items.map((item, index) => ({
+    ...item,
+    ...values[index],
+  }))
+
 export const siteLocales = {
   en: {
     copy: englishCopy,
@@ -356,6 +366,7 @@ export const siteLocales = {
     heroStats,
     aiSignals,
     markets,
+    marketStories,
     partnerLogos,
     capabilities,
     resultMetrics,
@@ -382,6 +393,40 @@ export const siteLocales = {
       { ...markets[2], label: 'Portugal', detail: 'Posicionamento claro para crescimento internacional.' },
       { ...markets[3], label: 'Brasil / Global', detail: 'Execução rápida para operações internacionais.' },
     ],
+    marketStories: translateMarketStories(marketStories, [
+      {
+        country: 'Japão',
+        eyebrow: 'Turismo automotivo em Tóquio',
+        headline: 'O Japão nunca foi sobre tráfego. Foi sobre infraestrutura.',
+        text: 'Construímos sistemas digitais premium para marcas de turismo automotivo em Tóquio. Sites com API conectados a plataformas como GetYourGuide, fluxos inteligentes de reserva e posicionamento internacional.',
+        result: 'Mais de ¥2M+ gerados por infraestrutura digital, posicionamento e sistemas de conversão.',
+        metrics: ['+¥2M gerados', 'Integrações API', 'Turismo automotivo premium', 'Tokyo Drift / Tokyo Classic Cars'],
+      },
+      {
+        country: 'Estados Unidos',
+        eyebrow: 'Sistemas para restaurantes',
+        headline: 'Restaurantes não escalam com anúncios. Escalam com sistemas.',
+        text: 'Ajudamos operadores de restaurantes a reestruturar delivery, ofertas, cardápios e aquisição. Branding, infraestrutura e arquitetura de conversão transformaram receita parada em crescimento previsível.',
+        result: 'Restaurantes saindo de $30k/mês para mais de $100k+ em receita.',
+        metrics: ['+$100K receita', 'Crescimento delivery', 'Sistemas de aquisição', 'Arquitetura de conversão'],
+      },
+      {
+        country: 'Portugal',
+        eyebrow: 'Posicionamento europeu',
+        headline: 'Posicionamento cria confiança antes da primeira conversa.',
+        text: 'Para operadores internacionais entrando na Europa, criamos posicionamento digital mais forte, comunicação clara e percepção premium de marca.',
+        result: 'Empresas parecem globalmente preparadas antes da primeira interação.',
+        metrics: ['Posicionamento internacional', 'Branding premium', 'Comunicação cross-border', 'Autoridade digital'],
+      },
+      {
+        country: 'Brasil / Global',
+        eyebrow: 'Infraestrutura de IA',
+        headline: 'Nós não escalamos anúncios. Escalamos infraestrutura.',
+        text: 'A GUAP opera como empresa de infraestrutura de crescimento digital, combinando IA, branding, sistemas, conversão e tecnologia.',
+        result: 'Empresas operam globalmente com mais autoridade e previsibilidade.',
+        metrics: ['Sistemas de IA', 'Infraestrutura digital', 'Posicionamento global', 'Arquitetura de performance'],
+      },
+    ]),
     partnerLogos,
     capabilities: translateCapabilities(capabilities, [
       { eyebrow: 'IA e sistemas', title: 'IA e sistemas', description: 'Fluxos, automações e estrutura comercial.', impact: 'Crescimento precisa de sistema por trás da tela.', bullets: ['Fluxos com IA', 'Roteamento comercial', 'Integrações API'], details: ['Conectamos aquisição, qualificação e follow-up em um motor de crescimento.', 'Menos atraso manual. Mais controle do lead até a receita.'], cta: 'Construir o sistema' },
@@ -424,6 +469,40 @@ export const siteLocales = {
       { ...markets[2], label: 'ポルトガル', detail: '越境成長のための明確な位置付け。' },
       { ...markets[3], label: 'ブラジル / グローバル', detail: '国際運用に速い実行力。' },
     ],
+    marketStories: translateMarketStories(marketStories, [
+      {
+        country: '日本',
+        eyebrow: '東京の自動車ツーリズム',
+        headline: '日本は広告量ではなく、インフラの設計だった。',
+        text: '東京の自動車ツーリズムブランドに、GetYourGuideなどと接続するAPI統合サイト、予約導線、国際的な位置付けを構築しました。',
+        result: 'デジタルインフラ、位置付け、転換システムで¥2M+以上を創出。',
+        metrics: ['¥2M+創出', 'API連携', '高級自動車ツーリズム', 'Tokyo Drift / Tokyo Classic Cars'],
+      },
+      {
+        country: '米国',
+        eyebrow: 'レストラン成長システム',
+        headline: 'レストランは広告ではなく、システムで伸びる。',
+        text: 'デリバリーの位置付け、オファー、メニュー、獲得導線を再構築。ブランド、インフラ、転換設計で予測しやすい成長へ。',
+        result: '月商$30kから$100k+超の売上へ。',
+        metrics: ['$100K+売上', 'デリバリー成長', '獲得システム', '転換アーキテクチャ'],
+      },
+      {
+        country: 'ポルトガル',
+        eyebrow: '欧州ポジショニング',
+        headline: '位置付けは、最初の会話の前に信頼をつくる。',
+        text: '欧州へ進出する国際オペレーターに、強いデジタル位置付け、明確なコミュニケーション、プレミアムなブランド認知を構築。',
+        result: '最初の接点の前から、グローバルに準備された印象へ。',
+        metrics: ['国際ポジショニング', 'プレミアムブランド', '越境コミュニケーション', 'デジタル権威'],
+      },
+      {
+        country: 'ブラジル / グローバル',
+        eyebrow: 'AIインフラ',
+        headline: '広告を伸ばすのではなく、インフラを伸ばす。',
+        text: 'GUAPはAI、ブランド、システム、転換、テクノロジーを組み合わせるデジタル成長インフラ企業です。',
+        result: '企業がより高い権威と予測可能性でグローバルに運営できる状態へ。',
+        metrics: ['AIシステム', 'デジタルインフラ', 'グローバル位置付け', 'パフォーマンス設計'],
+      },
+    ]),
     partnerLogos,
     capabilities: translateCapabilities(capabilities, [
       { eyebrow: 'AIとシステム', title: 'AIとシステム', description: 'AIフロー、自動化、商業構造。', impact: '成長には画面の裏側のシステムが必要。', bullets: ['AIワークフロー', '営業ルーティング', 'API連携'], details: ['獲得、選別、フォローを一つの成長エンジンに接続。', '手作業の遅れを減らし、売上までをコントロール。'], cta: 'システムを構築' },
