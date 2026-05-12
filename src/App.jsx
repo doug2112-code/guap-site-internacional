@@ -503,7 +503,7 @@ function App() {
           <span className="flow-node flow-node-c"></span>
         </div>
 
-        <section className="hero-panel hero-panel-prism reveal-panel is-visible" data-reveal>
+        <section className="hero-panel hero-panel-prism reveal-panel is-visible is-motion-active" data-reveal>
           <div className="hero-layout">
             <div className="hero-copy">
               <div className="hero-brandline">

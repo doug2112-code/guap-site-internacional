@@ -661,6 +661,20 @@
   will-change: auto;
 }
 
+.hero-panel :is(
+  .hero-brandline,
+  .kicker,
+  h1,
+  .hero-description,
+  .hero-actions,
+  .hero-stats,
+  .signal-row,
+  .hero-scene
+) {
+  opacity: 1;
+  transform: none;
+}
+
 :is(.hero-panel, .section-card, .authority-band, .footer-card):not(.is-motion-active)::before,
 :is(.hero-panel, .section-card, .authority-band, .footer-card):not(.is-motion-active)::after,
 :is(.hero-panel, .section-card, .authority-band, .footer-card):not(.is-motion-active)
