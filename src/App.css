@@ -682,11 +682,18 @@
     .trend-bar,
     .partner-band,
     .testimonial-track,
+    .visual-core,
+    .visual-node,
     .market-light,
     .market-road,
     .market-particles,
     .visual-orbit
   ) {
+  animation-play-state: paused;
+}
+
+:is(.hero-panel, .section-card, .authority-band, .footer-card):not(.is-motion-active) .market-story-visual::before,
+:is(.hero-panel, .section-card, .authority-band, .footer-card):not(.is-motion-active) .market-story-visual::after {
   animation-play-state: paused;
 }
 
@@ -2128,10 +2135,18 @@
 }
 
 .markets-cinema.is-market-visible .market-stage-bg::before,
-.markets-cinema.is-market-visible .market-light {
+.markets-cinema.is-market-visible .market-light,
+.markets-cinema.is-market-visible .market-story-visual::before,
+.markets-cinema.is-market-visible .market-story-visual::after,
+.markets-cinema.is-market-visible .visual-core,
+.markets-cinema.is-market-visible .visual-node {
   will-change: transform, opacity;
 }
 
+.markets-cinema:not(.is-market-visible) .market-story-visual::before,
+.markets-cinema:not(.is-market-visible) .market-story-visual::after,
+.markets-cinema:not(.is-market-visible) .visual-core,
+.markets-cinema:not(.is-market-visible) .visual-node,
 .markets-cinema:not(.is-market-visible) .market-light,
 .markets-cinema:not(.is-market-visible) .market-road,
 .markets-cinema:not(.is-market-visible) .market-particles,
@@ -2252,7 +2267,34 @@
     radial-gradient(circle at center, rgba(108, 232, 255, 0.18), transparent 22%),
     linear-gradient(140deg, rgba(255, 255, 255, 0.06), transparent 36%, rgba(125, 184, 255, 0.05));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  transform: translateZ(0);
   animation: marketVisualIn 820ms var(--motion-ease-out) 120ms both;
+}
+
+.market-story-visual::before,
+.market-story-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.market-story-visual::before {
+  background:
+    radial-gradient(circle at 26% 30%, rgba(255, 208, 139, 0.16), transparent 12%),
+    radial-gradient(circle at 76% 38%, rgba(108, 232, 255, 0.18), transparent 14%),
+    linear-gradient(118deg, transparent 18%, rgba(255, 255, 255, 0.08), transparent 42%);
+  opacity: 0.62;
+  transform: translate3d(-8%, 0, 0);
+}
+
+.market-story-visual::after {
+  inset: 16% 12%;
+  border: 1px solid rgba(108, 232, 255, 0.14);
+  border-radius: 999px;
+  opacity: 0.5;
+  transform: rotate(8deg) scale(0.96);
 }
 
 .visual-orbit {
@@ -2420,12 +2462,36 @@
     animation: starDrift 54s linear infinite;
   }
 
+  .market-story-visual::before {
+    animation: marketVisualSweep 9.5s var(--motion-ease-soft) infinite;
+  }
+
+  .market-story-visual::after {
+    animation: marketVisualHalo 12s ease-in-out infinite;
+  }
+
   .visual-orbit-one {
-    animation: spinSlow 22s linear infinite;
+    animation: marketOrbitOne 18s linear infinite;
   }
 
   .visual-orbit-two {
-    animation: spinSlow 16s linear infinite reverse;
+    animation: marketOrbitTwo 14s linear infinite reverse;
+  }
+
+  .visual-core {
+    animation: marketCorePulse 7.2s ease-in-out infinite;
+  }
+
+  .visual-node {
+    animation: marketNodeFloat 5.8s ease-in-out infinite;
+  }
+
+  .visual-node-two {
+    animation-delay: 420ms;
+  }
+
+  .visual-node-three {
+    animation-delay: 840ms;
   }
 }
 
@@ -5779,6 +5845,14 @@
   .market-particles {
     opacity: 0.18;
   }
+
+  .market-story-visual::before {
+    opacity: 0.42;
+  }
+
+  .market-story-visual::after {
+    opacity: 0.34;
+  }
 }
 
 @media (max-width: 560px) {
@@ -6589,6 +6663,78 @@
 
   50% {
     transform: scale(1.07) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+@keyframes marketVisualSweep {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: translate3d(-10%, 0, 0);
+  }
+
+  50% {
+    opacity: 0.74;
+    transform: translate3d(10%, -2%, 0);
+  }
+}
+
+@keyframes marketVisualHalo {
+  0%,
+  100% {
+    opacity: 0.34;
+    transform: rotate(8deg) scale(0.94);
+  }
+
+  50% {
+    opacity: 0.62;
+    transform: rotate(-4deg) scale(1.02);
+  }
+}
+
+@keyframes marketOrbitOne {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+
+  to {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes marketOrbitTwo {
+  from {
+    transform: rotate(-18deg) scale(1);
+  }
+
+  to {
+    transform: rotate(342deg) scale(1);
+  }
+}
+
+@keyframes marketCorePulse {
+  0%,
+  100% {
+    opacity: 0.94;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.035);
+  }
+}
+
+@keyframes marketNodeFloat {
+  0%,
+  100% {
+    opacity: 0.86;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate3d(4px, -6px, 0) scale(1.08);
   }
 }
 

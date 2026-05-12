@@ -875,42 +875,6 @@ function App() {
         </section>
 
         <SectionTransition tone="transition-deep" />
-
-        <section className="section-card proof-section section-mood-deep reveal-panel" id="proof" data-reveal>
-          <div className="section-grid section-grid-split">
-            <div className="section-copy">
-              <span className="kicker">{copy.proof.kicker}</span>
-              <h2>{copy.proof.title}</h2>
-              <p>{copy.proof.description}</p>
-            </div>
-
-            <article className="proof-card proof-card-main">
-              <span>{copy.proof.cardLabel}</span>
-              <h3>{copy.proof.cardTitle}</h3>
-              <p>{copy.proof.cardText}</p>
-            </article>
-          </div>
-
-          <div className="proof-layout proof-layout-expanded">
-            <article className="proof-card proof-card-visual" aria-hidden="true">
-              <div className="proof-sphere"></div>
-              <div className="proof-ring proof-ring-one"></div>
-              <div className="proof-ring proof-ring-two"></div>
-              <div className="proof-pulse pulse-one"></div>
-              <div className="proof-pulse pulse-two"></div>
-            </article>
-
-            <article className="proof-card proof-card-list">
-              <span>{copy.proof.useCasesLabel}</span>
-              <ul>
-                {copy.proof.useCases.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          </div>
-        </section>
-
       </main>
 
       {selectedService ? (
