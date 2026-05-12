@@ -47,6 +47,7 @@ function App() {
   const serviceModalTitleRef = useRef(null)
   const marketTouchStartX = useRef(null)
   const marketResumeTimer = useRef(null)
+  const marketTabRefs = useRef([])
 
   useEffect(() => {
     document.documentElement.lang = locale === 'ja' ? 'ja' : locale === 'pt' ? 'pt-BR' : 'en'
@@ -232,6 +233,17 @@ function App() {
     return () => window.clearInterval(timerId)
   }, [isMarketPaused, marketStories.length])
 
+  useEffect(() => {
+    const activeTab = marketTabRefs.current[activeMarketIndex]
+
+    if (!activeTab || window.matchMedia('(min-width: 781px)').matches) {
+      return
+    }
+
+    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+    activeTab.scrollIntoView({ behavior, block: 'nearest', inline: 'center' })
+  }, [activeMarketIndex])
+
   const openServiceModal = (slug) => {
     window.clearTimeout(serviceModalCloseTimer.current)
     setIsClosingService(false)
@@ -338,6 +350,16 @@ function App() {
     }
 
     pauseMarketBriefly(900)
+  }
+
+  const handleMarketKeyDown = (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      return
+    }
+
+    event.preventDefault()
+    pauseMarketBriefly()
+    stepMarket(event.key === 'ArrowRight' ? 1 : -1)
   }
 
   return (
@@ -533,7 +555,20 @@ function App() {
 
         <SectionTransition tone="transition-cyan" />
 
-        <section className="section-card markets-section markets-cinema reveal-panel" id="markets" data-reveal>
+        <section
+          className="section-card markets-section markets-cinema reveal-panel"
+          id="markets"
+          data-reveal
+          aria-roledescription="carousel"
+          onMouseEnter={() => setIsMarketPaused(true)}
+          onMouseLeave={() => setIsMarketPaused(false)}
+          onFocusCapture={() => setIsMarketPaused(true)}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              pauseMarketBriefly(900)
+            }
+          }}
+        >
           <div className="markets-cinema-head">
             <div className="section-copy section-copy-wide">
               <span className="kicker">{copy.markets.kicker}</span>
@@ -546,6 +581,9 @@ function App() {
                 <button
                   className={`market-tab ${activeMarketIndex === index ? 'is-active' : ''}`}
                   key={story.slug}
+                  ref={(element) => {
+                    marketTabRefs.current[index] = element
+                  }}
                   type="button"
                   aria-pressed={activeMarketIndex === index}
                   onClick={() => {
@@ -565,11 +603,13 @@ function App() {
             className={`market-stage ${activeMarketStory.visual} ${isMarketPaused ? 'is-paused' : ''}`}
             aria-label={copy.markets.aria}
             aria-live="polite"
+            tabIndex="0"
             onMouseEnter={() => setIsMarketPaused(true)}
             onMouseLeave={() => setIsMarketPaused(false)}
             onTouchStart={handleMarketTouchStart}
             onTouchEnd={handleMarketTouchEnd}
             onTouchCancel={() => pauseMarketBriefly(900)}
+            onKeyDown={handleMarketKeyDown}
           >
             <div className="market-stage-bg" aria-hidden="true">
               <span className="market-light light-one"></span>

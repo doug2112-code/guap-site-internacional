@@ -380,6 +380,7 @@ export const siteLocales = {
     heroStats: [
       { value: '¥2M+', label: 'gerados no Japão' },
       { value: '$100K+', label: 'gerados nos EUA' },
+      { value: '€50K+', label: 'gerados na Europa' },
       { value: 'CPL', label: 'menor' },
     ],
     aiSignals: ['IA', 'Marca', 'Site', 'Dados', 'Tráfego', 'Receita'],
@@ -428,6 +429,7 @@ export const siteLocales = {
     resultMetrics: translateMetrics(resultMetrics, [
       { label: 'gerados no Japão', detail: 'Sistemas de crescimento digital aplicados no Japão.' },
       { label: 'gerados nos EUA', detail: 'Arquitetura comercial aplicada nos Estados Unidos.' },
+      { label: 'gerados na Europa', detail: 'Posicionamento europeu aplicado a ofertas internacionais premium.' },
       { label: 'CPL menor', detail: 'Páginas e campanhas mais limpas reduzem desperdício.' },
     ]),
     contactLinks: [
@@ -449,6 +451,7 @@ export const siteLocales = {
     heroStats: [
       { value: '¥2M+', label: '日本で創出' },
       { value: '$100K+', label: '米国で創出' },
+      { value: '€50K+', label: '欧州で創出' },
       { value: 'Lower', label: 'CPL' },
     ],
     aiSignals: ['AI', 'ブランド', 'Web', 'データ', '広告', '売上'],
@@ -497,6 +500,7 @@ export const siteLocales = {
     resultMetrics: translateMetrics(resultMetrics, [
       { label: '日本で創出', detail: '日本で適用したデジタル成長システム。' },
       { label: '米国で創出', detail: '米国で適用した商業アーキテクチャ。' },
+      { label: '欧州で創出', detail: '国際的なプレミアムオファーに適用した欧州ポジショニング。' },
       { label: '低いCPL', detail: 'ページと広告の無駄を減らす。' },
     ]),
     contactLinks: [

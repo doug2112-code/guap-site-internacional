@@ -8,6 +8,7 @@ export const navItems = [
 export const heroStats = [
   { value: '¥2M+', label: 'generated in Japan' },
   { value: '$100K+', label: 'generated in the U.S.' },
+  { value: '€50K+', label: 'generated in Europe' },
   { value: 'Lower', label: 'cost per lead' },
 ]
 
@@ -162,6 +163,15 @@ export const resultMetrics = [
     start: 18,
     end: 100,
     prefix: '+$',
+    suffix: 'K',
+  },
+  {
+    number: '+€50K',
+    label: 'generated in Europe',
+    detail: 'European positioning applied to premium international offers.',
+    start: 8,
+    end: 50,
+    prefix: '+€',
     suffix: 'K',
   },
   {

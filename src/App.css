@@ -347,6 +347,21 @@
   pointer-events: none;
 }
 
+.topbar::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(125, 184, 255, 0.8), rgba(255, 208, 139, 0.72), transparent);
+  opacity: 0.7;
+  transform: scaleX(max(0.08, var(--scroll-progress)));
+  transform-origin: left center;
+  pointer-events: none;
+}
+
 .hero-panel::before {
   content: '';
   position: absolute;
@@ -958,10 +973,10 @@
 
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   margin-top: 12px;
-  max-width: 500px;
+  max-width: 640px;
 }
 
 .hero-stats .stat-card {
@@ -1947,6 +1962,11 @@
   transition:
     border-color 360ms ease,
     box-shadow 360ms ease;
+}
+
+.market-stage:focus-visible {
+  outline: 2px solid rgba(255, 208, 139, 0.74);
+  outline-offset: 5px;
 }
 
 .market-stage:hover,
@@ -3232,8 +3252,8 @@
 }
 
 .metrics-grid-compact {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: min(100%, 1040px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: min(100%, 1180px);
   margin-top: 18px;
   margin-inline: auto;
 }
@@ -5311,6 +5331,8 @@
     width: 100%;
     max-width: min(100%, 720px);
     margin-inline: auto;
+    content-visibility: visible;
+    contain-intrinsic-size: auto;
   }
 
   .topbar {
@@ -5553,9 +5575,9 @@
   }
 
   .hero-stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
-    max-width: 360px;
+    max-width: 326px;
   }
 
   .hero-stats .stat-card {
@@ -6024,9 +6046,9 @@
   }
 
   .hero-stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: min(100%, 282px);
-    max-width: 282px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 304px);
+    max-width: 304px;
     gap: 6px;
   }
 
@@ -6187,6 +6209,13 @@
   .markets-cinema .section-copy p {
     display: block;
     max-width: min(100%, 32ch);
+  }
+
+  .markets-cinema .section-copy h2 {
+    width: min(100%, 12.4ch);
+    max-width: calc(100vw - 54px);
+    font-size: clamp(1.66rem, 7vw, 2.02rem);
+    line-height: 1.06;
   }
 
   .markets-tabs {
