@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
 import { defaultLocale, localeOptions, siteLocales } from './content/siteLocales.js'
 
@@ -20,6 +20,74 @@ function SectionTransition({ tone }) {
   )
 }
 
+function formatMetricValue(metric, value) {
+  if (metric.suffix === 'x') {
+    return `${value.toFixed(1)}x`
+  }
+
+  if (metric.prefix || metric.suffix) {
+    const decimals = metric.decimals ?? 0
+    const roundedValue = decimals > 0 ? value.toFixed(decimals).replace('.0', '') : Math.round(value)
+    return `${metric.prefix ?? ''}${roundedValue}${metric.suffix ?? ''}`
+  }
+
+  if (metric.negative) {
+    return `-${Math.round(value)}%`
+  }
+
+  return `+${Math.round(value)}%`
+}
+
+function ResultMetricCard({ metric, index, isActive }) {
+  const [value, setValue] = useState(metric.start)
+
+  useEffect(() => {
+    if (!isActive) {
+      return undefined
+    }
+
+    let frameId = 0
+    const duration = 1800
+    const minFrameInterval = 96
+    const startTime = performance.now()
+    let lastUpdateTime = startTime
+
+    const tick = (time) => {
+      const elapsed = Math.min((time - startTime) / duration, 1)
+
+      if (elapsed === 1 || time - lastUpdateTime >= minFrameInterval) {
+        const eased = 1 - Math.pow(1 - elapsed, 3)
+        setValue(metric.start + (metric.end - metric.start) * eased)
+        lastUpdateTime = time
+      }
+
+      if (elapsed < 1) {
+        frameId = window.requestAnimationFrame(tick)
+      }
+    }
+
+    frameId = window.requestAnimationFrame(tick)
+
+    return () => window.cancelAnimationFrame(frameId)
+  }, [isActive, metric.end, metric.start])
+
+  return (
+    <article className={`metric-card metric-card-${index + 1} reveal-panel`} data-reveal>
+      <strong className={`metric-number ${isActive ? 'metric-number-live' : ''}`}>
+        {formatMetricValue(metric, value)}
+      </strong>
+      <span>{metric.label}</span>
+      <p>{metric.detail}</p>
+      <div className="metric-trend" aria-hidden="true">
+        <span className="trend-bar trend-a"></span>
+        <span className="trend-bar trend-b"></span>
+        <span className="trend-bar trend-c"></span>
+        <span className="trend-bar trend-d"></span>
+      </div>
+    </article>
+  )
+}
+
 function App() {
   const [locale, setLocale] = useState(getInitialLocale)
   const content = siteLocales[locale] ?? siteLocales[defaultLocale]
@@ -34,10 +102,7 @@ function App() {
     partnerLogos,
     resultMetrics,
   } = content
-  const initialMetricValues = useMemo(() => resultMetrics.map((metric) => metric.start), [resultMetrics])
-  const targetMetricValues = useMemo(() => resultMetrics.map((metric) => metric.end), [resultMetrics])
   const [resultsActive, setResultsActive] = useState(false)
-  const [metricValues, setMetricValues] = useState(() => initialMetricValues)
   const [activeService, setActiveService] = useState(null)
   const [activeMarketIndex, setActiveMarketIndex] = useState(0)
   const [isMarketPaused, setIsMarketPaused] = useState(false)
@@ -77,13 +142,14 @@ function App() {
     }
 
     let frameId = 0
+    let scrollableDistance = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0)
     let lastScrollProgress = ''
     let lastScrollOffset = ''
 
     const updateScrollState = () => {
       const scrollTop = window.scrollY
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight
-      const progress = scrollable > 0 ? Math.min(Math.max(scrollTop / scrollable, 0), 1).toFixed(4) : '0'
+      const rawProgress = scrollableDistance > 0 ? Math.min(Math.max(scrollTop / scrollableDistance, 0), 1) : 0
+      const progress = `${Math.round(rawProgress * 500) / 500}`
       const offset = `${Math.round(Math.min(scrollTop, 1400) / 4) * 4}px`
 
       if (progress !== lastScrollProgress) {
@@ -107,11 +173,18 @@ function App() {
       frameId = window.requestAnimationFrame(updateScrollState)
     }
 
+    const handleResize = () => {
+      scrollableDistance = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0)
+      handleScroll()
+    }
+
     updateScrollState()
     window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
       if (frameId !== 0) {
         window.cancelAnimationFrame(frameId)
       }
@@ -146,7 +219,7 @@ function App() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setResultsActive(true)
+          setResultsActive((currentValue) => (currentValue ? currentValue : true))
           observer.disconnect()
         }
       },
@@ -157,43 +230,6 @@ function App() {
 
     return () => observer.disconnect()
   }, [])
-
-  useEffect(() => {
-    if (!resultsActive) {
-      return undefined
-    }
-
-    let frameId = 0
-    const duration = 1800
-    const minFrameInterval = 80
-    const startTime = performance.now()
-    let lastUpdateTime = startTime
-
-    const tick = (time) => {
-      const elapsed = Math.min((time - startTime) / duration, 1)
-
-      if (elapsed === 1 || time - lastUpdateTime >= minFrameInterval) {
-        const eased = 1 - Math.pow(1 - elapsed, 3)
-
-        setMetricValues(
-          initialMetricValues.map((start, index) => {
-            const end = targetMetricValues[index]
-            return start + (end - start) * eased
-          }),
-        )
-
-        lastUpdateTime = time
-      }
-
-      if (elapsed < 1) {
-        frameId = window.requestAnimationFrame(tick)
-      }
-    }
-
-    frameId = window.requestAnimationFrame(tick)
-
-    return () => window.cancelAnimationFrame(frameId)
-  }, [initialMetricValues, resultsActive, targetMetricValues])
 
   useEffect(() => {
     const elements = document.querySelectorAll('[data-reveal]')
@@ -225,6 +261,32 @@ function App() {
   }, [])
 
   useEffect(() => {
+    const motionScopes = document.querySelectorAll('.hero-panel, .section-card, .authority-band, .footer-card, .section-transition')
+
+    if (!motionScopes.length) {
+      return undefined
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      motionScopes.forEach((scope) => scope.classList.add('is-motion-active'))
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('is-motion-active', entry.isIntersecting)
+        })
+      },
+      { threshold: 0, rootMargin: '28% 0px 28% 0px' },
+    )
+
+    motionScopes.forEach((scope) => observer.observe(scope))
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
     const marketsSection = document.getElementById('markets')
 
     if (!marketsSection) {
@@ -238,7 +300,7 @@ function App() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsMarketVisible(entry.isIntersecting)
+        setIsMarketVisible((currentValue) => (currentValue === entry.isIntersecting ? currentValue : entry.isIntersecting))
       },
       { threshold: 0.18, rootMargin: '12% 0px 12% 0px' },
     )
@@ -320,26 +382,6 @@ function App() {
     },
     [],
   )
-
-  const formatMetricValue = (metric, index) => {
-    const value = metricValues[index] ?? metric.start
-
-    if (metric.suffix === 'x') {
-      return `${value.toFixed(1)}x`
-    }
-
-    if (metric.prefix || metric.suffix) {
-      const decimals = metric.decimals ?? 0
-      const roundedValue = decimals > 0 ? value.toFixed(decimals).replace('.0', '') : Math.round(value)
-      return `${metric.prefix ?? ''}${roundedValue}${metric.suffix ?? ''}`
-    }
-
-    if (metric.negative) {
-      return `-${Math.round(value)}%`
-    }
-
-    return `+${Math.round(value)}%`
-  }
 
   const selectedService = capabilities.find((item) => item.slug === activeService) ?? null
   const selectedServiceIndex = selectedService ? capabilities.findIndex((item) => item.slug === selectedService.slug) : -1
@@ -816,19 +858,7 @@ function App() {
 
           <div className="metrics-grid metrics-grid-compact">
             {resultMetrics.map((metric, index) => (
-              <article className={`metric-card metric-card-${index + 1} reveal-panel`} key={metric.label} data-reveal>
-                <strong className={`metric-number ${resultsActive ? 'metric-number-live' : ''}`}>
-                  {formatMetricValue(metric, index)}
-                </strong>
-                <span>{metric.label}</span>
-                <p>{metric.detail}</p>
-                <div className="metric-trend" aria-hidden="true">
-                  <span className="trend-bar trend-a"></span>
-                  <span className="trend-bar trend-b"></span>
-                  <span className="trend-bar trend-c"></span>
-                  <span className="trend-bar trend-d"></span>
-                </div>
-              </article>
+              <ResultMetricCard isActive={resultsActive} key={`${metric.label}-${metric.start}-${metric.end}`} metric={metric} index={index} />
             ))}
           </div>
 
