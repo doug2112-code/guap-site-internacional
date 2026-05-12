@@ -3100,55 +3100,79 @@
   z-index: 30;
   display: grid;
   place-items: center;
-  padding: 22px;
+  padding: clamp(12px, 2vw, 24px);
   overflow-y: auto;
-  background: rgba(2, 4, 10, 0.68);
-  backdrop-filter: blur(10px);
-  animation: modalBackdropIn 220ms ease forwards;
+  overscroll-behavior: contain;
+  background:
+    radial-gradient(circle at 70% 18%, rgba(108, 232, 255, 0.08), transparent 24%),
+    rgba(2, 4, 10, 0.76);
+  backdrop-filter: blur(5px);
+  animation: modalBackdropIn 180ms ease forwards;
 }
 
 .service-modal-backdrop.is-closing {
-  animation: modalBackdropOut 220ms ease forwards;
+  animation: modalBackdropOut 180ms ease forwards;
 }
 
 .service-modal {
   position: relative;
-  width: min(1040px, 100%);
-  max-height: min(92svh, 860px);
-  overflow-y: auto;
-  border-radius: 34px;
+  display: grid;
+  width: min(1120px, 100%);
+  max-height: min(90svh, 780px);
+  overflow: hidden;
+  border-radius: 28px;
   border: 1px solid rgba(138, 172, 255, 0.18);
   background:
     radial-gradient(circle at 82% 18%, rgba(255, 132, 199, 0.12), transparent 20%),
     radial-gradient(circle at 22% 80%, rgba(108, 232, 255, 0.12), transparent 18%),
     linear-gradient(160deg, rgba(9, 13, 28, 0.98), rgba(8, 11, 22, 0.96));
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
-  animation: modalPanelIn 260ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: modalPanelIn 220ms var(--motion-ease-out) forwards;
 }
 
 .service-modal.is-closing {
-  animation: modalPanelOut 220ms ease forwards;
+  animation: modalPanelOut 180ms ease forwards;
 }
 
 .service-modal-layout {
   display: grid;
-  grid-template-columns: minmax(300px, 0.88fr) minmax(340px, 1.12fr);
-  gap: 22px;
+  grid-template-columns: minmax(280px, 0.86fr) minmax(360px, 1.14fr);
+  gap: clamp(18px, 3vw, 34px);
   align-items: center;
-  padding: clamp(24px, 4vw, 38px);
+  max-height: min(90svh, 780px);
+  overflow-y: auto;
+  padding: clamp(28px, 4vw, 46px);
+  padding-bottom: clamp(86px, 8vw, 108px);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 164, 255, 0.24) transparent;
+}
+
+.service-modal-layout::-webkit-scrollbar {
+  width: 8px;
+}
+
+.service-modal-layout::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(128, 164, 255, 0.2);
+}
+
+.service-modal-copy {
+  min-width: 0;
 }
 
 .service-modal-copy h3 {
   margin-top: 12px;
-  font-size: clamp(1.9rem, 3vw, 3rem);
+  max-width: 11ch;
+  font-size: clamp(2rem, 4vw, 3.8rem);
   line-height: 0.98;
   outline: none;
 }
 
 .service-modal-impact {
   margin-top: 14px;
-  max-width: 24ch;
+  max-width: 26ch;
   color: var(--text-strong);
   font-size: 1.08rem;
   line-height: 1.3;
@@ -3164,7 +3188,7 @@
 .service-modal-detail p {
   color: var(--text-muted);
   font-size: 0.94rem;
-  line-height: 1.62;
+  line-height: 1.54;
 }
 
 .service-modal-list {
@@ -3185,6 +3209,17 @@
   border: 1px solid rgba(128, 164, 255, 0.12);
   background: rgba(255, 255, 255, 0.03);
   color: var(--text-muted);
+  transform: translateZ(0);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.service-modal-list li:hover {
+  border-color: rgba(128, 184, 255, 0.2);
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text-strong);
 }
 
 .service-modal-list li::before {
@@ -3204,11 +3239,24 @@
 .service-modal-visual-wrap {
   position: relative;
   display: grid;
-  min-height: 420px;
-  border-radius: 28px;
+  min-height: clamp(300px, 36vw, 440px);
+  border-radius: 24px;
   overflow: hidden;
   border: 1px solid rgba(138, 172, 255, 0.14);
-  background: rgba(255, 255, 255, 0.03);
+  background:
+    radial-gradient(circle at 50% 42%, rgba(108, 232, 255, 0.08), transparent 36%),
+    rgba(255, 255, 255, 0.028);
+  transform: translateZ(0);
+}
+
+.service-modal-visual-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: 24px;
+  border: 1px solid rgba(108, 232, 255, 0.08);
+  pointer-events: none;
+  opacity: 0.7;
 }
 
 .service-modal-visual {
@@ -3221,9 +3269,9 @@
 
 .service-modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 2;
+  top: 18px;
+  right: 18px;
+  z-index: 4;
   min-height: 40px;
   padding: 0 14px;
   border-radius: 999px;
@@ -3232,21 +3280,51 @@
   color: var(--text-strong);
   cursor: pointer;
   font: inherit;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.service-modal-close:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 208, 139, 0.24);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.service-modal-nav {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border: 1px solid rgba(128, 164, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(8, 12, 24, 0.72);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24);
+  transform: translateX(-50%);
+}
+
+.service-modal-count {
+  min-width: 78px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-align: center;
 }
 
 .service-modal-arrow {
-  position: absolute;
-  top: 50%;
-  z-index: 2;
-  width: 46px;
-  height: 46px;
+  width: 38px;
+  height: 38px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.055);
   color: var(--text-strong);
   cursor: pointer;
   font: inherit;
-  transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3254,7 +3332,7 @@
 }
 
 .service-modal-arrow:hover {
-  transform: translateY(-50%) scale(1.04);
+  transform: translateY(-1px) scale(1.03);
   border-color: rgba(156, 188, 255, 0.22);
   background: rgba(255, 255, 255, 0.1);
 }
@@ -3266,16 +3344,8 @@
 }
 
 .service-modal-arrow span {
-  font-size: 1.9rem;
+  font-size: 1.45rem;
   line-height: 1;
-}
-
-.service-modal-arrow-left {
-  left: 16px;
-}
-
-.service-modal-arrow-right {
-  right: 74px;
 }
 
 .service-area-grid {
@@ -3946,18 +4016,11 @@
 
   .service-modal-layout {
     grid-template-columns: 1fr;
+    max-height: min(90svh, 780px);
   }
 
   .service-modal-visual-wrap {
     min-height: 320px;
-  }
-
-  .service-modal-arrow-left {
-    left: 14px;
-  }
-
-  .service-modal-arrow-right {
-    right: 70px;
   }
 
   .authority-points article {
@@ -4156,7 +4219,8 @@
   }
 
   .service-modal-layout {
-    padding: 54px 18px 68px;
+    max-height: calc(100svh - 24px);
+    padding: 58px 18px 86px;
     gap: 16px;
   }
 
@@ -4200,23 +4264,21 @@
   }
 
   .service-modal-arrow {
-    top: auto;
-    bottom: 14px;
     width: 40px;
     height: 40px;
-    transform: none;
   }
 
   .service-modal-arrow:hover {
-    transform: scale(1.04);
+    transform: translateY(-1px) scale(1.03);
   }
 
-  .service-modal-arrow-left {
-    left: 18px;
-  }
-
-  .service-modal-arrow-right {
-    right: 18px;
+  .service-modal-nav {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    justify-content: space-between;
+    width: auto;
+    transform: none;
   }
 
   .results-highlight-strip,
@@ -4981,6 +5043,10 @@
 
   .service-modal {
     border-radius: 20px;
+  }
+
+  .service-modal-nav {
+    padding: 6px;
   }
 }
 

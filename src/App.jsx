@@ -338,6 +338,10 @@ function App() {
     activeTab.scrollIntoView({ behavior, block: 'nearest', inline: 'center' })
   }, [activeMarketIndex])
 
+  const selectedService = capabilities.find((item) => item.slug === activeService) ?? null
+  const selectedServiceIndex = selectedService ? capabilities.findIndex((item) => item.slug === selectedService.slug) : -1
+  const activeMarketStory = marketStories[activeMarketIndex] ?? marketStories[0]
+
   const openServiceModal = (slug) => {
     window.clearTimeout(serviceModalCloseTimer.current)
     setIsClosingService(false)
@@ -353,6 +357,19 @@ function App() {
     }, 220)
   }, [])
 
+  const stepServiceModal = useCallback(
+    (direction) => {
+      if (!selectedService) {
+        return
+      }
+
+      const total = capabilities.length
+      const nextIndex = (selectedServiceIndex + direction + total) % total
+      setActiveService(capabilities[nextIndex].slug)
+    },
+    [capabilities, selectedService, selectedServiceIndex],
+  )
+
   useEffect(() => {
     if (!activeService) {
       return undefined
@@ -362,6 +379,16 @@ function App() {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         closeServiceModal()
+      }
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        stepServiceModal(-1)
+      }
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        stepServiceModal(1)
       }
     }
 
@@ -373,7 +400,7 @@ function App() {
       document.body.style.overflow = previousBodyOverflow
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [activeService, closeServiceModal])
+  }, [activeService, closeServiceModal, stepServiceModal])
 
   useEffect(
     () => () => {
@@ -383,22 +410,8 @@ function App() {
     [],
   )
 
-  const selectedService = capabilities.find((item) => item.slug === activeService) ?? null
-  const selectedServiceIndex = selectedService ? capabilities.findIndex((item) => item.slug === selectedService.slug) : -1
-  const activeMarketStory = marketStories[activeMarketIndex] ?? marketStories[0]
-
   const updateMarketPaused = (nextValue) => {
     setIsMarketPaused((currentValue) => (currentValue === nextValue ? currentValue : nextValue))
-  }
-
-  const stepServiceModal = (direction) => {
-    if (!selectedService) {
-      return
-    }
-
-    const total = capabilities.length
-    const nextIndex = (selectedServiceIndex + direction + total) % total
-    setActiveService(capabilities[nextIndex].slug)
   }
 
   const stepMarket = (direction) => {
@@ -894,14 +907,6 @@ function App() {
               {copy.close}
             </button>
 
-            <button className="service-modal-arrow service-modal-arrow-left" type="button" aria-label={copy.previousService} onClick={() => stepServiceModal(-1)}>
-              <span aria-hidden="true">‹</span>
-            </button>
-
-            <button className="service-modal-arrow service-modal-arrow-right" type="button" aria-label={copy.nextService} onClick={() => stepServiceModal(1)}>
-              <span aria-hidden="true">›</span>
-            </button>
-
             <div className="service-modal-layout">
               <div className="service-modal-copy">
                 <span className="kicker">{selectedService.eyebrow}</span>
@@ -938,6 +943,18 @@ function App() {
                   alt=""
                 />
               </div>
+            </div>
+
+            <div className="service-modal-nav" aria-label="Service navigation">
+              <button className="service-modal-arrow service-modal-arrow-left" type="button" aria-label={copy.previousService} onClick={() => stepServiceModal(-1)}>
+                <span aria-hidden="true">‹</span>
+              </button>
+              <span className="service-modal-count">
+                {String(selectedServiceIndex + 1).padStart(2, '0')} / {String(capabilities.length).padStart(2, '0')}
+              </span>
+              <button className="service-modal-arrow service-modal-arrow-right" type="button" aria-label={copy.nextService} onClick={() => stepServiceModal(1)}>
+                <span aria-hidden="true">›</span>
+              </button>
             </div>
           </section>
         </div>
