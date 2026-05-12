@@ -2007,7 +2007,6 @@
     radial-gradient(circle at 26% 78%, rgba(72, 124, 255, 0.16), transparent 24%);
   transform: scale(1.02);
   animation: marketBackdropIn 760ms var(--motion-ease-out) both;
-  will-change: transform, opacity;
 }
 
 .market-stage-bg::after {
@@ -2034,7 +2033,6 @@
   border-radius: 999px;
   filter: blur(34px);
   opacity: 0.34;
-  will-change: transform, opacity;
 }
 
 .light-one {
@@ -2098,7 +2096,18 @@
     radial-gradient(circle at 42% 82%, rgba(125, 184, 255, 0.8) 0 1px, transparent 1.8px);
   background-size: 360px 360px;
   opacity: 0.3;
-  will-change: background-position;
+}
+
+.markets-cinema.is-market-visible .market-stage-bg::before,
+.markets-cinema.is-market-visible .market-light {
+  will-change: transform, opacity;
+}
+
+.markets-cinema:not(.is-market-visible) .market-stage,
+.markets-cinema:not(.is-market-visible) .market-stage *,
+.markets-cinema:not(.is-market-visible) .markets-tabs::before,
+.markets-cinema:not(.is-market-visible) .market-progress span.is-active::after {
+  animation-play-state: paused;
 }
 
 .market-japan .market-stage-bg::before {
@@ -5661,6 +5670,29 @@
     will-change: auto;
   }
 
+  .reveal-panel :is(
+    .kicker,
+    h1,
+    h2,
+    .hero-description,
+    .hero-actions,
+    .hero-stats,
+    .section-copy p,
+    .partner-quote-card,
+    .service-grid,
+    .section-action-row,
+    .results-visual,
+    .metrics-grid,
+    .conversion-strip,
+    .proof-layout,
+    .contact-list,
+    .footer-bottom
+  ) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   .ambient-comet,
   .flow-ribbons,
   .cosmic-current,
@@ -6423,13 +6455,11 @@
   from {
     opacity: 0;
     transform: translate3d(0, 18px, 0);
-    filter: blur(8px);
   }
 
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    filter: blur(0);
   }
 }
 
@@ -6437,25 +6467,21 @@
   from {
     opacity: 0;
     transform: translate3d(30px, 0, 0) scale(0.985);
-    filter: blur(14px);
   }
 
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(0);
   }
 }
 
 @keyframes marketBackdropIn {
   from {
     opacity: 0;
-    filter: blur(12px) saturate(0.86);
   }
 
   to {
     opacity: 1;
-    filter: blur(0) saturate(1);
   }
 }
 
@@ -6463,13 +6489,11 @@
   from {
     opacity: 0;
     transform: translate3d(28px, 0, 0) scale(0.98);
-    filter: blur(10px);
   }
 
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(0);
   }
 }
 

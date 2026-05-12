@@ -41,6 +41,7 @@ function App() {
   const [activeService, setActiveService] = useState(null)
   const [activeMarketIndex, setActiveMarketIndex] = useState(0)
   const [isMarketPaused, setIsMarketPaused] = useState(false)
+  const [isMarketVisible, setIsMarketVisible] = useState(false)
   const [isPageReady, setIsPageReady] = useState(false)
   const [isClosingService, setIsClosingService] = useState(false)
   const serviceModalCloseTimer = useRef(null)
@@ -48,10 +49,17 @@ function App() {
   const marketTouchStartX = useRef(null)
   const marketResumeTimer = useRef(null)
   const marketTabRefs = useRef([])
+  const prefersReducedMotion = useRef(false)
+  const isMobileViewport = useRef(false)
 
   useEffect(() => {
     document.documentElement.lang = locale === 'ja' ? 'ja' : locale === 'pt' ? 'pt-BR' : 'en'
   }, [locale])
+
+  useEffect(() => {
+    prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    isMobileViewport.current = window.matchMedia('(max-width: 780px)').matches
+  }, [])
 
   useEffect(() => {
     const frameId = window.requestAnimationFrame(() => setIsPageReady(true))
@@ -59,8 +67,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const shouldReduceScrollEffects =
-      window.matchMedia('(max-width: 780px)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const shouldReduceScrollEffects = isMobileViewport.current || prefersReducedMotion.current
     const rootStyle = document.documentElement.style
 
     if (shouldReduceScrollEffects) {
@@ -158,7 +165,7 @@ function App() {
 
     let frameId = 0
     const duration = 1800
-    const minFrameInterval = 32
+    const minFrameInterval = 80
     const startTime = performance.now()
     let lastUpdateTime = startTime
 
@@ -218,10 +225,35 @@ function App() {
   }, [])
 
   useEffect(() => {
+    const marketsSection = document.getElementById('markets')
+
+    if (!marketsSection) {
+      return undefined
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      const frameId = window.requestAnimationFrame(() => setIsMarketVisible(true))
+      return () => window.cancelAnimationFrame(frameId)
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsMarketVisible(entry.isIntersecting)
+      },
+      { threshold: 0.18, rootMargin: '12% 0px 12% 0px' },
+    )
+
+    observer.observe(marketsSection)
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
     if (
+      !isMarketVisible ||
       isMarketPaused ||
       marketStories.length < 2 ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      prefersReducedMotion.current
     ) {
       return undefined
     }
@@ -231,16 +263,16 @@ function App() {
     }, 6500)
 
     return () => window.clearInterval(timerId)
-  }, [isMarketPaused, marketStories.length])
+  }, [isMarketPaused, isMarketVisible, marketStories.length])
 
   useEffect(() => {
     const activeTab = marketTabRefs.current[activeMarketIndex]
 
-    if (!activeTab || window.matchMedia('(min-width: 781px)').matches) {
+    if (!activeTab || !isMobileViewport.current) {
       return
     }
 
-    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+    const behavior = prefersReducedMotion.current ? 'auto' : 'smooth'
     activeTab.scrollIntoView({ behavior, block: 'nearest', inline: 'center' })
   }, [activeMarketIndex])
 
@@ -313,6 +345,10 @@ function App() {
   const selectedServiceIndex = selectedService ? capabilities.findIndex((item) => item.slug === selectedService.slug) : -1
   const activeMarketStory = marketStories[activeMarketIndex] ?? marketStories[0]
 
+  const updateMarketPaused = (nextValue) => {
+    setIsMarketPaused((currentValue) => (currentValue === nextValue ? currentValue : nextValue))
+  }
+
   const stepServiceModal = (direction) => {
     if (!selectedService) {
       return
@@ -330,13 +366,13 @@ function App() {
 
   const pauseMarketBriefly = (duration = 1200) => {
     window.clearTimeout(marketResumeTimer.current)
-    setIsMarketPaused(true)
-    marketResumeTimer.current = window.setTimeout(() => setIsMarketPaused(false), duration)
+    updateMarketPaused(true)
+    marketResumeTimer.current = window.setTimeout(() => updateMarketPaused(false), duration)
   }
 
   const handleMarketTouchStart = (event) => {
     window.clearTimeout(marketResumeTimer.current)
-    setIsMarketPaused(true)
+    updateMarketPaused(true)
     marketTouchStartX.current = event.touches[0]?.clientX ?? null
   }
 
@@ -382,7 +418,7 @@ function App() {
 
       <header className="topbar">
         <a className="brand" href="#home" aria-label={copy.hero.aria}>
-          <img className="brand-logo-mark" src="/guap-wordmark.svg" alt="GUAP" />
+          <img className="brand-logo-mark" src="/guap-wordmark.svg" width="520" height="88" decoding="async" alt="GUAP" />
         </a>
 
         <nav className="topnav" aria-label="Primary navigation">
@@ -429,7 +465,7 @@ function App() {
           <div className="hero-layout">
             <div className="hero-copy">
               <div className="hero-brandline">
-                <img className="hero-logo-mark" src="/guap-wordmark.svg" alt="" aria-hidden="true" />
+                <img className="hero-logo-mark" src="/guap-wordmark.svg" width="520" height="88" decoding="async" alt="" aria-hidden="true" />
               </div>
               <span className="kicker">{copy.hero.kicker}</span>
               <h1>{copy.hero.title}</h1>
@@ -556,13 +592,13 @@ function App() {
         <SectionTransition tone="transition-cyan" />
 
         <section
-          className="section-card markets-section markets-cinema reveal-panel"
+          className={`section-card markets-section markets-cinema reveal-panel ${isMarketVisible ? 'is-market-visible' : ''}`}
           id="markets"
           data-reveal
           aria-roledescription="carousel"
-          onMouseEnter={() => setIsMarketPaused(true)}
-          onMouseLeave={() => setIsMarketPaused(false)}
-          onFocusCapture={() => setIsMarketPaused(true)}
+          onMouseEnter={() => updateMarketPaused(true)}
+          onMouseLeave={() => updateMarketPaused(false)}
+          onFocusCapture={() => updateMarketPaused(true)}
           onBlurCapture={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget)) {
               pauseMarketBriefly(900)
@@ -604,8 +640,8 @@ function App() {
             aria-label={copy.markets.aria}
             aria-live="polite"
             tabIndex="0"
-            onMouseEnter={() => setIsMarketPaused(true)}
-            onMouseLeave={() => setIsMarketPaused(false)}
+            onMouseEnter={() => updateMarketPaused(true)}
+            onMouseLeave={() => updateMarketPaused(false)}
             onTouchStart={handleMarketTouchStart}
             onTouchEnd={handleMarketTouchEnd}
             onTouchCancel={() => pauseMarketBriefly(900)}
@@ -898,7 +934,15 @@ function App() {
               </div>
 
               <div className="service-modal-visual-wrap" aria-hidden="true">
-                <img className="service-modal-visual" src={selectedService.image} alt="" />
+                <img
+                  className="service-modal-visual"
+                  src={selectedService.image}
+                  width="1200"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                  alt=""
+                />
               </div>
             </div>
           </section>
@@ -908,7 +952,7 @@ function App() {
       <footer className="footer-card footer-warp reveal-panel" id="contact" data-reveal>
         <div className="footer-layout">
           <div className="section-copy footer-brand">
-            <img className="footer-logo-mark" src="/guap-wordmark.svg" alt="GUAP" />
+            <img className="footer-logo-mark" src="/guap-wordmark.svg" width="520" height="88" loading="lazy" decoding="async" alt="GUAP" />
             <span className="kicker">{copy.footer.kicker}</span>
             <h2>{copy.footer.title}</h2>
             <p className="footer-description">{copy.footer.description}</p>
