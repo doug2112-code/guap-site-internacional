@@ -346,8 +346,15 @@ function App() {
       return
     }
 
+    const scroller = activeTab.parentElement
+
+    if (!scroller) {
+      return
+    }
+
     const behavior = prefersReducedMotion.current ? 'auto' : 'smooth'
-    activeTab.scrollIntoView({ behavior, block: 'nearest', inline: 'center' })
+    const targetLeft = activeTab.offsetLeft - (scroller.clientWidth - activeTab.clientWidth) / 2
+    scroller.scrollTo({ left: Math.max(0, targetLeft), behavior })
   }, [activeMarketIndex])
 
   const selectedService = capabilities.find((item) => item.slug === activeService) ?? null
