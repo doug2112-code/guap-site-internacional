@@ -594,7 +594,7 @@ function App() {
 
       <header className="topbar">
         <a className="brand" href="#home" aria-label={copy.hero.aria}>
-          <img className="brand-logo-mark" src="/guap-wordmark-cosmic.png" width="1080" height="430" decoding="async" alt="GUAP" />
+          <img className="brand-logo-mark" src="/guap-wordmark-cosmic.png" width="430" height="150" decoding="async" alt="GUAP" />
         </a>
 
         <nav className="topnav" aria-label="Primary navigation">
@@ -641,7 +641,7 @@ function App() {
           <div className="hero-layout">
             <div className="hero-copy">
               <div className="hero-brandline">
-                <img className="hero-logo-mark" src="/guap-wordmark-cosmic.png" width="1080" height="430" decoding="async" alt="" aria-hidden="true" />
+                <img className="hero-logo-mark" src="/guap-wordmark-cosmic.png" width="430" height="150" decoding="async" alt="" aria-hidden="true" />
               </div>
               <span className="kicker">{copy.hero.kicker}</span>
               <h1>{copy.hero.title}</h1>
@@ -1016,7 +1016,7 @@ function App() {
       <footer className="footer-card footer-warp reveal-panel" id="contact" data-reveal>
         <div className="footer-layout">
           <div className="section-copy footer-brand">
-            <img className="footer-logo-mark" src="/guap-wordmark-cosmic.png" width="1080" height="430" loading="lazy" decoding="async" alt="GUAP" />
+            <img className="footer-logo-mark" src="/guap-wordmark-cosmic.png" width="430" height="150" loading="lazy" decoding="async" alt="GUAP" />
             <span className="kicker">{copy.footer.kicker}</span>
             <h2>{copy.footer.title}</h2>
             <p className="footer-description">{copy.footer.description}</p>
