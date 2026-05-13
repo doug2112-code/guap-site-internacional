@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import './App.css'
 import { defaultLocale, localeOptions, siteLocales } from './content/siteLocales.js'
 
@@ -111,6 +112,7 @@ function App() {
   const [isClosingService, setIsClosingService] = useState(false)
   const serviceModalCloseTimer = useRef(null)
   const serviceModalTitleRef = useRef(null)
+  const serviceModalScrollY = useRef(0)
   const marketTouchStartX = useRef(null)
   const marketResumeTimer = useRef(null)
   const marketTabRefs = useRef([])
@@ -192,16 +194,26 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (!window.location.hash) {
-      return undefined
+    const previousScrollRestoration = window.history.scrollRestoration
+
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
     }
 
-    const targetId = window.location.hash.slice(1)
     const frameId = window.requestAnimationFrame(() => {
-      document.getElementById(targetId)?.scrollIntoView()
+      if (window.location.hash) {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`)
+      }
+
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     })
 
-    return () => window.cancelAnimationFrame(frameId)
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = previousScrollRestoration
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -341,6 +353,7 @@ function App() {
   const selectedService = capabilities.find((item) => item.slug === activeService) ?? null
   const selectedServiceIndex = selectedService ? capabilities.findIndex((item) => item.slug === selectedService.slug) : -1
   const activeMarketStory = marketStories[activeMarketIndex] ?? marketStories[0]
+  const isServiceModalOpen = Boolean(activeService)
 
   const openServiceModal = (slug) => {
     window.clearTimeout(serviceModalCloseTimer.current)
@@ -371,11 +384,51 @@ function App() {
   )
 
   useEffect(() => {
-    if (!activeService) {
+    if (!isServiceModalOpen) {
       return undefined
     }
 
     const previousBodyOverflow = document.body.style.overflow
+    const previousBodyPosition = document.body.style.position
+    const previousBodyTop = document.body.style.top
+    const previousBodyLeft = document.body.style.left
+    const previousBodyRight = document.body.style.right
+    const previousBodyWidth = document.body.style.width
+    const previousDocumentOverflow = document.documentElement.style.overflow
+    const scrollYToLock = window.scrollY
+
+    serviceModalScrollY.current = scrollYToLock
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollYToLock}px`
+    document.body.style.left = '0'
+    document.body.style.right = '0'
+    document.body.style.width = '100%'
+
+    return () => {
+      const lockedTop = Number.parseInt(document.body.style.top || '', 10)
+      const scrollYToRestore = Number.isFinite(lockedTop) ? Math.abs(lockedTop) : serviceModalScrollY.current
+
+      document.body.style.overflow = previousBodyOverflow
+      document.documentElement.style.overflow = previousDocumentOverflow
+      document.body.style.position = previousBodyPosition
+      document.body.style.top = previousBodyTop
+      document.body.style.left = previousBodyLeft
+      document.body.style.right = previousBodyRight
+      document.body.style.width = previousBodyWidth
+      window.scrollTo({ top: scrollYToRestore, left: 0, behavior: 'auto' })
+      window.requestAnimationFrame(() => {
+        window.scrollTo({ top: scrollYToRestore, left: 0, behavior: 'auto' })
+      })
+    }
+  }, [isServiceModalOpen])
+
+  useEffect(() => {
+    if (!activeService) {
+      return undefined
+    }
+
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         closeServiceModal()
@@ -392,12 +445,10 @@ function App() {
       }
     }
 
-    document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', handleKeyDown)
-    serviceModalTitleRef.current?.focus()
+    serviceModalTitleRef.current?.focus({ preventScroll: true })
 
     return () => {
-      document.body.style.overflow = previousBodyOverflow
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [activeService, closeServiceModal, stepServiceModal])
@@ -453,6 +504,76 @@ function App() {
     stepMarket(event.key === 'ArrowRight' ? 1 : -1)
   }
 
+  const serviceModal = selectedService ? (
+    <div
+      className={`service-modal-backdrop ${isClosingService ? 'is-closing' : ''}`}
+      role="presentation"
+      onClick={closeServiceModal}
+    >
+      <section
+        className={`service-modal ${isClosingService ? 'is-closing' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="service-modal-title"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <button className="service-modal-close" type="button" aria-label={copy.close} onClick={closeServiceModal}>
+          {copy.close}
+        </button>
+
+        <div className="service-modal-layout" key={selectedService.slug}>
+          <div className="service-modal-copy">
+            <span className="kicker">{selectedService.eyebrow}</span>
+            <h3 id="service-modal-title" ref={serviceModalTitleRef} tabIndex="-1">
+              {selectedService.title}
+            </h3>
+            <p className="service-modal-impact">{selectedService.impact}</p>
+
+            <div className="service-modal-detail">
+              {selectedService.details.map((detail) => (
+                <p key={detail}>{detail}</p>
+              ))}
+            </div>
+
+            <ul className="service-modal-list">
+              {selectedService.bullets.map((bullet) => (
+                <li key={bullet}>{bullet}</li>
+              ))}
+            </ul>
+
+            <a className="primary-button service-modal-cta" href={whatsappUrl} target="_blank" rel="noreferrer" onClick={closeServiceModal}>
+              {selectedService.cta}
+            </a>
+          </div>
+
+          <div className="service-modal-visual-wrap" aria-hidden="true">
+            <img
+              className="service-modal-visual"
+              src={selectedService.image}
+              width="1200"
+              height="900"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div className="service-modal-nav" aria-label="Service navigation">
+          <button className="service-modal-arrow service-modal-arrow-left" type="button" aria-label={copy.previousService} onClick={() => stepServiceModal(-1)}>
+            <span aria-hidden="true">‹</span>
+          </button>
+          <span className="service-modal-count">
+            {String(selectedServiceIndex + 1).padStart(2, '0')} / {String(capabilities.length).padStart(2, '0')}
+          </span>
+          <button className="service-modal-arrow service-modal-arrow-right" type="button" aria-label={copy.nextService} onClick={() => stepServiceModal(1)}>
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  ) : null
+
   return (
     <div className={`site-shell ${isPageReady ? 'is-page-ready' : ''}`}>
       <div className="ambient-layer ambient-grid" aria-hidden="true"></div>
@@ -473,7 +594,7 @@ function App() {
 
       <header className="topbar">
         <a className="brand" href="#home" aria-label={copy.hero.aria}>
-          <img className="brand-logo-mark" src="/guap-wordmark.svg" width="520" height="88" decoding="async" alt="GUAP" />
+          <img className="brand-logo-mark" src="/guap-wordmark-cosmic.png" width="1080" height="430" decoding="async" alt="GUAP" />
         </a>
 
         <nav className="topnav" aria-label="Primary navigation">
@@ -520,7 +641,7 @@ function App() {
           <div className="hero-layout">
             <div className="hero-copy">
               <div className="hero-brandline">
-                <img className="hero-logo-mark" src="/guap-wordmark.svg" width="520" height="88" decoding="async" alt="" aria-hidden="true" />
+                <img className="hero-logo-mark" src="/guap-wordmark-cosmic.png" width="1080" height="430" decoding="async" alt="" aria-hidden="true" />
               </div>
               <span className="kicker">{copy.hero.kicker}</span>
               <h1>{copy.hero.title}</h1>
@@ -890,80 +1011,12 @@ function App() {
         <SectionTransition tone="transition-deep" />
       </main>
 
-      {selectedService ? (
-        <div
-          className={`service-modal-backdrop ${isClosingService ? 'is-closing' : ''}`}
-          role="presentation"
-          onClick={closeServiceModal}
-        >
-          <section
-            className={`service-modal ${isClosingService ? 'is-closing' : ''}`}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="service-modal-title"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button className="service-modal-close" type="button" aria-label={copy.close} onClick={closeServiceModal}>
-              {copy.close}
-            </button>
-
-            <div className="service-modal-layout">
-              <div className="service-modal-copy">
-                <span className="kicker">{selectedService.eyebrow}</span>
-                <h3 id="service-modal-title" ref={serviceModalTitleRef} tabIndex="-1">
-                  {selectedService.title}
-                </h3>
-                <p className="service-modal-impact">{selectedService.impact}</p>
-
-                <div className="service-modal-detail">
-                  {selectedService.details.map((detail) => (
-                    <p key={detail}>{detail}</p>
-                  ))}
-                </div>
-
-                <ul className="service-modal-list">
-                  {selectedService.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-
-                <a className="primary-button service-modal-cta" href={whatsappUrl} target="_blank" rel="noreferrer" onClick={closeServiceModal}>
-                  {selectedService.cta}
-                </a>
-              </div>
-
-              <div className="service-modal-visual-wrap" aria-hidden="true">
-                <img
-                  className="service-modal-visual"
-                  src={selectedService.image}
-                  width="1200"
-                  height="900"
-                  loading="lazy"
-                  decoding="async"
-                  alt=""
-                />
-              </div>
-            </div>
-
-            <div className="service-modal-nav" aria-label="Service navigation">
-              <button className="service-modal-arrow service-modal-arrow-left" type="button" aria-label={copy.previousService} onClick={() => stepServiceModal(-1)}>
-                <span aria-hidden="true">‹</span>
-              </button>
-              <span className="service-modal-count">
-                {String(selectedServiceIndex + 1).padStart(2, '0')} / {String(capabilities.length).padStart(2, '0')}
-              </span>
-              <button className="service-modal-arrow service-modal-arrow-right" type="button" aria-label={copy.nextService} onClick={() => stepServiceModal(1)}>
-                <span aria-hidden="true">›</span>
-              </button>
-            </div>
-          </section>
-        </div>
-      ) : null}
+      {serviceModal ? createPortal(serviceModal, document.body) : null}
 
       <footer className="footer-card footer-warp reveal-panel" id="contact" data-reveal>
         <div className="footer-layout">
           <div className="section-copy footer-brand">
-            <img className="footer-logo-mark" src="/guap-wordmark.svg" width="520" height="88" loading="lazy" decoding="async" alt="GUAP" />
+            <img className="footer-logo-mark" src="/guap-wordmark-cosmic.png" width="1080" height="430" loading="lazy" decoding="async" alt="GUAP" />
             <span className="kicker">{copy.footer.kicker}</span>
             <h2>{copy.footer.title}</h2>
             <p className="footer-description">{copy.footer.description}</p>
