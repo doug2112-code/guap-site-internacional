@@ -832,6 +832,12 @@ function App() {
               <span className="market-particles"></span>
             </div>
 
+            <div className="market-live-panel" aria-hidden="true">
+              <span>{String(activeMarketIndex + 1).padStart(2, '0')} / {String(marketStories.length).padStart(2, '0')}</span>
+              <strong>{activeMarketStory.country}</strong>
+              <small>{activeMarketStory.metrics[0]}</small>
+            </div>
+
             <article className="market-story" key={activeMarketStory.slug}>
               <div className="market-story-copy">
                 <span className="market-story-eyebrow">
