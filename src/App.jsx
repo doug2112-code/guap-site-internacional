@@ -130,7 +130,12 @@ function App() {
 
   useEffect(() => {
     const frameId = window.requestAnimationFrame(() => setIsPageReady(true))
-    return () => window.cancelAnimationFrame(frameId)
+    const timeoutId = window.setTimeout(() => setIsPageReady(true), 140)
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      window.clearTimeout(timeoutId)
+    }
   }, [])
 
   useEffect(() => {
