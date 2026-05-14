@@ -78,7 +78,6 @@ function ResultMetricCard({ metric, index, isActive }) {
         {formatMetricValue(metric, value)}
       </strong>
       <span>{metric.label}</span>
-      <p>{metric.detail}</p>
       <div className="metric-trend" aria-hidden="true">
         <span className="trend-bar trend-a"></span>
         <span className="trend-bar trend-b"></span>
@@ -554,12 +553,6 @@ function App() {
             </h3>
             <p className="service-modal-impact">{selectedService.impact}</p>
 
-            <div className="service-modal-detail">
-              {selectedService.details.map((detail) => (
-                <p key={detail}>{detail}</p>
-              ))}
-            </div>
-
             <ul className="service-modal-list">
               {selectedService.bullets.map((bullet) => (
                 <li key={bullet}>{bullet}</li>
@@ -670,7 +663,6 @@ function App() {
               </div>
               <span className="kicker">{copy.hero.kicker}</span>
               <h1>{copy.hero.title}</h1>
-              <p className="hero-description">{copy.hero.description}</p>
               <div className="hero-actions">
                 <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
                   {copy.hero.primaryCta}
@@ -729,7 +721,6 @@ function App() {
           <div className="authority-copy">
             <span className="kicker">{copy.authority.kicker}</span>
             <h2>{copy.authority.title}</h2>
-            <p>{copy.authority.description}</p>
             <div className="authority-strip" aria-label={copy.authority.outcomesLabel}>
               {copy.authority.outcomes.map((item) => (
                 <span key={item}>{item}</span>
@@ -765,7 +756,6 @@ function App() {
             <div className="section-copy section-copy-stacked">
               <span className="kicker">{copy.ecosystem.kicker}</span>
               <h2>{copy.ecosystem.title}</h2>
-              <p>{copy.ecosystem.description}</p>
               <div className="copy-note">
                 <strong>{copy.ecosystem.noteTitle}</strong>
                 <p>{copy.ecosystem.note}</p>
@@ -810,7 +800,6 @@ function App() {
             <div className="section-copy section-copy-wide">
               <span className="kicker">{copy.markets.kicker}</span>
               <h2>{copy.markets.title}</h2>
-              <p>{copy.markets.description}</p>
             </div>
 
             <div className="markets-tabs" aria-label={copy.markets.railLabel}>
@@ -870,7 +859,6 @@ function App() {
                   {activeMarketStory.eyebrow}
                 </span>
                 <h3>{activeMarketStory.headline}</h3>
-                <p>{activeMarketStory.text}</p>
                 <strong>{activeMarketStory.result}</strong>
               </div>
 
@@ -927,7 +915,6 @@ function App() {
             <div className="section-copy">
               <span className="kicker">{copy.partners.kicker}</span>
               <h2>{copy.partners.title}</h2>
-              <p>{copy.partners.description}</p>
             </div>
 
             <div className="partner-quote-card">
@@ -956,10 +943,6 @@ function App() {
               <span className="kicker">{copy.capabilities.kicker}</span>
               <h2>{copy.capabilities.title}</h2>
             </div>
-
-            <div className="section-copy section-copy-dark section-copy-compact">
-              <p>{copy.capabilities.description}</p>
-            </div>
           </div>
 
           <div className="service-grid service-grid-minimal">
@@ -974,7 +957,6 @@ function App() {
               >
                 <span className="service-eyebrow">{item.eyebrow}</span>
                 <h3>{item.title}</h3>
-                <p className="service-card-description">{item.description}</p>
                 <span className="service-card-action">{copy.capabilities.cardAction}</span>
                 <span className="service-index">{String(index + 1).padStart(2, '0')}</span>
               </button>
@@ -982,7 +964,7 @@ function App() {
           </div>
 
           <div className="section-action-row">
-            <p>{copy.capabilities.ctaText}</p>
+            <strong>{copy.capabilities.ctaText}</strong>
             <a className="secondary-button section-inline-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
               {copy.capabilities.cta}
             </a>
@@ -996,7 +978,6 @@ function App() {
             <div className="section-copy">
               <span className="kicker">{copy.results.kicker}</span>
               <h2>{copy.results.title}</h2>
-              <p>{copy.results.description}</p>
             </div>
 
             <div className="results-visual" aria-hidden="true">
@@ -1031,7 +1012,6 @@ function App() {
             <div>
               <span>{copy.results.ctaKicker}</span>
               <strong>{copy.results.ctaTitle}</strong>
-              <p>{copy.results.ctaText}</p>
             </div>
             <a className="primary-button conversion-strip-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
               {copy.results.cta}
@@ -1050,8 +1030,6 @@ function App() {
             <img className="footer-logo-mark" src="/guap-wordmark-cosmic.png" width="430" height="150" loading="lazy" decoding="async" alt="GUAP" />
             <span className="kicker">{copy.footer.kicker}</span>
             <h2>{copy.footer.title}</h2>
-            <p className="footer-description">{copy.footer.description}</p>
-            <p className="footer-positioning">{copy.footer.positioning}</p>
           </div>
 
           <div className="footer-directory">
