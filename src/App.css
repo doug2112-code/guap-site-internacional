@@ -936,9 +936,10 @@
 
 .hero-panel h1 {
   margin-top: 10px;
-  max-width: 14.5ch;
+  max-width: 12.8ch;
   margin-inline: 0;
-  font-size: clamp(1.5rem, 2vw, 2.12rem);
+  font-size: clamp(2.25rem, 4.2vw, 4.5rem);
+  line-height: 0.95;
 }
 
 .hero-description,
@@ -962,10 +963,11 @@
 }
 
 .hero-description {
-  max-width: 38ch;
-  margin-top: 8px;
+  max-width: 42ch;
+  margin-top: 12px;
   margin-inline: 0;
-  font-size: 0.76rem;
+  font-size: 0.92rem;
+  line-height: 1.56;
 }
 
 .hero-storyline {
@@ -3851,8 +3853,12 @@
 
 .footer-logo-mark {
   display: block;
-  width: min(180px, 44vw);
-  margin-bottom: 18px;
+  width: min(230px, 48vw);
+  height: auto;
+  max-height: 82px;
+  object-fit: contain;
+  object-position: left center;
+  margin-bottom: 22px;
 }
 
 .footer-positioning {
@@ -7236,8 +7242,8 @@
   }
 
   .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) {
-    opacity: 0.72;
-    transform: translate3d(0, 16px, 0);
+    opacity: 0.86;
+    transform: translate3d(0, 14px, 0);
   }
 
   .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible {
@@ -7262,8 +7268,8 @@
     .contact-list,
     .footer-bottom
   ) {
-    opacity: 0.78;
-    transform: translate3d(0, 10px, 0);
+    opacity: 0.88;
+    transform: translate3d(0, 8px, 0);
   }
 
   .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible :is(
@@ -7428,6 +7434,11 @@
     line-height: 1;
   }
 
+  .kicker {
+    font-size: 0.64rem;
+    letter-spacing: 0.18em;
+  }
+
   .hero-actions,
   .section-cta-row,
   .section-action-row {
@@ -7466,6 +7477,10 @@
     min-height: 76px;
     padding: 14px 12px;
     text-align: center;
+  }
+
+  .hero-stats .stat-card strong {
+    font-size: 1.1rem;
   }
 
   .hero-scene {
@@ -7592,7 +7607,7 @@
   .market-story-copy > strong {
     margin-top: 12px;
     max-width: min(100%, 30ch);
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     line-height: 1.46;
   }
 
@@ -7659,7 +7674,7 @@
 
   .service-card-description,
   .service-card-action {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
   }
 
   .metrics-grid-compact {
@@ -7710,7 +7725,9 @@
   }
 
   .footer-logo-mark {
-    width: min(174px, 56vw);
+    width: min(212px, 62vw);
+    max-height: 74px;
+    object-position: center;
   }
 
   .contact-list li,
@@ -7753,7 +7770,7 @@
   .service-modal-impact,
   .service-modal-detail p {
     max-width: 32ch;
-    font-size: 0.9rem;
+    font-size: 0.86rem;
   }
 
   .service-modal-list li {

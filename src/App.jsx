@@ -109,6 +109,7 @@ function App() {
   const [isMarketPaused, setIsMarketPaused] = useState(false)
   const [isMarketVisible, setIsMarketVisible] = useState(false)
   const [isPageReady, setIsPageReady] = useState(false)
+  const [isDocumentVisible, setIsDocumentVisible] = useState(true)
   const [isClosingService, setIsClosingService] = useState(false)
   const serviceModalCloseTimer = useRef(null)
   const serviceModalTitleRef = useRef(null)
@@ -136,6 +137,17 @@ function App() {
       window.cancelAnimationFrame(frameId)
       window.clearTimeout(timeoutId)
     }
+  }, [])
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsDocumentVisible(!document.hidden)
+    }
+
+    handleVisibilityChange()
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
   }, [])
 
   useEffect(() => {
@@ -330,6 +342,7 @@ function App() {
   useEffect(() => {
     if (
       !isMarketVisible ||
+      !isDocumentVisible ||
       isMarketPaused ||
       marketStories.length < 2 ||
       prefersReducedMotion.current
@@ -342,7 +355,7 @@ function App() {
     }, 6500)
 
     return () => window.clearInterval(timerId)
-  }, [isMarketPaused, isMarketVisible, marketStories.length])
+  }, [isDocumentVisible, isMarketPaused, isMarketVisible, marketStories.length])
 
   useEffect(() => {
     const activeTab = marketTabRefs.current[activeMarketIndex]
