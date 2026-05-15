@@ -1,0 +1,144 @@
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --font-body: 'Manrope', 'Segoe UI', sans-serif;
+  --font-display: 'Manrope', 'Segoe UI', sans-serif;
+  --font-accent: 'Instrument Serif', serif;
+
+  --background: #04050a;
+  --surface: rgba(8, 11, 22, 0.78);
+  --surface-strong: rgba(10, 14, 28, 0.94);
+  --surface-light: rgba(18, 22, 38, 0.92);
+  --border: rgba(122, 161, 255, 0.14);
+  --border-strong: rgba(157, 196, 255, 0.22);
+  --text-strong: #f4f7ff;
+  --text-muted: #a3afc4;
+  --text-soft: #7381a1;
+  --text-dark: #0a1220;
+  --accent: #7db8ff;
+  --accent-cyan: #6ce8ff;
+  --accent-pink: #ff84c7;
+  --accent-warm: #ffd08b;
+  --shadow-soft: 0 30px 90px rgba(0, 0, 0, 0.36);
+
+  color: var(--text-strong);
+  background:
+    radial-gradient(circle at 14% 12%, rgba(76, 130, 255, 0.1), transparent 18%),
+    radial-gradient(circle at 82% 16%, rgba(255, 120, 190, 0.08), transparent 20%),
+    linear-gradient(180deg, #030409 0%, #05060c 40%, #020307 100%);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+  color: inherit;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  background: var(--background);
+}
+
+::selection {
+  background: rgba(125, 184, 255, 0.28);
+  color: var(--text-strong);
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(125, 184, 255, 0.42);
+  outline-offset: 3px;
+}
+
+#root {
+  min-height: 100vh;
+  background: var(--background);
+}
+
+h1,
+h2,
+h3,
+p,
+blockquote,
+ul {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+h1 {
+  max-width: 16ch;
+  font-size: clamp(2.5rem, 4.6vw, 4.8rem);
+  line-height: 1;
+}
+
+h2 {
+  max-width: 20ch;
+  font-size: clamp(2rem, 3.1vw, 3.2rem);
+  line-height: 1.04;
+}
+
+h3 {
+  font-size: 1.28rem;
+  font-weight: 500;
+}
+
+p,
+li,
+a,
+span,
+strong {
+  font-size: 0.98rem;
+}
+
+p {
+  text-wrap: pretty;
+  line-height: 1.72;
+}

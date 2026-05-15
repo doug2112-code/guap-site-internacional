@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0b0d12"/>
+      <stop offset="100%" stop-color="#1e2430"/>
+    </linearGradient>
+    <linearGradient id="car" x1="0" x2="1">
+      <stop offset="0%" stop-color="#d9dde5"/>
+      <stop offset="100%" stop-color="#7f8da0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#dfe9f8" stop-opacity=".75"/>
+      <stop offset="100%" stop-color="#dfe9f8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <circle cx="170" cy="180" r="180" fill="url(#glow)"/>
+  <circle cx="1010" cy="160" r="140" fill="url(#glow)" opacity=".6"/>
+  <rect y="520" width="1200" height="200" fill="#090b10"/>
+  <path d="M240 440c70-82 146-123 243-133 125-12 271 8 387 42 39 12 74 30 96 58l72 93H164l76-60Z" fill="url(#car)"/>
+  <path d="M366 356h232c72 0 150 12 206 33l62 26H300l66-59Z" fill="#2a3343"/>
+  <circle cx="351" cy="506" r="58" fill="#121722"/>
+  <circle cx="351" cy="506" r="31" fill="#8f9db0"/>
+  <circle cx="873" cy="506" r="58" fill="#121722"/>
+  <circle cx="873" cy="506" r="31" fill="#8f9db0"/>
+  <path d="M795 412h155l38 48H758l37-48Z" fill="#d8e2f0" opacity=".9"/>
+  <path d="M292 415h190l-31 44H249l43-44Z" fill="#d8e2f0" opacity=".78"/>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="32" fill="#fff"/>
+  <clipPath id="a">
+    <rect width="64" height="64" rx="32"/>
+  </clipPath>
+  <g clip-path="url(#a)">
+    <rect width="64" height="64" fill="#b22234"/>
+    <g fill="#fff">
+      <rect y="4.9" width="64" height="4.9"/>
+      <rect y="14.7" width="64" height="4.9"/>
+      <rect y="24.5" width="64" height="4.9"/>
+      <rect y="34.3" width="64" height="4.9"/>
+      <rect y="44.1" width="64" height="4.9"/>
+      <rect y="53.9" width="64" height="4.9"/>
+    </g>
+    <rect width="29" height="34.3" fill="#3c3b6e"/>
+    <g fill="#fff">
+      <circle cx="4.5" cy="4.5" r="1.1"/>
+      <circle cx="10.5" cy="4.5" r="1.1"/>
+      <circle cx="16.5" cy="4.5" r="1.1"/>
+      <circle cx="22.5" cy="4.5" r="1.1"/>
+      <circle cx="7.5" cy="9.5" r="1.1"/>
+      <circle cx="13.5" cy="9.5" r="1.1"/>
+      <circle cx="19.5" cy="9.5" r="1.1"/>
+      <circle cx="25.5" cy="9.5" r="1.1"/>
+      <circle cx="4.5" cy="14.5" r="1.1"/>
+      <circle cx="10.5" cy="14.5" r="1.1"/>
+      <circle cx="16.5" cy="14.5" r="1.1"/>
+      <circle cx="22.5" cy="14.5" r="1.1"/>
+      <circle cx="7.5" cy="19.5" r="1.1"/>
+      <circle cx="13.5" cy="19.5" r="1.1"/>
+      <circle cx="19.5" cy="19.5" r="1.1"/>
+      <circle cx="25.5" cy="19.5" r="1.1"/>
+      <circle cx="4.5" cy="24.5" r="1.1"/>
+      <circle cx="10.5" cy="24.5" r="1.1"/>
+      <circle cx="16.5" cy="24.5" r="1.1"/>
+      <circle cx="22.5" cy="24.5" r="1.1"/>
+      <circle cx="7.5" cy="29.5" r="1.1"/>
+      <circle cx="13.5" cy="29.5" r="1.1"/>
+      <circle cx="19.5" cy="29.5" r="1.1"/>
+      <circle cx="25.5" cy="29.5" r="1.1"/>
+    </g>
+  </g>
+</svg>

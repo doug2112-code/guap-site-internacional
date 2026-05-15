@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#111925"/>
+      <stop offset="100%" stop-color="#394f62"/>
+    </linearGradient>
+    <linearGradient id="mount" x1="0" x2="1">
+      <stop offset="0%" stop-color="#d7d1c8"/>
+      <stop offset="100%" stop-color="#a18f82"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="720" fill="url(#sky)"/>
+  <circle cx="930" cy="136" r="74" fill="#fff0cf"/>
+  <path d="M0 431c111 7 191-54 286-125 98-74 210-92 314-33 91 52 173 40 253-22 89-69 166-87 347-35V720H0V431Z" fill="#1c2836"/>
+  <path d="M0 505c200-6 345-61 480-143 119-72 197-70 314 4 118 74 204 111 406 103v251H0V505Z" fill="#0d1117"/>
+  <path d="M235 480c60-67 139-103 244-115 135-16 289 6 407 53 35 14 67 33 91 61l53 63H175l60-62Z" fill="url(#mount)"/>
+  <path d="M359 409h232c95 0 187 18 275 55H308c19-18 31-30 51-55Z" fill="#46525d"/>
+  <circle cx="341" cy="542" r="53" fill="#151b24"/>
+  <circle cx="341" cy="542" r="29" fill="#959faa"/>
+  <circle cx="862" cy="542" r="53" fill="#151b24"/>
+  <circle cx="862" cy="542" r="29" fill="#959faa"/>
+</svg>

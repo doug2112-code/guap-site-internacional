@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#152033"/>
+      <stop offset="100%" stop-color="#314865"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" x2="1">
+      <stop offset="0%" stop-color="#1a2738"/>
+      <stop offset="100%" stop-color="#0e1823"/>
+    </linearGradient>
+    <linearGradient id="car" x1="0" x2="1">
+      <stop offset="0%" stop-color="#f2efe8"/>
+      <stop offset="100%" stop-color="#b0b8c2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="720" fill="url(#sky)"/>
+  <circle cx="930" cy="150" r="76" fill="#ffdd9b"/>
+  <path d="M0 466c140-32 238-34 348-3 86 23 166 25 267-1 101-26 220-29 300-15 82 14 174 11 285-16V720H0V466Z" fill="url(#sea)"/>
+  <path d="M0 513c130 13 229 3 337-31 104-34 177-41 297-12 119 29 239 18 361-17 72-21 133-30 205-22V720H0V513Z" fill="#090d14"/>
+  <path d="M274 468c62-72 129-103 221-111 115-10 238 6 342 41 34 11 64 29 83 54l55 73H214l60-57Z" fill="url(#car)"/>
+  <path d="M380 404h202c84 0 158 11 242 38l54 18H321l59-56Z" fill="#334257"/>
+  <circle cx="347" cy="526" r="54" fill="#111722"/>
+  <circle cx="347" cy="526" r="28" fill="#92a1b4"/>
+  <circle cx="843" cy="526" r="54" fill="#111722"/>
+  <circle cx="843" cy="526" r="28" fill="#92a1b4"/>
+</svg>
