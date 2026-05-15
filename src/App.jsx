@@ -139,24 +139,47 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      setIsDocumentVisible(!document.hidden)
+    const rootElement = document.documentElement
+    const updateDocumentVisibility = () => {
+      const nextIsVisible = !document.hidden
+      rootElement.classList.toggle('is-tab-hidden', !nextIsVisible)
+      setIsDocumentVisible((currentValue) => (currentValue === nextIsVisible ? currentValue : nextIsVisible))
     }
 
-    handleVisibilityChange()
-    document.addEventListener('visibilitychange', handleVisibilityChange)
+    updateDocumentVisibility()
+    document.addEventListener('visibilitychange', updateDocumentVisibility)
 
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
+    return () => {
+      document.removeEventListener('visibilitychange', updateDocumentVisibility)
+      rootElement.classList.remove('is-tab-hidden')
+    }
   }, [])
 
   useEffect(() => {
-    const shouldReduceScrollEffects = isMobileViewport.current || prefersReducedMotion.current
+    const mobileQuery = window.matchMedia('(max-width: 780px)')
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const rootStyle = document.documentElement.style
+    const shouldReduceScrollEffects = () => mobileQuery.matches || reducedMotionQuery.matches || document.hidden
+    const addMediaQueryListener = (query, handler) => {
+      if (typeof query.addEventListener === 'function') {
+        query.addEventListener('change', handler)
+        return
+      }
 
-    if (shouldReduceScrollEffects) {
+      query.addListener(handler)
+    }
+    const removeMediaQueryListener = (query, handler) => {
+      if (typeof query.removeEventListener === 'function') {
+        query.removeEventListener('change', handler)
+        return
+      }
+
+      query.removeListener(handler)
+    }
+
+    const resetScrollEffects = () => {
       rootStyle.setProperty('--scroll-progress', '0')
       rootStyle.setProperty('--scroll-offset', '0px')
-      return undefined
     }
 
     let frameId = 0
@@ -165,10 +188,16 @@ function App() {
     let lastScrollOffset = ''
 
     const updateScrollState = () => {
+      if (shouldReduceScrollEffects()) {
+        resetScrollEffects()
+        frameId = 0
+        return
+      }
+
       const scrollTop = window.scrollY
       const rawProgress = scrollableDistance > 0 ? Math.min(Math.max(scrollTop / scrollableDistance, 0), 1) : 0
-      const progress = `${Math.round(rawProgress * 500) / 500}`
-      const offset = `${Math.round(Math.min(scrollTop, 1400) / 4) * 4}px`
+      const progress = `${Math.round(rawProgress * 250) / 250}`
+      const offset = `${Math.round(Math.min(scrollTop, 1400) / 8) * 8}px`
 
       if (progress !== lastScrollProgress) {
         rootStyle.setProperty('--scroll-progress', progress)
@@ -196,13 +225,28 @@ function App() {
       handleScroll()
     }
 
+    const handleMediaChange = () => {
+      if (shouldReduceScrollEffects()) {
+        resetScrollEffects()
+        return
+      }
+
+      handleResize()
+    }
+
     updateScrollState()
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('resize', handleResize)
+    addMediaQueryListener(mobileQuery, handleMediaChange)
+    addMediaQueryListener(reducedMotionQuery, handleMediaChange)
+    document.addEventListener('visibilitychange', handleMediaChange)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
+      removeMediaQueryListener(mobileQuery, handleMediaChange)
+      removeMediaQueryListener(reducedMotionQuery, handleMediaChange)
+      document.removeEventListener('visibilitychange', handleMediaChange)
       if (frameId !== 0) {
         window.cancelAnimationFrame(frameId)
       }
