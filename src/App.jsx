@@ -1027,7 +1027,6 @@ function App() {
       <footer className="footer-card footer-warp reveal-panel" id="contact" data-reveal>
         <div className="footer-layout">
           <div className="section-copy footer-brand">
-            <img className="footer-logo-mark" src="/guap-wordmark-cosmic.png" width="430" height="150" loading="lazy" decoding="async" alt="GUAP" />
             <span className="kicker">{copy.footer.kicker}</span>
             <h2>{copy.footer.title}</h2>
           </div>

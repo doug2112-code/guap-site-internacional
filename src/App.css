@@ -1431,8 +1431,8 @@
 
 .authority-band {
   display: grid;
-  grid-template-columns: minmax(300px, 0.98fr) minmax(0, 1.02fr);
-  gap: 22px;
+  grid-template-columns: minmax(380px, 1.12fr) minmax(0, 0.88fr);
+  gap: clamp(24px, 3vw, 42px);
   align-items: center;
   padding: clamp(24px, 3vw, 34px);
   border-radius: 40px;
@@ -1484,15 +1484,16 @@
 }
 
 .authority-copy {
-  max-width: 46ch;
+  max-width: 62ch;
   align-self: center;
 }
 
 .authority-copy h2 {
   margin-top: 12px;
-  max-width: 11.5ch;
-  font-size: clamp(1.86rem, 2.7vw, 2.9rem);
-  line-height: 1.02;
+  max-width: 15.8ch;
+  font-size: clamp(1.9rem, 2.45vw, 2.7rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
 }
 
 .authority-copy p {
@@ -8712,5 +8713,23 @@
   .hero-panel h1 {
     max-width: min(100%, 10ch);
     font-size: clamp(2.24rem, 11.8vw, 2.6rem);
+  }
+}
+
+@media (min-width: 1025px) {
+  .authority-copy {
+    padding-left: clamp(6px, 1.1vw, 18px);
+  }
+
+  .authority-copy h2 {
+    max-width: 16.4ch;
+  }
+}
+
+@media (max-width: 780px) {
+  .authority-copy h2 {
+    max-width: min(100%, 13.8ch);
+    font-size: clamp(2.05rem, 8.6vw, 3.05rem);
+    line-height: 1;
   }
 }

@@ -38,7 +38,7 @@ const englishCopy = {
   },
   authority: {
     kicker: 'The growth problem',
-    title: 'Value is not enough if the market cannot see it.',
+    title: 'Value is invisible when the structure is weak.',
     description: 'Weak positioning lowers trust. Weak pages lower conversion. Slow systems lose demand.',
     outcomesLabel: 'Core outcomes',
     outcomes: ['Clearer authority', 'Higher conversion', 'Faster sales response'],
@@ -130,7 +130,7 @@ const ptCopy = {
   },
   authority: {
     kicker: 'O problema de crescimento',
-    title: 'Valor não basta se o mercado não consegue enxergar.',
+    title: 'Valor fica invisível sem estrutura digital.',
     description: 'Posicionamento fraco reduz confiança. Página fraca reduz conversão. Sistema lento perde demanda.',
     outcomesLabel: 'Resultados centrais',
     outcomes: ['Mais autoridade', 'Maior conversão', 'Resposta comercial mais rápida'],
@@ -223,7 +223,7 @@ const jaCopy = {
   },
   authority: {
     kicker: '成長の課題',
-    title: '価値があっても、伝わらなければ選ばれない。',
+    title: '構造が弱いと、価値は見えない。',
     description: '弱い位置付けは信頼を下げる。弱いページは転換を下げる。遅い仕組みは需要を失う。',
     outcomesLabel: '主要な成果',
     outcomes: ['信頼を高める', '転換率を上げる', '対応を速くする'],

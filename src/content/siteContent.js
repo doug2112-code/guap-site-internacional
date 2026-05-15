@@ -186,8 +186,8 @@ export const resultMetrics = [
 
 export const contactLinks = [
   { label: 'Brazil / WhatsApp', value: '+55 61 99559-6710', href: 'https://wa.me/5561995596710' },
-  { label: 'USA', value: 'Coming soon', href: 'https://wa.me/5561995596710' },
-  { label: 'Japan', value: 'Coming soon', href: 'https://wa.me/5561995596710' },
+  { label: 'USA', value: '+1 (000) 000-0000 · preview', href: '#contact' },
+  { label: 'Japan', value: '+81 (00) 0000-0000 · preview', href: '#contact' },
   { label: 'Global email', value: 'contact@guapcompany.com.br', href: 'mailto:contact@guapcompany.com.br' },
   { label: 'Instagram', value: '@guap.company', href: 'https://www.instagram.com/guap.company/' },
 ]
