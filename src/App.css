@@ -8188,8 +8188,8 @@
   }
 
   .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) {
-    opacity: 0;
-    transform: translate3d(0, 24px, 0) scale(0.996);
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
   .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible {
@@ -8224,8 +8224,8 @@
     .footer-link-columns,
     .footer-bottom
   ) {
-    opacity: 0;
-    transform: translate3d(0, 14px, 0);
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 
   .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible :is(
