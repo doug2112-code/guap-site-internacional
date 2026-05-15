@@ -8152,6 +8152,152 @@
   }
 }
 
+@media (max-width: 780px) and (prefers-reduced-motion: no-preference) {
+  .site-shell.is-page-ready .hero-panel.is-visible :is(
+    .hero-brandline,
+    .kicker,
+    h1,
+    .hero-actions,
+    .hero-stats,
+    .signal-row,
+    .hero-scene
+  ) {
+    animation: mobileSoftReveal 620ms var(--motion-ease-out) both;
+    will-change: opacity, transform;
+  }
+
+  .site-shell.is-page-ready .hero-panel.is-visible .kicker {
+    animation-delay: 70ms;
+  }
+
+  .site-shell.is-page-ready .hero-panel.is-visible h1 {
+    animation-delay: 120ms;
+  }
+
+  .site-shell.is-page-ready .hero-panel.is-visible .hero-actions {
+    animation-delay: 190ms;
+  }
+
+  .site-shell.is-page-ready .hero-panel.is-visible .hero-stats,
+  .site-shell.is-page-ready .hero-panel.is-visible .signal-row {
+    animation-delay: 250ms;
+  }
+
+  .site-shell.is-page-ready .hero-panel.is-visible .hero-scene {
+    animation-delay: 310ms;
+  }
+
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0) scale(0.996);
+  }
+
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    transition:
+      opacity 560ms ease,
+      transform 680ms var(--motion-ease-out);
+    will-change: opacity, transform;
+  }
+
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) :is(
+    .kicker,
+    h2,
+    h3,
+    .authority-strip,
+    .authority-points,
+    .copy-note,
+    .ecosystem-scene,
+    .markets-tabs,
+    .market-story-copy,
+    .market-story-visual,
+    .market-story-metrics,
+    .partner-quote-card,
+    .partner-marquee,
+    .service-card,
+    .section-action-row,
+    .results-visual,
+    .metric-card,
+    .conversion-strip,
+    .contact-list,
+    .footer-link-columns,
+    .footer-bottom
+  ) {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible :is(
+    .kicker,
+    h2,
+    h3,
+    .authority-strip,
+    .authority-points,
+    .copy-note,
+    .ecosystem-scene,
+    .markets-tabs,
+    .market-story-copy,
+    .market-story-visual,
+    .market-story-metrics,
+    .partner-quote-card,
+    .partner-marquee,
+    .service-card,
+    .section-action-row,
+    .results-visual,
+    .metric-card,
+    .conversion-strip,
+    .contact-list,
+    .footer-link-columns,
+    .footer-bottom
+  ) {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition:
+      opacity 520ms ease,
+      transform 640ms var(--motion-ease-out);
+  }
+
+  .site-shell.is-page-ready .reveal-panel.is-visible :is(h2, h3, .market-story-copy) {
+    transition-delay: 70ms;
+  }
+
+  .site-shell.is-page-ready .reveal-panel.is-visible :is(
+    .authority-points,
+    .copy-note,
+    .ecosystem-scene,
+    .market-story-visual,
+    .service-card,
+    .results-visual,
+    .metric-card,
+    .footer-link-columns
+  ) {
+    transition-delay: 130ms;
+  }
+
+  .site-shell.is-page-ready .reveal-panel.is-visible :is(
+    .market-story-metrics,
+    .partner-marquee,
+    .section-action-row,
+    .conversion-strip,
+    .footer-bottom
+  ) {
+    transition-delay: 190ms;
+  }
+}
+
+@keyframes mobileSoftReveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
