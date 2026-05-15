@@ -725,6 +725,16 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) {
+    opacity: 0.78 !important;
+    transform: translate3d(0, 28px, 0) scale(0.992) !important;
+  }
+
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible {
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) scale(1) !important;
+  }
+
   .reveal-panel :is(
     .kicker,
     h1,
@@ -758,6 +768,35 @@
     transition:
       opacity 620ms ease,
       transform 760ms var(--motion-ease-out);
+  }
+
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) :is(
+    .kicker,
+    h2,
+    h3,
+    .copy-note,
+    .authority-strip,
+    .authority-points,
+    .ecosystem-scene,
+    .markets-tabs,
+    .market-story-copy,
+    .market-story-visual,
+    .market-story-metrics,
+    .partner-quote-card,
+    .partner-marquee,
+    .service-card,
+    .service-grid,
+    .section-action-row,
+    .results-visual,
+    .metric-card,
+    .metrics-grid,
+    .conversion-strip,
+    .contact-list,
+    .footer-link-columns,
+    .footer-bottom
+  ) {
+    opacity: 0.7 !important;
+    transform: translate3d(0, 16px, 0) !important;
   }
 
   .reveal-panel.is-visible :is(
@@ -8188,8 +8227,8 @@
   }
 
   .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.82 !important;
+    transform: translate3d(0, 22px, 0) scale(0.994) !important;
   }
 
   .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible {
@@ -8224,8 +8263,8 @@
     .footer-link-columns,
     .footer-bottom
   ) {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+    opacity: 0.78 !important;
+    transform: translate3d(0, 12px, 0) !important;
   }
 
   .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible :is(
