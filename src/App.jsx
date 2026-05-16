@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import './App.css'
+import { MotionText, SmoothScrollProvider } from './components/motion.jsx'
 import { defaultLocale, localeOptions, siteLocales } from './content/siteLocales.js'
 
 const whatsappUrl = 'https://wa.me/5561995596710'
@@ -637,6 +638,7 @@ function App() {
   ) : null
 
   return (
+    <SmoothScrollProvider>
     <div className={`site-shell ${isPageReady ? 'is-page-ready' : ''}`}>
       <div className="ambient-layer ambient-grid" aria-hidden="true"></div>
       <div className="ambient-layer ambient-stars" aria-hidden="true"></div>
@@ -706,7 +708,7 @@ function App() {
                 <img className="hero-logo-mark" src="/guap-wordmark-cosmic.png" width="430" height="150" decoding="async" alt="" aria-hidden="true" />
               </div>
               <span className="kicker">{copy.hero.kicker}</span>
-              <h1>{copy.hero.title}</h1>
+              <MotionText as="h1">{copy.hero.title}</MotionText>
               <div className="hero-actions">
                 <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
                   {copy.hero.primaryCta}
@@ -764,7 +766,7 @@ function App() {
         <section className="authority-band authority-band-signal reveal-panel" data-reveal>
           <div className="authority-copy">
             <span className="kicker">{copy.authority.kicker}</span>
-            <h2>{copy.authority.title}</h2>
+            <MotionText as="h2">{copy.authority.title}</MotionText>
             <div className="authority-strip" aria-label={copy.authority.outcomesLabel}>
               {copy.authority.outcomes.map((item) => (
                 <span key={item}>{item}</span>
@@ -799,7 +801,7 @@ function App() {
           <div className="section-grid section-grid-split">
             <div className="section-copy section-copy-stacked">
               <span className="kicker">{copy.ecosystem.kicker}</span>
-              <h2>{copy.ecosystem.title}</h2>
+              <MotionText as="h2">{copy.ecosystem.title}</MotionText>
               <div className="copy-note">
                 <strong>{copy.ecosystem.noteTitle}</strong>
                 <p>{copy.ecosystem.note}</p>
@@ -843,7 +845,7 @@ function App() {
           <div className="markets-cinema-head">
             <div className="section-copy section-copy-wide">
               <span className="kicker">{copy.markets.kicker}</span>
-              <h2>{copy.markets.title}</h2>
+              <MotionText as="h2">{copy.markets.title}</MotionText>
             </div>
 
             <div className="markets-tabs" aria-label={copy.markets.railLabel}>
@@ -902,7 +904,7 @@ function App() {
                   <span>{activeMarketStory.flag}</span>
                   {activeMarketStory.eyebrow}
                 </span>
-                <h3>{activeMarketStory.headline}</h3>
+                <MotionText as="h3">{activeMarketStory.headline}</MotionText>
                 <strong>{activeMarketStory.result}</strong>
               </div>
 
@@ -958,7 +960,7 @@ function App() {
           <div className="section-grid section-grid-asymmetric">
             <div className="section-copy">
               <span className="kicker">{copy.partners.kicker}</span>
-              <h2>{copy.partners.title}</h2>
+              <MotionText as="h2">{copy.partners.title}</MotionText>
             </div>
 
             <div className="partner-quote-card">
@@ -985,7 +987,7 @@ function App() {
           <div className="section-grid section-grid-split capabilities-head">
             <div className="section-copy section-copy-dark">
               <span className="kicker">{copy.capabilities.kicker}</span>
-              <h2>{copy.capabilities.title}</h2>
+              <MotionText as="h2">{copy.capabilities.title}</MotionText>
             </div>
           </div>
 
@@ -1000,7 +1002,7 @@ function App() {
                 onClick={() => openServiceModal(item.slug)}
               >
                 <span className="service-eyebrow">{item.eyebrow}</span>
-                <h3>{item.title}</h3>
+                <MotionText as="h3">{item.title}</MotionText>
                 <span className="service-card-action">{copy.capabilities.cardAction}</span>
                 <span className="service-index">{String(index + 1).padStart(2, '0')}</span>
               </button>
@@ -1021,7 +1023,7 @@ function App() {
           <div className="section-grid section-grid-split">
             <div className="section-copy">
               <span className="kicker">{copy.results.kicker}</span>
-              <h2>{copy.results.title}</h2>
+              <MotionText as="h2">{copy.results.title}</MotionText>
             </div>
 
             <div className="results-visual" aria-hidden="true">
@@ -1072,7 +1074,7 @@ function App() {
         <div className="footer-layout">
           <div className="section-copy footer-brand">
             <span className="kicker">{copy.footer.kicker}</span>
-            <h2>{copy.footer.title}</h2>
+            <MotionText as="h2">{copy.footer.title}</MotionText>
           </div>
 
           <div className="footer-directory">
@@ -1129,6 +1131,7 @@ function App() {
         {copy.hero.primaryCta}
       </a>
     </div>
+    </SmoothScrollProvider>
   )
 }
 

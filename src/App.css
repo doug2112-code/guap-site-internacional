@@ -667,6 +667,30 @@
   will-change: auto;
 }
 
+.motion-text-reveal {
+  display: block;
+  overflow: hidden;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  clip-path: inset(0 0 0 0);
+  transition:
+    opacity 680ms ease,
+    transform 840ms var(--motion-ease-out),
+    clip-path 860ms var(--motion-ease-out);
+}
+
+.site-shell:not(.is-page-ready) .hero-panel .motion-text-reveal {
+  opacity: 0;
+  transform: translate3d(0, 0.74em, 0);
+  clip-path: inset(0 0 100% 0);
+}
+
+.site-shell.is-page-ready .hero-panel .motion-text-reveal {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  clip-path: inset(0 0 0 0);
+}
+
 .hero-panel :is(
   .hero-brandline,
   .kicker,
@@ -838,6 +862,22 @@
 
   .reveal-panel.is-visible :is(h1, h2) {
     transition-delay: 70ms;
+  }
+
+  .site-shell.is-page-ready .reveal-panel:not(.is-visible) .motion-text-reveal {
+    opacity: 0.42;
+    transform: translate3d(0, 0.74em, 0);
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .site-shell.is-page-ready .reveal-panel.is-visible .motion-text-reveal {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    clip-path: inset(0 0 0 0);
+  }
+
+  .site-shell.is-page-ready .hero-panel.is-visible .motion-text-reveal {
+    transition-delay: 120ms;
   }
 
   .reveal-panel.is-visible :is(.hero-description, .section-copy p, .partner-quote-card) {
@@ -8216,6 +8256,14 @@
     animation-delay: 120ms;
   }
 
+  .site-shell.is-page-ready .hero-panel.is-visible h1.motion-text-reveal {
+    animation: none;
+  }
+
+  .site-shell.is-page-ready .hero-panel.is-visible .motion-text-reveal {
+    animation: mobileTextReveal 680ms var(--motion-ease-out) 120ms both;
+  }
+
   .site-shell.is-page-ready .hero-panel.is-visible .hero-actions {
     animation-delay: 190ms;
   }
@@ -8304,6 +8352,22 @@
     transition-delay: 70ms;
   }
 
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) .motion-text-reveal {
+    opacity: 0.52;
+    transform: translate3d(0, 0.58em, 0);
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible .motion-text-reveal {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    clip-path: inset(0 0 0 0);
+    transition:
+      opacity 520ms ease,
+      transform 640ms var(--motion-ease-out),
+      clip-path 660ms var(--motion-ease-out);
+  }
+
   .site-shell.is-page-ready .reveal-panel.is-visible :is(
     .authority-points,
     .copy-note,
@@ -8337,6 +8401,20 @@
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes mobileTextReveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.62em, 0);
+    clip-path: inset(0 0 100% 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    clip-path: inset(0 0 0 0);
   }
 }
 
