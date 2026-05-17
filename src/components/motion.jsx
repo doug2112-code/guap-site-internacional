@@ -103,9 +103,27 @@ export function SmoothScrollProvider({ children }) {
 }
 
 export function MotionText({ as: Tag = 'span', className = '', children, ...props }) {
+  if (typeof children !== 'string') {
+    return (
+      <Tag className={`motion-text-reveal ${className}`.trim()} {...props}>
+        {children}
+      </Tag>
+    )
+  }
+
+  const words = children.trim().split(/\s+/)
+
   return (
-    <Tag className={`motion-text-reveal ${className}`.trim()} {...props}>
-      {children}
+    <Tag className={`motion-text-reveal ${className}`.trim()} aria-label={children} {...props}>
+      <span className="motion-text-mask" aria-hidden="true">
+        {words.map((word, index) => (
+          <span className="motion-word-wrap" key={`${word}-${index}`}>
+            <span className="motion-word" style={{ '--motion-word-index': index }}>
+              {word}
+            </span>
+          </span>
+        ))}
+      </span>
     </Tag>
   )
 }

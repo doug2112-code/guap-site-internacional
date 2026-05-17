@@ -708,7 +708,7 @@ function App() {
                 <img className="hero-logo-mark" src="/guap-wordmark-cosmic.png" width="430" height="150" decoding="async" alt="" aria-hidden="true" />
               </div>
               <span className="kicker">{copy.hero.kicker}</span>
-              <MotionText as="h1">{copy.hero.title}</MotionText>
+              <h1>{copy.hero.title}</h1>
               <div className="hero-actions">
                 <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
                   {copy.hero.primaryCta}
