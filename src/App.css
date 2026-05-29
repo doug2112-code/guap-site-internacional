@@ -650,8 +650,7 @@
 .section-card,
 .footer-card,
 .authority-band {
-  content-visibility: auto;
-  contain-intrinsic-size: 760px;
+  contain: paint;
 }
 
 .reveal-panel {
@@ -5778,8 +5777,7 @@
   .section-card,
   .authority-band,
   .footer-card {
-    content-visibility: auto;
-    contain-intrinsic-size: 620px;
+    contain: paint;
   }
 
   .topbar {
