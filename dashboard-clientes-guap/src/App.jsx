@@ -1,36 +1,87 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
-import photoCanada from './assets/market-photos/canada-expansion.png'
-import photoJapan from './assets/market-photos/japan-operations.png'
-import photoUnitedStates from './assets/market-photos/us-growth.png'
 import { clients } from './data/dashboardData'
-
-const viewTabs = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'ads', label: 'Ads' },
-  { id: 'social', label: 'Instagram' },
-]
 
 const countryTabs = ['All', 'Japan', 'United States', 'Canada']
 const statusTabs = ['All', 'Scaling', 'Active', 'Stable']
-
-const marketPhotos = {
-  Canada: photoCanada,
-  Japan: photoJapan,
-  'United States': photoUnitedStates,
+const USD_BY_CURRENCY = {
+  USD: 1,
+  JPY: 0.0064,
 }
 
+const campaignBlueprints = [
+  {
+    name: 'Campaign 01',
+    focus: 'Retargeting WhatsApp',
+    start: 'May 01',
+    end: 'May 07',
+    spendShare: 0.08,
+    revenueShare: 0.06,
+  },
+  {
+    name: 'Campaign 02',
+    focus: 'Lead capture',
+    start: 'May 08',
+    end: 'May 14',
+    spendShare: 0.15,
+    revenueShare: 0.16,
+  },
+  {
+    name: 'Campaign 03',
+    focus: 'High-intent audience',
+    start: 'May 15',
+    end: 'May 21',
+    spendShare: 0.22,
+    revenueShare: 0.23,
+  },
+  {
+    name: 'Campaign 04',
+    focus: 'Premium offer',
+    start: 'May 22',
+    end: 'May 26',
+    spendShare: 0.25,
+    revenueShare: 0.25,
+  },
+  {
+    name: 'Campaign 05',
+    focus: 'Scale window',
+    start: 'May 27',
+    end: 'May 31',
+    spendShare: 0.3,
+    revenueShare: 0.3,
+  },
+]
+
+const journeyMilestones = [
+  { date: 'May 01', label: 'Campaign Launch' },
+  { date: 'May 07', label: 'Creative Optimization' },
+  { date: 'May 14', label: 'WhatsApp Scale Phase' },
+  { date: 'May 22', label: 'Market Expansion' },
+  { date: 'May 31', label: 'Record Revenue Month' },
+]
+
 function buildPortfolio(clientsList) {
-  const revenue = clientsList.reduce((total, client) => total + client.metrics.revenue, 0)
-  const averageGrowth =
-    clientsList.reduce((total, client) => total + client.metrics.growth, 0) / clientsList.length
-  const totalReach = clientsList.reduce((total, client) => total + client.metrics.reach, 0)
+  const revenue = clientsList.reduce(
+    (total, client) => total + client.metrics.revenue * USD_BY_CURRENCY[client.currency],
+    0,
+  )
+  const adSpend = clientsList.reduce(
+    (total, client) => total + client.metrics.adSpend * USD_BY_CURRENCY[client.currency],
+    0,
+  )
+  const leads = clientsList.reduce((total, client) => total + client.metrics.leads, 0)
+  const whatsappStarted = clientsList.reduce(
+    (total, client) => total + client.metrics.whatsappStarted,
+    0,
+  )
 
   return {
     totalClients: clientsList.length,
     totalRevenue: revenue,
-    averageGrowth,
-    totalReach,
+    adSpend,
+    leads,
+    whatsappStarted,
+    blendedRoas: revenue / adSpend,
   }
 }
 
@@ -61,6 +112,59 @@ const decimalMoneyFormatters = {
   }),
 }
 
+const compactFormatter = new Intl.NumberFormat('en-US', {
+  notation: 'compact',
+  maximumFractionDigits: 1,
+})
+const numberFormatterCache = new Map()
+const reducedMotionSubscribers = new Set()
+let reducedMotionQuery
+
+const getReducedMotionQuery = () => {
+  if (!reducedMotionQuery && typeof window !== 'undefined') {
+    reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  }
+
+  return reducedMotionQuery
+}
+
+const readReducedMotion = () => getReducedMotionQuery()?.matches ?? false
+
+const handleReducedMotionChange = () => {
+  const nextValue = readReducedMotion()
+  reducedMotionSubscribers.forEach((listener) => listener(nextValue))
+}
+
+const subscribeReducedMotion = (listener) => {
+  const mediaQuery = getReducedMotionQuery()
+
+  if (!mediaQuery) {
+    return () => {}
+  }
+
+  reducedMotionSubscribers.add(listener)
+
+  if (reducedMotionSubscribers.size === 1) {
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handleReducedMotionChange)
+    } else {
+      mediaQuery.addListener(handleReducedMotionChange)
+    }
+  }
+
+  return () => {
+    reducedMotionSubscribers.delete(listener)
+
+    if (reducedMotionSubscribers.size === 0) {
+      if (typeof mediaQuery.removeEventListener === 'function') {
+        mediaQuery.removeEventListener('change', handleReducedMotionChange)
+      } else {
+        mediaQuery.removeListener(handleReducedMotionChange)
+      }
+    }
+  }
+}
+
 function formatCurrency(value, currency) {
   return Number.isInteger(value)
     ? moneyFormatters[currency].format(value)
@@ -68,10 +172,210 @@ function formatCurrency(value, currency) {
 }
 
 function formatCompact(value) {
-  return new Intl.NumberFormat('en-US', {
-    notation: 'compact',
-    maximumFractionDigits: 1,
-  }).format(value)
+  return compactFormatter.format(value)
+}
+
+function formatAnimatedValue(value, format, currency, decimals = 0, suffix = '') {
+  if (format === 'currency') {
+    return formatCurrency(Math.round(value), currency)
+  }
+
+  const cacheKey = `${decimals}`
+
+  if (!numberFormatterCache.has(cacheKey)) {
+    numberFormatterCache.set(
+      cacheKey,
+      new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      }),
+    )
+  }
+
+  return `${numberFormatterCache.get(cacheKey).format(value)}${suffix}`
+}
+
+function useReducedMotion() {
+  const [reducedMotion, setReducedMotion] = useState(readReducedMotion)
+
+  useEffect(() => {
+    return subscribeReducedMotion(setReducedMotion)
+  }, [])
+
+  return reducedMotion
+}
+
+function AnimatedValue({
+  value,
+  format = 'number',
+  currency = 'USD',
+  decimals = 0,
+  suffix = '',
+  duration = 1050,
+  delay = 0,
+  className = '',
+}) {
+  const elementRef = useRef(null)
+  const frameRef = useRef(null)
+  const completeTimerRef = useRef(null)
+  const reducedMotion = useReducedMotion()
+  const finalText = formatAnimatedValue(value, format, currency, decimals, suffix)
+
+  useEffect(() => {
+    const element = elementRef.current
+
+    if (!element) {
+      return undefined
+    }
+
+    if (reducedMotion) {
+      element.textContent = finalText
+      element.classList.add('has-started', 'is-complete')
+      return undefined
+    }
+
+    let lastText = ''
+    const setNumberText = (nextValue) => {
+      const nextText = formatAnimatedValue(nextValue, format, currency, decimals, suffix)
+
+      if (nextText !== lastText) {
+        element.textContent = nextText
+        lastText = nextText
+      }
+    }
+
+    element.classList.remove('has-started', 'is-complete')
+    setNumberText(0)
+
+    const finishAnimation = () => {
+      if (frameRef.current) {
+        cancelAnimationFrame(frameRef.current)
+        frameRef.current = null
+      }
+      if (completeTimerRef.current) {
+        window.clearTimeout(completeTimerRef.current)
+        completeTimerRef.current = null
+      }
+
+      element.textContent = finalText
+      element.classList.add('is-complete')
+    }
+
+    const runAnimation = () => {
+      const startTime = performance.now() + delay
+      element.classList.add('has-started')
+
+      completeTimerRef.current = window.setTimeout(finishAnimation, delay + duration + 180)
+
+      const tick = (now) => {
+        if (now < startTime) {
+          frameRef.current = requestAnimationFrame(tick)
+          return
+        }
+
+        const elapsed = Math.min((now - startTime) / duration, 1)
+        const easedProgress = 1 - Math.pow(1 - elapsed, 3)
+
+        setNumberText(value * easedProgress)
+
+        if (elapsed < 1) {
+          frameRef.current = requestAnimationFrame(tick)
+        } else {
+          finishAnimation()
+        }
+      }
+
+      frameRef.current = requestAnimationFrame(tick)
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          runAnimation()
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '90px 0px 120px 0px', threshold: 0.12 },
+    )
+
+    observer.observe(element)
+
+    return () => {
+      observer.disconnect()
+      if (frameRef.current) {
+        cancelAnimationFrame(frameRef.current)
+      }
+      if (completeTimerRef.current) {
+        window.clearTimeout(completeTimerRef.current)
+      }
+    }
+  }, [currency, decimals, delay, duration, finalText, format, reducedMotion, suffix, value])
+
+  return (
+    <strong
+      ref={elementRef}
+      className={`animated-number ${className}`}
+      aria-label={finalText}
+    >
+      {reducedMotion ? finalText : formatAnimatedValue(0, format, currency, decimals, suffix)}
+    </strong>
+  )
+}
+
+function RevealSection({ as: Component = 'section', className = '', children, ...props }) {
+  const elementRef = useRef(null)
+  const reducedMotion = useReducedMotion()
+
+  useEffect(() => {
+    const element = elementRef.current
+
+    if (!element) {
+      return undefined
+    }
+
+    if (reducedMotion) {
+      element.classList.add('is-visible')
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          element.classList.add('is-visible')
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '0px 0px -14% 0px', threshold: 0.12 },
+    )
+
+    observer.observe(element)
+
+    return () => observer.disconnect()
+  }, [reducedMotion])
+
+  return (
+    <Component ref={elementRef} className={`reveal-section ${className}`} {...props}>
+      {children}
+    </Component>
+  )
+}
+
+function buildCampaigns(client) {
+  return campaignBlueprints.map((campaign, index) => {
+    const investment = Math.round(client.metrics.adSpend * campaign.spendShare)
+    const revenue = Math.round(client.metrics.revenue * campaign.revenueShare)
+    const returnMultiple = revenue / investment
+    const progress = Math.min(100, 46 + index * 11 + client.metrics.roas * 2)
+
+    return {
+      ...campaign,
+      id: `${client.id}-${campaign.name}`,
+      investment,
+      revenue,
+      returnMultiple,
+      progress,
+    }
+  })
 }
 
 function getClientRegionClass(region) {
@@ -79,11 +383,11 @@ function getClientRegionClass(region) {
 }
 
 function getClientStatus(client) {
-  if (client.metrics.growth >= 24 || client.metrics.engagement >= 11) {
+  if (client.metrics.roas >= 5.8 || client.metrics.whatsappConversionRate >= 64) {
     return 'Scaling'
   }
 
-  if (client.metrics.growth >= 18) {
+  if (client.metrics.roas >= 5) {
     return 'Active'
   }
 
@@ -112,12 +416,262 @@ function getClientUpdate(client) {
   return client.activity[0]?.time ? `${client.activity[0].time} local` : 'Live now'
 }
 
+function ClientProjectView({ client, onBack }) {
+  const campaigns = useMemo(() => buildCampaigns(client), [client])
+  const totalReturn = client.metrics.revenue - client.metrics.adSpend
+  const strategicSummary = `${client.tabs.overview.text} Focus: profitable WhatsApp demand, efficient media spend and cleaner campaign pacing.`
+  const growthStory = `Started with fragmented demand and inconsistent booking momentum. Through structured media buying, sharper creative signals and WhatsApp conversion tracking, ${client.company} built a more predictable growth rhythm in the ${client.city} market.`
+  const executiveKpis = [
+    {
+      label: 'Revenue Generated',
+      value: client.metrics.revenue,
+      format: 'currency',
+      note: 'Attributed campaign revenue',
+    },
+    {
+      label: 'Investment',
+      value: client.metrics.adSpend,
+      format: 'currency',
+      note: 'Media spend deployed',
+    },
+    {
+      label: 'Return',
+      value: totalReturn,
+      format: 'currency',
+      note: 'Net value created',
+    },
+    {
+      label: 'Performance',
+      value: client.metrics.roi,
+      format: 'number',
+      decimals: 2,
+      suffix: 'x',
+      note: 'Return on investment',
+    },
+  ]
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [client.id])
+
+  return (
+    <main className={`project-view theme-${client.theme} region-${client.regionClass}`}>
+      <div className="project-ambient project-ambient-a" aria-hidden="true"></div>
+      <div className="project-ambient project-ambient-b" aria-hidden="true"></div>
+
+      <nav className="project-nav" aria-label="Project navigation">
+        <button type="button" className="project-back" onClick={onBack}>
+          <span aria-hidden="true">←</span>
+          All Clients
+        </button>
+        <div className="project-live">
+          <span className="sync-dot"></span>
+          Live project
+        </div>
+      </nav>
+
+      <RevealSection className="project-hero">
+        <div className="project-visual" aria-hidden="true">
+          <img src={client.photo} width="1600" height="1000" decoding="async" fetchPriority="high" alt="" />
+          <div className="project-visual-glow"></div>
+        </div>
+
+        <div className="project-hero-copy">
+          <span className="section-label">Client project</span>
+          <h1>{client.company}</h1>
+          <p>
+            {client.city}, {client.region} · {client.category}
+          </p>
+          <div className="project-chip-row">
+            <span className={`status-chip ${client.statusTone}`}>{client.status}</span>
+            <span className="meta-chip">{client.platform}</span>
+            <span className="meta-chip">May 01 - May 31</span>
+          </div>
+        </div>
+
+        <p className="project-summary">{strategicSummary}</p>
+      </RevealSection>
+
+      <RevealSection className="executive-kpis" aria-label="Executive KPIs">
+        {executiveKpis.map((item, index) => (
+          <article
+            key={item.label}
+            className="executive-kpi reveal-item"
+            style={{ '--stagger': `${index * 110}ms` }}
+          >
+            <span>{item.label}</span>
+            <AnimatedValue
+              value={item.value}
+              format={item.format}
+              currency={client.currency}
+              decimals={item.decimals}
+              suffix={item.suffix}
+              delay={index * 110}
+              className="executive-number"
+            />
+            <small>{item.note}</small>
+          </article>
+        ))}
+      </RevealSection>
+
+      <RevealSection className="financial-comparison">
+        <article className="investment-card">
+          <span className="section-label">Investment vs return</span>
+          <div className="return-compare">
+            <div>
+              <span>Investment line</span>
+              <AnimatedValue
+                value={client.metrics.adSpend}
+                format="currency"
+                currency={client.currency}
+                className="return-number"
+              />
+              <i className="return-line investment-line" style={{ width: '34%' }}></i>
+            </div>
+            <div>
+              <span>Revenue line</span>
+              <AnimatedValue
+                value={client.metrics.revenue}
+                format="currency"
+                currency={client.currency}
+                delay={120}
+                className="return-number"
+              />
+              <i
+                className="return-line revenue-line"
+                style={{ width: `${Math.min(100, client.metrics.roas * 12)}%` }}
+              ></i>
+            </div>
+            <div>
+              <span>Return line</span>
+              <AnimatedValue
+                value={totalReturn}
+                format="currency"
+                currency={client.currency}
+                delay={240}
+                className="return-number"
+              />
+              <i
+                className="return-line net-line"
+                style={{ width: `${Math.min(100, client.metrics.roi * 14)}%` }}
+              ></i>
+            </div>
+          </div>
+        </article>
+      </RevealSection>
+
+      <RevealSection className="growth-story">
+        <span className="section-label">Growth Story</span>
+        <p>{growthStory}</p>
+      </RevealSection>
+
+      <RevealSection className="result-journey">
+        <div className="section-heading">
+          <span className="section-label">Result timeline</span>
+          <h2>A private growth journey</h2>
+        </div>
+
+        <div className="journey-line" aria-hidden="true"></div>
+        <div className="journey-grid">
+          {journeyMilestones.map((milestone, index) => (
+            <article
+              key={milestone.date}
+              className="journey-step"
+              style={{ '--stagger': `${index * 120}ms` }}
+            >
+              <span>{milestone.date}</span>
+              <strong>{milestone.label}</strong>
+            </article>
+          ))}
+        </div>
+      </RevealSection>
+
+      <RevealSection className="campaign-section">
+        <div className="section-heading">
+          <span className="section-label">Campaign performance</span>
+          <h2>Campaign-by-campaign return</h2>
+        </div>
+
+        <div className="campaign-grid">
+          {campaigns.map((campaign, index) => (
+            <article
+              key={campaign.id}
+              className="campaign-card reveal-item"
+              style={{ '--stagger': `${index * 105}ms` }}
+            >
+              <div className="campaign-card-head">
+                <span>{campaign.name}</span>
+                <small>
+                  {campaign.start} - {campaign.end}
+                </small>
+              </div>
+              <h3>{campaign.focus}</h3>
+              <div className="campaign-values">
+                <div>
+                  <span>Investment</span>
+                  <AnimatedValue
+                    value={campaign.investment}
+                    format="currency"
+                    currency={client.currency}
+                    delay={index * 90}
+                    className="campaign-number"
+                  />
+                </div>
+                <div>
+                  <span>Revenue</span>
+                  <AnimatedValue
+                    value={campaign.revenue}
+                    format="currency"
+                    currency={client.currency}
+                    delay={index * 90 + 80}
+                    className="campaign-number"
+                  />
+                </div>
+                <div>
+                  <span>Return</span>
+                  <AnimatedValue
+                    value={campaign.returnMultiple}
+                    decimals={1}
+                    suffix="x"
+                    delay={index * 90 + 160}
+                    className="campaign-number"
+                  />
+                </div>
+              </div>
+              <div className="campaign-progress" aria-hidden="true">
+                <span style={{ width: `${campaign.progress}%` }}></span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </RevealSection>
+
+      <RevealSection className="project-bottom-grid">
+        <article className="next-actions-card">
+          <div className="panel-top">
+            <span className="section-label">Next actions</span>
+            <span className="trend-tag">Clean feed</span>
+          </div>
+          <div className="activity-list">
+            {client.activity.slice(0, 3).map((item) => (
+              <div key={`${item.time}-${item.text}`} className="activity-item">
+                <span>{item.time}</span>
+                <p>{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+      </RevealSection>
+    </main>
+  )
+}
+
 function App() {
   const [activeClientId, setActiveClientId] = useState(null)
-  const [activeView, setActiveView] = useState('overview')
   const [activeCountry, setActiveCountry] = useState('All')
   const [activeStatus, setActiveStatus] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
+  const [isDirectoryOpen, setIsDirectoryOpen] = useState(false)
 
   const clientsWithMeta = useMemo(
     () =>
@@ -131,7 +685,7 @@ function App() {
           tags: getClientTags(client),
           updateLabel: getClientUpdate(client),
           regionClass: getClientRegionClass(client.region),
-          photo: marketPhotos[client.region] ?? client.cover,
+          photo: client.cover,
         }
       }),
     [],
@@ -142,7 +696,6 @@ function App() {
     [activeClientId, clientsWithMeta],
   )
 
-  const activeContent = activeClient.tabs[activeView]
   const portfolio = useMemo(() => buildPortfolio(clientsWithMeta), [clientsWithMeta])
 
   const countryCounts = useMemo(() => {
@@ -181,64 +734,29 @@ function App() {
   }, [activeCountry, activeStatus, clientsWithMeta, searchQuery])
 
   const summaryCards = useMemo(() => {
-    const activeProjects = clientsWithMeta.filter((client) => client.status !== 'Stable').length
-    const growthSystems = clientsWithMeta.filter((client) => client.metrics.roas >= 5).length
-    const aiSystems = clientsWithMeta.filter((client) => client.metrics.engagement >= 10).length
-
     return [
       {
-        label: 'Total Clients',
+        label: 'Clientes',
         value: String(portfolio.totalClients),
-        note: 'Global portfolio',
+        note: 'contas ativas',
       },
       {
-        label: 'Japan',
-        value: String(countryCounts.Japan),
-        note: 'Operations lane',
+        label: 'Faturamento',
+        value: formatCurrency(portfolio.totalRevenue, 'USD'),
+        note: 'atribuido / influenciado',
       },
       {
-        label: 'United States',
-        value: String(countryCounts['United States']),
-        note: 'Growth lane',
+        label: 'Investimento',
+        value: formatCurrency(portfolio.adSpend, 'USD'),
+        note: `${portfolio.blendedRoas.toFixed(2)}x ROAS medio`,
       },
       {
-        label: 'Canada',
-        value: String(countryCounts.Canada),
-        note: 'Expansion lane',
-      },
-      {
-        label: 'Active Projects',
-        value: String(activeProjects),
-        note: 'Live workstreams',
-      },
-      {
-        label: 'Growth Systems',
-        value: String(growthSystems),
-        note: 'Scaling signals',
-      },
-      {
-        label: 'Dashboards / AI Systems',
-        value: String(aiSystems),
-        note: 'Live intelligence nodes',
+        label: 'WhatsApp',
+        value: formatCompact(portfolio.whatsappStarted),
+        note: `${formatCompact(portfolio.leads)} leads rastreados`,
       },
     ]
-  }, [clientsWithMeta, countryCounts, portfolio.totalClients])
-
-  const trendPath = useMemo(() => {
-    const values = activeClient.trend
-    const max = Math.max(...values)
-    const min = Math.min(...values)
-    const width = 360
-    const height = 120
-
-    return values
-      .map((value, index) => {
-        const x = (index / (values.length - 1)) * width
-        const y = height - ((value - min) / (max - min || 1)) * 92 - 14
-        return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
-      })
-      .join(' ')
-  }, [activeClient])
+  }, [portfolio])
 
   const resetFilters = () => {
     setSearchQuery('')
@@ -248,117 +766,110 @@ function App() {
 
   return (
     <div className={`dashboard-shell theme-${activeClient.theme}`}>
-      <div className="backdrop glow-a" aria-hidden="true"></div>
-      <div className="backdrop glow-b" aria-hidden="true"></div>
-      <div className="backdrop glow-c" aria-hidden="true"></div>
-
-      <header className="topbar">
-        <div className="brand-block">
-          <div className="brand-mark">
-            <img src="/guap-wordmark.svg" alt="GUAP" className="brand-wordmark" />
-          </div>
-          <div className="brand-copy">
-            <span className="brand-kicker">Client Intelligence Hub</span>
-            <h1>{activeClientId ? activeClient.company : 'Client Intelligence Hub'}</h1>
-            <p>Global operations, clients and performance systems.</p>
-          </div>
-        </div>
-
-        <div className="topbar-actions">
-          <label className="search-field" htmlFor="client-search">
-            <span className="search-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                <circle cx="11" cy="11" r="6.5"></circle>
-                <path d="M16 16l4.5 4.5"></path>
-              </svg>
-            </span>
-            <input
-              id="client-search"
-              type="search"
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder="Search clients, markets, services"
-            />
-          </label>
-          <div className="sync-pill">
-            <span className="sync-dot"></span>
-            Live now
-          </div>
-        </div>
-      </header>
-
-      <section className="command-bar panel" aria-label="Client filters">
-        <div className="command-group">
-          <span className="section-label">Country</span>
-          <div className="pill-row">
-            {countryTabs.map((country) => (
-              <button
-                key={country}
-                type="button"
-                className={`filter-pill ${activeCountry === country ? 'is-active' : ''}`}
-                onClick={() => setActiveCountry(country)}
-              >
-                <span>{country}</span>
-                <strong>{countryCounts[country]}</strong>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="command-group">
-          <span className="section-label">Status</span>
-          <div className="pill-row">
-            {statusTabs.map((status) => (
-              <button
-                key={status}
-                type="button"
-                className={`filter-pill ${activeStatus === status ? 'is-active' : ''}`}
-                onClick={() => setActiveStatus(status)}
-              >
-                <span>{status}</span>
-                <strong>{statusCounts[status]}</strong>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <button type="button" className="ghost-button" onClick={resetFilters}>
-          Reset filters
-        </button>
-      </section>
-
-      <section className="summary-grid">
-        {summaryCards.map((card) => (
-          <article key={card.label} className="summary-card panel">
-            <span>{card.label}</span>
-            <strong>{card.value}</strong>
-            <small>{card.note}</small>
-          </article>
-        ))}
-      </section>
-
-      {!activeClientId ? (
-        <main className="hub-view">
-          <section className="hub-hero panel">
-            <div className="hub-hero-copy">
-              <span className="section-label">Global command center</span>
-              <h2>Automotive portfolio command center</h2>
-              <p>
-                Luxury rentals, drift experiences, premium road tours and performance garages
-                across the United States, Japan and Canada.
-              </p>
+      {!activeClientId && (
+        <header className="topbar">
+          <div className="brand-block">
+            <div className="brand-mark">
+              <img src="/guap-wordmark.svg" alt="GUAP" className="brand-wordmark" />
             </div>
+            <div className="brand-copy">
+              <button
+                type="button"
+                className="title-button"
+                onClick={() => {
+                  setActiveClientId(null)
+                  setIsDirectoryOpen(true)
+                }}
+              >
+                Client Intelligence Hub
+              </button>
+            </div>
+          </div>
 
-            <div className="hub-radar" aria-hidden="true">
-              <span className="hub-radar-core"></span>
-              <span className="hub-radar-ring hub-radar-ring-a"></span>
-              <span className="hub-radar-ring hub-radar-ring-b"></span>
-              <div className="hub-radar-lanes">
-                <span>Japan</span>
-                <span>United States</span>
-                <span>Canada</span>
+          {isDirectoryOpen && (
+            <div className="topbar-actions">
+              <label className="search-field" htmlFor="client-search">
+                <span className="search-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                    <circle cx="11" cy="11" r="6.5"></circle>
+                    <path d="M16 16l4.5 4.5"></path>
+                  </svg>
+                </span>
+                <input
+                  id="client-search"
+                  type="search"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  placeholder="Search clients, markets, services"
+                />
+              </label>
+              <div className="sync-pill">
+                <span className="sync-dot"></span>
+                Live now
               </div>
             </div>
+          )}
+        </header>
+      )}
+
+      {!activeClientId && !isDirectoryOpen ? (
+        <main className="hub-start" aria-label="Open client hub">
+          <button type="button" className="hub-start-button" onClick={() => setIsDirectoryOpen(true)}>
+            <span>GUAP dashboard</span>
+            <strong>Client Intelligence Hub</strong>
+            <small>Clique para abrir os clientes</small>
+          </button>
+        </main>
+      ) : !activeClientId ? (
+        <main className="hub-view">
+          <section className="summary-grid">
+            {summaryCards.map((card) => (
+              <article key={card.label} className="summary-card panel">
+                <span>{card.label}</span>
+                <strong>{card.value}</strong>
+                <small>{card.note}</small>
+              </article>
+            ))}
+          </section>
+
+          <section className="command-bar panel" aria-label="Client filters">
+            <div className="command-group">
+              <span className="section-label">Country</span>
+              <div className="pill-row">
+                {countryTabs.map((country) => (
+                  <button
+                    key={country}
+                    type="button"
+                    className={`filter-pill ${activeCountry === country ? 'is-active' : ''}`}
+                    onClick={() => setActiveCountry(country)}
+                  >
+                    <span>{country}</span>
+                    <strong>{countryCounts[country]}</strong>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="command-group">
+              <span className="section-label">Status</span>
+              <div className="pill-row">
+                {statusTabs.map((status) => (
+                  <button
+                    key={status}
+                    type="button"
+                    className={`filter-pill ${activeStatus === status ? 'is-active' : ''}`}
+                    onClick={() => setActiveStatus(status)}
+                  >
+                    <span>{status}</span>
+                    <strong>{statusCounts[status]}</strong>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button type="button" className="ghost-button" onClick={resetFilters}>
+              Reset filters
+            </button>
           </section>
 
           {filteredClients.length > 0 ? (
@@ -370,18 +881,34 @@ function App() {
                   className={`gallery-card panel theme-${client.theme} region-${client.regionClass}`}
                   onClick={() => {
                     setActiveClientId(client.id)
-                    setActiveView('overview')
+                    setIsDirectoryOpen(true)
                   }}
                 >
                   <div className="gallery-media">
-                    <img src={client.photo} alt="" className="gallery-cover" />
+                    <img
+                      src={client.photo}
+                      alt=""
+                      className="gallery-cover"
+                      width="900"
+                      height="620"
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <div className="gallery-cover-overlay"></div>
                     <div className="gallery-logo">
                       <span>{client.logo}</span>
                       <small>GUAP client</small>
                     </div>
                     <div className="gallery-flag-badge">
-                      <img src={client.flag} alt={client.flagAlt} className="flag flag-badge" />
+                      <img
+                        src={client.flag}
+                        alt={client.flagAlt}
+                        className="flag flag-badge"
+                        width="22"
+                        height="22"
+                        loading="lazy"
+                        decoding="async"
+                      />
                       <span>{client.region}</span>
                     </div>
                     <div className="gallery-image-caption">
@@ -393,7 +920,15 @@ function App() {
                   <div className="gallery-copy">
                     <div className="gallery-topline">
                       <div className="gallery-topline-copy">
-                        <img src={client.flag} alt={client.flagAlt} className="flag" />
+                        <img
+                          src={client.flag}
+                          alt={client.flagAlt}
+                          className="flag"
+                          width="30"
+                          height="30"
+                          loading="lazy"
+                          decoding="async"
+                        />
                         <div>
                           <strong>{client.company}</strong>
                           <span>
@@ -412,7 +947,20 @@ function App() {
                       ))}
                     </div>
 
-                    <p>{client.tabs.overview.text}</p>
+                    <div className="gallery-metrics">
+                      <div>
+                        <span>ROAS</span>
+                        <strong>{client.metrics.roas}x</strong>
+                      </div>
+                      <div>
+                        <span>CPL</span>
+                        <strong>{formatCurrency(client.metrics.cpl, client.currency)}</strong>
+                      </div>
+                      <div>
+                        <span>WhatsApp</span>
+                        <strong>{formatCompact(client.metrics.whatsappStarted)}</strong>
+                      </div>
+                    </div>
 
                     <div className="gallery-footer">
                       <small>Last update {client.updateLabel}</small>
@@ -434,210 +982,7 @@ function App() {
           )}
         </main>
       ) : (
-        <div className="layout">
-          <aside className="sidebar panel">
-            <div className="sidebar-head">
-              <div className="sidebar-head-row">
-                <span className="section-label">Portfolio map</span>
-                <button
-                  type="button"
-                  className="back-link"
-                  onClick={() => setActiveClientId(null)}
-                >
-                  All clients
-                </button>
-              </div>
-              <h2>Active companies</h2>
-            </div>
-
-            <div className="client-list">
-              {clientsWithMeta.map((client) => (
-                <button
-                  key={client.id}
-                  type="button"
-                  className={`client-card ${client.id === activeClient.id ? 'is-active' : ''}`}
-                  onClick={() => {
-                    setActiveClientId(client.id)
-                    setActiveView('overview')
-                  }}
-                >
-                  <img src={client.flag} alt={client.flagAlt} className="flag" />
-                  <div className="client-card-copy">
-                    <strong>{client.company}</strong>
-                    <span>
-                      {client.city}, {client.region}
-                    </span>
-                  </div>
-                  <div className="client-card-meta">
-                    <span className={`status-chip ${client.statusTone}`}>{client.status}</span>
-                    <small>{client.updateLabel}</small>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </aside>
-
-          <main className="content">
-            <section className="hero panel">
-              <div className="hero-main">
-                <div className="hero-title-row">
-                  <div className={`client-mark region-${activeClient.regionClass}`}>
-                    <span>{activeClient.logo}</span>
-                  </div>
-                  <div>
-                    <span className="section-label">Selected client</span>
-                    <h2>{activeClient.company}</h2>
-                    <p>
-                      {activeClient.city}, {activeClient.region} · {activeClient.category}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="client-meta-row">
-                  <span className={`status-chip ${activeClient.statusTone}`}>
-                    {activeClient.status}
-                  </span>
-                  <span className="meta-chip">{activeClient.platform}</span>
-                  <span className="meta-chip">Last update {activeClient.updateLabel}</span>
-                </div>
-
-                <div className="view-tabs" role="tablist" aria-label="Dashboard views">
-                  {viewTabs.map((tab) => (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={activeView === tab.id}
-                      className={`view-tab ${activeView === tab.id ? 'is-active' : ''}`}
-                      onClick={() => setActiveView(tab.id)}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="insight-strip">
-                  {activeClient.insights.map((item) => (
-                    <div key={item.label} className="insight-pill">
-                      <span>{item.label}</span>
-                      <strong>{item.value}</strong>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="hero-side">
-                <div className="result-card">
-                  <span>Revenue system</span>
-                  <strong>{formatCurrency(activeClient.metrics.revenue, activeClient.currency)}</strong>
-                  <small>+{activeClient.metrics.growth}% this month</small>
-                  <div className="result-card-foot">
-                    <span className={`status-chip ${activeClient.statusTone}`}>
-                      {activeClient.status}
-                    </span>
-                    <span className="status-chip">Open Client</span>
-                  </div>
-                </div>
-                <div className="pulse-stack" aria-hidden="true">
-                  <div className="pulse-ring pulse-ring-a"></div>
-                  <div className="pulse-ring pulse-ring-b"></div>
-                </div>
-              </div>
-            </section>
-
-            <section className="results-grid">
-              <article className="metric panel">
-                <span>ROAS</span>
-                <strong>{activeClient.metrics.roas}x</strong>
-              </article>
-              <article className="metric panel">
-                <span>Cost per result</span>
-                <strong>{formatCurrency(activeClient.metrics.cpr, activeClient.currency)}</strong>
-              </article>
-              <article className="metric panel">
-                <span>Reach</span>
-                <strong>{formatCompact(activeClient.metrics.reach)}</strong>
-              </article>
-              <article className="metric panel">
-                <span>Engagement</span>
-                <strong>{activeClient.metrics.engagement}%</strong>
-              </article>
-            </section>
-
-            <section className="detail-grid">
-              <article className="panel story-panel">
-                <div className="panel-top">
-                  <span className="section-label">Focus</span>
-                  <div className="mini-dot"></div>
-                </div>
-                <h3>{activeContent.title}</h3>
-                <p>{activeContent.text}</p>
-              </article>
-
-              <article className="panel trend-panel">
-                <div className="panel-top">
-                  <span className="section-label">Trend</span>
-                  <span className="trend-tag">12 checkpoints</span>
-                </div>
-                <svg viewBox="0 0 360 120" className="trend-chart" aria-hidden="true">
-                  <path d={trendPath} className="trend-line" />
-                </svg>
-              </article>
-
-              <article className="panel profile-panel">
-                <div className="panel-top">
-                  <span className="section-label">Client profile</span>
-                  <span className="trend-tag">Services delivered</span>
-                </div>
-                <div className="profile-cover">
-                  <img src={activeClient.photo} alt="" />
-                  <div className="profile-cover-overlay"></div>
-                  <span>{activeClient.category}</span>
-                </div>
-                <div className="profile-stack">
-                  <div>
-                    <span>Market</span>
-                    <strong>{activeClient.region}</strong>
-                  </div>
-                  <div>
-                    <span>Channel mix</span>
-                    <strong>{activeClient.platform}</strong>
-                  </div>
-                  <div>
-                    <span>Status</span>
-                    <strong>{activeClient.status}</strong>
-                  </div>
-                  <div>
-                    <span>Last update</span>
-                    <strong>{activeClient.updateLabel}</strong>
-                  </div>
-                </div>
-                <div className="tag-cloud">
-                  {activeClient.tags.map((tag) => (
-                    <span key={tag} className="gallery-tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </article>
-
-              <article className="panel activity-panel">
-                <div className="panel-top">
-                  <span className="section-label">Next actions</span>
-                  <span className="trend-tag">Realtime feed</span>
-                </div>
-                <div className="activity-list">
-                  {activeClient.activity.map((item) => (
-                    <div key={`${item.time}-${item.text}`} className="activity-item">
-                      <span>{item.time}</span>
-                      <p>{item.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </article>
-            </section>
-          </main>
-        </div>
+        <ClientProjectView client={activeClient} onBack={() => setActiveClientId(null)} />
       )}
     </div>
   )

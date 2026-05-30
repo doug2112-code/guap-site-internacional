@@ -1,0 +1,21 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#08090d"/>
+  <path d="M0 150H1200V800H0V150Z" fill="url(#floor)"/>
+  <path d="M108 202H1092" stroke="#3b4251" stroke-width="2"/>
+  <path d="M194 312H1006L920 606H286L194 312Z" fill="#141922"/>
+  <path d="M286 606H920L1000 696H200L286 606Z" fill="#050609"/>
+  <path d="M310 364H890L842 520H358L310 364Z" fill="#222b38"/>
+  <path d="M392 394H560L542 490H362L392 394Z" fill="#0d1119"/>
+  <path d="M640 394H808L838 490H658L640 394Z" fill="#0d1119"/>
+  <circle cx="350" cy="616" r="70" fill="#050609" stroke="#697386" stroke-width="16"/>
+  <circle cx="850" cy="616" r="70" fill="#050609" stroke="#697386" stroke-width="16"/>
+  <path d="M148 244H1052" stroke="#e6edf7" stroke-opacity=".18" stroke-width="22" stroke-linecap="round"/>
+  <path d="M160 244H480" stroke="#82d8ff" stroke-opacity=".5" stroke-width="8" stroke-linecap="round"/>
+  <path d="M720 244H1040" stroke="#ff86ba" stroke-opacity=".38" stroke-width="8" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="floor" x1="600" y1="150" x2="600" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111622"/>
+      <stop offset="1" stop-color="#040507"/>
+    </linearGradient>
+  </defs>
+</svg>

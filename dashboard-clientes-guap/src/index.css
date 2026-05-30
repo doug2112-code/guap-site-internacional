@@ -26,8 +26,6 @@
 
   color: var(--text-strong);
   background:
-    radial-gradient(circle at 14% 12%, rgba(76, 130, 255, 0.1), transparent 18%),
-    radial-gradient(circle at 82% 16%, rgba(255, 120, 190, 0.08), transparent 20%),
     linear-gradient(180deg, #030409 0%, #05060c 40%, #020307 100%);
   font-family: var(--font-body);
   line-height: 1.55;
