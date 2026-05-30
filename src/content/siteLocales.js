@@ -25,9 +25,9 @@ const englishCopy = {
   languageLabel: 'Language',
   hero: {
     aria: 'GUAP home',
-    kicker: 'GUAP / digital growth systems',
-    title: 'Your business is stronger than your digital presence.',
-    description: 'GUAP turns hidden value into brand, systems and revenue infrastructure for international markets.',
+    kicker: 'GUAP / data science for growth',
+    title: 'Data science that helps entrepreneurs work less and make more money.',
+    description: 'GUAP turns data, AI and digital systems into clearer decisions, faster sales and leaner operations.',
     primaryCta: 'Talk to GUAP',
     secondaryCta: 'See proof',
     sceneCore: ['Growth system', 'Brand. Data. Revenue.'],
@@ -38,8 +38,8 @@ const englishCopy = {
   },
   authority: {
     kicker: 'The growth problem',
-    title: 'Value is invisible when the structure is weak.',
-    description: 'Weak positioning lowers trust. Weak pages lower conversion. Slow systems lose demand.',
+    title: 'Most businesses work too hard for unclear growth.',
+    description: 'Data shows the bottleneck. Systems remove the waste. Revenue gets easier to manage.',
     outcomesLabel: 'Core outcomes',
     outcomes: ['Clearer authority', 'Higher conversion', 'Faster sales response'],
     points: [
@@ -50,8 +50,8 @@ const englishCopy = {
   },
   ecosystem: {
     kicker: 'Operating system',
-    title: 'Brand to revenue, connected.',
-    description: 'Premium businesses do not need more noise. They need one structure from first impression to revenue.',
+    title: 'Data to decision. Decision to revenue.',
+    description: 'One structure connects brand, website, AI, traffic and commercial response.',
     noteTitle: 'GUAP growth path',
     note: 'Brand -> Website -> Data -> AI -> Traffic -> Revenue',
     nodes: ['AI', 'Brand', 'Traffic', 'Sales', 'Systems', 'Data'],
@@ -73,8 +73,8 @@ const englishCopy = {
   },
   capabilities: {
     kicker: 'Solutions',
-    title: 'Growth is built in layers.',
-    description: 'AI, APIs, brand, website, data and acquisition working as one revenue architecture.',
+    title: 'Growth gets easier when the system is clear.',
+    description: 'Data science, AI, APIs, brand, website and acquisition working as one revenue architecture.',
     openLabel: 'Open service details',
     cardAction: 'Open layer',
     ctaText: 'Start where the revenue path is leaking.',
@@ -82,8 +82,8 @@ const englishCopy = {
   },
   results: {
     kicker: 'Results',
-    title: 'A clearer system makes revenue easier to scale.',
-    description: 'Two markets. One principle: stronger digital structure creates stronger commercial performance.',
+    title: 'Less guesswork. More controlled revenue.',
+    description: 'Two markets. One principle: better data and stronger systems improve commercial performance.',
     visualLabel: 'Live growth',
     visualText: 'Positioning up. Waste down.',
     badges: [
@@ -97,9 +97,9 @@ const englishCopy = {
   },
   footer: {
     kicker: 'Contact',
-    title: 'Let’s build your digital growth engine.',
-    description: 'Digital growth systems, branding and performance infrastructure for international businesses.',
-    positioning: 'GUAP builds digital structures that help strong businesses look stronger, sell better and scale with control.',
+    title: 'Let’s make growth easier to control.',
+    description: 'Data science, digital systems, branding and performance infrastructure for international businesses.',
+    positioning: 'GUAP builds data-driven structures that help entrepreneurs work with more clarity, sell better and scale with control.',
     marketsTitle: 'Markets',
     markets: ['United States', 'Japan', 'Portugal', 'Brazil'],
     servicesTitle: 'Services',
@@ -117,9 +117,9 @@ const ptCopy = {
   languageLabel: 'Idioma',
   hero: {
     aria: 'Início GUAP',
-    kicker: 'GUAP / sistemas de crescimento digital',
-    title: 'Sua empresa é mais forte do que o seu digital mostra.',
-    description: 'A GUAP transforma valor escondido em marca, sistemas e infraestrutura de receita internacional.',
+    kicker: 'GUAP / ciência de dados para crescimento',
+    title: 'Ciência de dados para empresários trabalharem menos e ganharem mais.',
+    description: 'A GUAP transforma dados, IA e sistemas digitais em decisões claras, vendas mais rápidas e operação mais leve.',
     primaryCta: 'Falar com a GUAP',
     secondaryCta: 'Ver resultados',
     sceneCore: ['Sistema de crescimento', 'Marca. Dados. Receita.'],
@@ -130,8 +130,8 @@ const ptCopy = {
   },
   authority: {
     kicker: 'O problema de crescimento',
-    title: 'Valor fica invisível sem estrutura digital.',
-    description: 'Posicionamento fraco reduz confiança. Página fraca reduz conversão. Sistema lento perde demanda.',
+    title: 'Muitas empresas trabalham demais para crescer sem clareza.',
+    description: 'Dados mostram o gargalo. Sistemas removem desperdício. Receita fica mais fácil de controlar.',
     outcomesLabel: 'Resultados centrais',
     outcomes: ['Mais autoridade', 'Maior conversão', 'Resposta comercial mais rápida'],
     points: [
@@ -142,8 +142,8 @@ const ptCopy = {
   },
   ecosystem: {
     kicker: 'Sistema operacional',
-    title: 'Da marca à receita, tudo conectado.',
-    description: 'Empresa premium não precisa de mais ruído. Precisa de estrutura da primeira impressão à receita.',
+    title: 'Do dado à decisão. Da decisão à receita.',
+    description: 'Uma estrutura conecta marca, site, IA, tráfego e resposta comercial.',
     noteTitle: 'Caminho de crescimento GUAP',
     note: 'Marca -> Site -> Dados -> IA -> Tráfego -> Receita',
     nodes: ['IA', 'Marca', 'Tráfego', 'Vendas', 'Sistemas', 'Dados'],
@@ -165,8 +165,8 @@ const ptCopy = {
   },
   capabilities: {
     kicker: 'Soluções',
-    title: 'Crescimento é construído em camadas.',
-    description: 'IA, APIs, marca, site, dados e aquisição como uma só arquitetura de receita.',
+    title: 'Crescer fica mais simples quando o sistema é claro.',
+    description: 'Ciência de dados, IA, APIs, marca, site e aquisição como uma só arquitetura de receita.',
     openLabel: 'Abrir detalhes do serviço',
     cardAction: 'Abrir camada',
     ctaText: 'Comece onde o caminho da receita está vazando.',
@@ -174,8 +174,8 @@ const ptCopy = {
   },
   results: {
     kicker: 'Resultados',
-    title: 'Sistema claro torna a receita mais escalável.',
-    description: 'Dois mercados. Um princípio: estrutura digital mais forte melhora a performance comercial.',
+    title: 'Menos achismo. Mais receita sob controle.',
+    description: 'Dois mercados. Um princípio: melhores dados e sistemas mais fortes melhoram a performance comercial.',
     visualLabel: 'Crescimento vivo',
     visualText: 'Posicionamento sobe. Desperdício cai.',
     badges: [
@@ -189,9 +189,9 @@ const ptCopy = {
   },
   footer: {
     kicker: 'Contato',
-    title: 'Vamos construir seu motor de crescimento digital.',
-    description: 'Sistemas de crescimento digital, branding e infraestrutura de performance para empresas internacionais.',
-    positioning: 'A GUAP cria estruturas digitais para empresas fortes parecerem mais fortes, venderem melhor e escalarem com controle.',
+    title: 'Vamos tornar o crescimento mais fácil de controlar.',
+    description: 'Ciência de dados, sistemas digitais, branding e infraestrutura de performance para empresas internacionais.',
+    positioning: 'A GUAP cria estruturas orientadas por dados para empresários trabalharem com mais clareza, venderem melhor e escalarem com controle.',
     marketsTitle: 'Mercados',
     markets: ['Estados Unidos', 'Japão', 'Portugal', 'Brasil'],
     servicesTitle: 'Serviços',
@@ -209,9 +209,9 @@ const jaCopy = {
   languageLabel: '言語',
   hero: {
     aria: 'GUAP ホーム',
-    kicker: 'GUAP / デジタル成長システム',
-    title: '事業の価値を、デジタルで正しく伝える。',
-    description: 'GUAPは見えにくい事業価値を、国際市場で選ばれるブランド、システム、売上基盤へ変えます。',
+    kicker: 'GUAP / 成長のためのデータサイエンス',
+    title: '経営者が少ない労力で、より多くの利益を生むためのデータサイエンス。',
+    description: 'GUAPはデータ、AI、デジタルシステムを、明確な意思決定、速い販売、軽い運営へ変えます。',
     storyline: ['明確な提案', '良い導線', '売上へ'],
     primaryCta: 'GUAPに相談',
     secondaryCta: '実績を見る',
@@ -223,8 +223,8 @@ const jaCopy = {
   },
   authority: {
     kicker: '成長の課題',
-    title: '構造が弱いと、価値は見えない。',
-    description: '弱い位置付けは信頼を下げる。弱いページは転換を下げる。遅い仕組みは需要を失う。',
+    title: '多くの事業は、曖昧な成長のために働きすぎている。',
+    description: 'データが詰まりを示す。システムが無駄を減らす。売上は管理しやすくなる。',
     outcomesLabel: '主要な成果',
     outcomes: ['信頼を高める', '転換率を上げる', '対応を速くする'],
     points: [
@@ -235,8 +235,8 @@ const jaCopy = {
   },
   ecosystem: {
     kicker: 'オペレーティングシステム',
-    title: 'ブランドから売上まで、つなげる。',
-    description: 'プレミアムな事業に必要なのは、ノイズではなく、第一印象から売上までの接続構造です。',
+    title: 'データから意思決定へ。意思決定から売上へ。',
+    description: 'ブランド、Web、AI、広告、営業対応を一つの構造で接続します。',
     noteTitle: 'GUAPの成長導線',
     note: 'ブランド -> Webサイト -> データ -> AI -> 広告 -> 売上',
     nodes: ['AI', 'ブランド', '広告', '営業', 'システム', 'データ'],
@@ -258,8 +258,8 @@ const jaCopy = {
   },
   capabilities: {
     kicker: 'ソリューション',
-    title: '成長はレイヤーで設計する。',
-    description: 'AI、API、ブランド、Web、データ、獲得を一つの商業構造へ。',
+    title: 'システムが明確になるほど、成長は軽くなる。',
+    description: 'データサイエンス、AI、API、ブランド、Web、獲得を一つの収益構造へ。',
     openLabel: 'サービス詳細を開く',
     cardAction: 'レイヤーを開く',
     ctaText: '売上導線の漏れから始める。',
@@ -267,8 +267,8 @@ const jaCopy = {
   },
   results: {
     kicker: '成果',
-    title: '明確なシステムは、売上を伸ばしやすくする。',
-    description: '二つの市場。一つの原則。強いデジタル構造が商業成果を高める。',
+    title: '勘を減らし、売上をより管理しやすくする。',
+    description: '二つの市場。一つの原則。良いデータと強いシステムが商業成果を高める。',
     visualLabel: '成長の動き',
     visualText: '位置付けアップ。無駄ダウン。',
     badges: [
@@ -282,9 +282,9 @@ const jaCopy = {
   },
   footer: {
     kicker: 'お問い合わせ',
-    title: 'デジタル成長エンジンを構築する。',
-    description: '国際ビジネスのためのデジタル成長システム、ブランド、パフォーマンス基盤。',
-    positioning: 'GUAPは強い事業をより強く見せ、売りやすくし、明確に拡大するためのデジタル構造をつくります。',
+    title: '成長を、もっと管理しやすくする。',
+    description: '国際ビジネスのためのデータサイエンス、デジタルシステム、ブランド、パフォーマンス基盤。',
+    positioning: 'GUAPはデータを軸に、経営者がより明確に動き、売りやすくし、管理しながら拡大する構造をつくります。',
     marketsTitle: '市場',
     markets: ['米国', '日本', 'ポルトガル', 'ブラジル'],
     servicesTitle: 'サービス',
