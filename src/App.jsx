@@ -311,7 +311,9 @@ function App() {
       return undefined
     }
 
-    if (!('IntersectionObserver' in window)) {
+    const shouldSkipReveal = window.matchMedia('(max-width: 780px), (prefers-reduced-motion: reduce)').matches
+
+    if (shouldSkipReveal || !('IntersectionObserver' in window)) {
       elements.forEach((element) => element.classList.add('is-visible'))
       return undefined
     }
@@ -340,8 +342,15 @@ function App() {
       return undefined
     }
 
+    const shouldReduceMotion = window.matchMedia('(max-width: 780px), (prefers-reduced-motion: reduce)').matches
+
+    if (shouldReduceMotion) {
+      motionScopes.forEach((scope) => scope.classList.remove('is-motion-active'))
+      return undefined
+    }
+
     if (!('IntersectionObserver' in window)) {
-      motionScopes.forEach((scope) => scope.classList.add('is-motion-active'))
+      motionScopes.forEach((scope) => scope.classList.remove('is-motion-active'))
       return undefined
     }
 

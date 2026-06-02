@@ -753,6 +753,40 @@
   animation-play-state: paused;
 }
 
+.ambient-stars,
+.ambient-glow,
+.current-pulse,
+.topbar::before,
+.hero-panel::after,
+.hero-orbit,
+.hero-glow,
+.floating-card,
+.signal-pill,
+.flow-node,
+.section-transition::after,
+.section-transition .transition-node,
+.section-transition .transition-beam::after,
+.markets-tabs::before,
+.market-progress span.is-active::after,
+.market-stage-bg::before,
+.market-light,
+.market-road,
+.market-particles,
+.market-story-visual::before,
+.market-story-visual::after,
+.visual-orbit,
+.visual-core,
+.visual-node,
+.partner-band,
+.partner-aurora,
+.metric-number,
+.trend-bar,
+.results-sphere,
+.results-dot,
+.results-float-badge {
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .site-shell:not(.is-page-ready) .hero-panel::before,
   .site-shell:not(.is-page-ready) .hero-panel::after {
@@ -8485,6 +8519,57 @@
     .footer-bottom
   ) {
     transition-delay: 260ms;
+  }
+}
+
+@media (max-width: 780px) {
+  .site-shell,
+  .site-shell:not(.is-page-ready),
+  .site-shell.is-page-ready,
+  .site-shell .reveal-panel,
+  .site-shell .reveal-panel:not(.hero-panel):not(.is-visible),
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible),
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible,
+  .site-shell .motion-text-reveal,
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) .motion-text-reveal,
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible .motion-text-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    will-change: auto !important;
+  }
+
+  .site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible) :is(
+    .kicker,
+    h2,
+    h3,
+    .section-copy p,
+    .authority-strip,
+    .authority-points,
+    .copy-note,
+    .ecosystem-scene,
+    .markets-tabs,
+    .service-card-description,
+    .service-card-action,
+    .market-story-copy,
+    .market-story-visual,
+    .market-story-metrics,
+    .partner-quote-card,
+    .partner-marquee,
+    .service-card,
+    .section-action-row,
+    .results-visual,
+    .metric-card,
+    .metrics-grid,
+    .conversion-strip,
+    .contact-list,
+    .footer-link-columns,
+    .footer-bottom
+  ) {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
 
