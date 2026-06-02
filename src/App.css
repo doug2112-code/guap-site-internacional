@@ -1068,7 +1068,7 @@
 }
 
 .hero-layout {
-  grid-template-columns: minmax(0, 1fr) minmax(420px, 1fr);
+  grid-template-columns: minmax(560px, 1.16fr) minmax(380px, 0.84fr);
   min-height: 0;
   align-items: center;
   gap: clamp(14px, 2vw, 24px);
@@ -1087,7 +1087,7 @@
 }
 
 .hero-copy {
-  max-width: 640px;
+  max-width: min(860px, 58vw);
   margin-inline: 0;
   text-align: left;
   justify-self: start;
@@ -1133,10 +1133,10 @@
 
 .hero-panel h1 {
   margin-top: 10px;
-  max-width: 12.8ch;
+  max-width: 17.4ch;
   margin-inline: 0;
-  font-size: clamp(2.25rem, 4.2vw, 4.5rem);
-  line-height: 0.95;
+  font-size: clamp(2.45rem, 3.85vw, 4.35rem);
+  line-height: 0.98;
 }
 
 .hero-description,
