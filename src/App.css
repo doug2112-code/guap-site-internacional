@@ -9040,3 +9040,131 @@
     line-height: 1;
   }
 }
+
+@media (max-width: 430px) {
+  .topbar {
+    overflow: visible;
+  }
+
+  .topbar-actions {
+    grid-template-columns: max-content minmax(128px, 1fr);
+    width: 100%;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .language-switcher {
+    width: max-content;
+    min-width: max-content;
+    justify-self: start;
+  }
+
+  .language-option {
+    width: 30px;
+    min-width: 30px;
+  }
+
+  .topbar .nav-cta {
+    min-width: 128px;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 360px) {
+  .topbar-actions {
+    grid-template-columns: 1fr;
+    width: min(100%, 248px);
+  }
+
+  .language-switcher {
+    justify-self: center;
+  }
+
+  .topbar .nav-cta {
+    width: 100%;
+  }
+}
+
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
+.site-shell,
+.site-shell:not(.is-page-ready),
+.site-shell.is-page-ready,
+.reveal-panel,
+.reveal-panel:not(.is-visible),
+.reveal-panel.is-visible,
+.motion-text-reveal,
+.site-shell.is-page-ready .reveal-panel:not(.hero-panel):not(.is-visible),
+.site-shell.is-page-ready .reveal-panel:not(.hero-panel).is-visible,
+.site-shell.is-page-ready .reveal-panel:not(.is-visible) .motion-text-reveal,
+.site-shell.is-page-ready .reveal-panel.is-visible .motion-text-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+.ambient-layer,
+.cosmic-current,
+.flow-ribbons,
+.section-transition,
+.partner-aurora,
+.results-float-badge,
+.market-light,
+.market-road,
+.market-skyline,
+.market-dashboard-lines,
+.market-particles,
+.hero-orbit,
+.hero-beam,
+.hero-grid,
+.hero-glow,
+.ecosystem-ring,
+.ecosystem-line,
+.visual-orbit,
+.visual-node,
+.results-line,
+.results-dot,
+.results-sphere,
+.metric-trend {
+  display: none !important;
+}
+
+.hero-panel,
+.section-card,
+.authority-band,
+.footer-card,
+.market-stage,
+.hero-scene,
+.ecosystem-scene,
+.results-visual {
+  transform-style: flat !important;
+  backface-visibility: visible !important;
+}
+
+.hero-panel::before,
+.hero-panel::after,
+.topbar::before,
+.topbar::after,
+.site-flow::before,
+.site-flow::after,
+.section-card::before,
+.section-card::after,
+.authority-band::before,
+.authority-band::after,
+.footer-card::before,
+.footer-card::after,
+.market-stage-bg::before,
+.market-stage-bg::after,
+.market-story-visual::before,
+.market-story-visual::after,
+.results-visual::before,
+.results-visual::after {
+  display: none !important;
+}

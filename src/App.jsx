@@ -40,44 +40,10 @@ function formatMetricValue(metric, value) {
   return `+${Math.round(value)}%`
 }
 
-function ResultMetricCard({ metric, index, isActive }) {
-  const [value, setValue] = useState(metric.start)
-
-  useEffect(() => {
-    if (!isActive) {
-      return undefined
-    }
-
-    let frameId = 0
-    const duration = 1800
-    const minFrameInterval = 96
-    const startTime = performance.now()
-    let lastUpdateTime = startTime
-
-    const tick = (time) => {
-      const elapsed = Math.min((time - startTime) / duration, 1)
-
-      if (elapsed === 1 || time - lastUpdateTime >= minFrameInterval) {
-        const eased = 1 - Math.pow(1 - elapsed, 3)
-        setValue(metric.start + (metric.end - metric.start) * eased)
-        lastUpdateTime = time
-      }
-
-      if (elapsed < 1) {
-        frameId = window.requestAnimationFrame(tick)
-      }
-    }
-
-    frameId = window.requestAnimationFrame(tick)
-
-    return () => window.cancelAnimationFrame(frameId)
-  }, [isActive, metric.end, metric.start])
-
+function ResultMetricCard({ metric, index }) {
   return (
     <article className={`metric-card metric-card-${index + 1} reveal-panel`} data-reveal>
-      <strong className={`metric-number ${isActive ? 'metric-number-live' : ''}`}>
-        {formatMetricValue(metric, value)}
-      </strong>
+      <strong className="metric-number">{formatMetricValue(metric, metric.end)}</strong>
       <span>{metric.label}</span>
       <div className="metric-trend" aria-hidden="true">
         <span className="trend-bar trend-a"></span>
@@ -103,13 +69,11 @@ function App() {
     partnerLogos,
     resultMetrics,
   } = content
-  const [resultsActive, setResultsActive] = useState(false)
   const [activeService, setActiveService] = useState(null)
   const [activeMarketIndex, setActiveMarketIndex] = useState(0)
   const [isMarketPaused, setIsMarketPaused] = useState(false)
   const [isMarketVisible, setIsMarketVisible] = useState(false)
   const [isPageReady, setIsPageReady] = useState(false)
-  const [isDocumentVisible, setIsDocumentVisible] = useState(true)
   const [isClosingService, setIsClosingService] = useState(false)
   const serviceModalCloseTimer = useRef(null)
   const serviceModalTitleRef = useRef(null)
@@ -144,7 +108,6 @@ function App() {
     const updateDocumentVisibility = () => {
       const nextIsVisible = !document.hidden
       rootElement.classList.toggle('is-tab-hidden', !nextIsVisible)
-      setIsDocumentVisible((currentValue) => (currentValue === nextIsVisible ? currentValue : nextIsVisible))
     }
 
     updateDocumentVisibility()
@@ -157,101 +120,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const mobileQuery = window.matchMedia('(max-width: 780px)')
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const rootStyle = document.documentElement.style
-    const shouldReduceScrollEffects = () => mobileQuery.matches || reducedMotionQuery.matches || document.hidden
-    const addMediaQueryListener = (query, handler) => {
-      if (typeof query.addEventListener === 'function') {
-        query.addEventListener('change', handler)
-        return
-      }
-
-      query.addListener(handler)
-    }
-    const removeMediaQueryListener = (query, handler) => {
-      if (typeof query.removeEventListener === 'function') {
-        query.removeEventListener('change', handler)
-        return
-      }
-
-      query.removeListener(handler)
-    }
-
-    const resetScrollEffects = () => {
-      rootStyle.setProperty('--scroll-progress', '0')
-      rootStyle.setProperty('--scroll-offset', '0px')
-    }
-
-    let frameId = 0
-    let scrollableDistance = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0)
-    let lastScrollProgress = ''
-    let lastScrollOffset = ''
-
-    const updateScrollState = () => {
-      if (shouldReduceScrollEffects()) {
-        resetScrollEffects()
-        frameId = 0
-        return
-      }
-
-      const scrollTop = window.scrollY
-      const rawProgress = scrollableDistance > 0 ? Math.min(Math.max(scrollTop / scrollableDistance, 0), 1) : 0
-      const progress = `${Math.round(rawProgress * 250) / 250}`
-      const offset = `${Math.round(Math.min(scrollTop, 1400) / 8) * 8}px`
-
-      if (progress !== lastScrollProgress) {
-        rootStyle.setProperty('--scroll-progress', progress)
-        lastScrollProgress = progress
-      }
-
-      if (offset !== lastScrollOffset) {
-        rootStyle.setProperty('--scroll-offset', offset)
-        lastScrollOffset = offset
-      }
-
-      frameId = 0
-    }
-
-    const handleScroll = () => {
-      if (frameId !== 0) {
-        return
-      }
-
-      frameId = window.requestAnimationFrame(updateScrollState)
-    }
-
-    const handleResize = () => {
-      scrollableDistance = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0)
-      handleScroll()
-    }
-
-    const handleMediaChange = () => {
-      if (shouldReduceScrollEffects()) {
-        resetScrollEffects()
-        return
-      }
-
-      handleResize()
-    }
-
-    updateScrollState()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleResize)
-    addMediaQueryListener(mobileQuery, handleMediaChange)
-    addMediaQueryListener(reducedMotionQuery, handleMediaChange)
-    document.addEventListener('visibilitychange', handleMediaChange)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleResize)
-      removeMediaQueryListener(mobileQuery, handleMediaChange)
-      removeMediaQueryListener(reducedMotionQuery, handleMediaChange)
-      document.removeEventListener('visibilitychange', handleMediaChange)
-      if (frameId !== 0) {
-        window.cancelAnimationFrame(frameId)
-      }
-    }
+    rootStyle.setProperty('--scroll-progress', '0')
+    rootStyle.setProperty('--scroll-offset', '0px')
+    return undefined
   }, [])
 
   useEffect(() => {
@@ -278,94 +150,15 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const resultsSection = document.getElementById('results')
-
-    if (!resultsSection) {
-      return undefined
-    }
-
-    if (!('IntersectionObserver' in window)) {
-      const frameId = window.requestAnimationFrame(() => setResultsActive(true))
-      return () => window.cancelAnimationFrame(frameId)
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setResultsActive((currentValue) => (currentValue ? currentValue : true))
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.3 },
-    )
-
-    observer.observe(resultsSection)
-
-    return () => observer.disconnect()
-  }, [])
-
-  useEffect(() => {
     const elements = document.querySelectorAll('[data-reveal]')
-
-    if (!elements.length) {
-      return undefined
-    }
-
-    const shouldSkipReveal = window.matchMedia('(max-width: 780px), (prefers-reduced-motion: reduce)').matches
-
-    if (shouldSkipReveal || !('IntersectionObserver' in window)) {
-      elements.forEach((element) => element.classList.add('is-visible'))
-      return undefined
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.16, rootMargin: '0px 0px -8% 0px' },
-    )
-
-    elements.forEach((element) => observer.observe(element))
-
-    return () => observer.disconnect()
+    elements.forEach((element) => element.classList.add('is-visible'))
+    return undefined
   }, [])
 
   useEffect(() => {
     const motionScopes = document.querySelectorAll('.hero-panel, .section-card, .authority-band, .footer-card, .section-transition')
-
-    if (!motionScopes.length) {
-      return undefined
-    }
-
-    const shouldReduceMotion = window.matchMedia('(max-width: 780px), (prefers-reduced-motion: reduce)').matches
-
-    if (shouldReduceMotion) {
-      motionScopes.forEach((scope) => scope.classList.remove('is-motion-active'))
-      return undefined
-    }
-
-    if (!('IntersectionObserver' in window)) {
-      motionScopes.forEach((scope) => scope.classList.remove('is-motion-active'))
-      return undefined
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          entry.target.classList.toggle('is-motion-active', entry.isIntersecting)
-        })
-      },
-      { threshold: 0, rootMargin: '28% 0px 28% 0px' },
-    )
-
-    motionScopes.forEach((scope) => observer.observe(scope))
-
-    return () => observer.disconnect()
+    motionScopes.forEach((scope) => scope.classList.remove('is-motion-active'))
+    return undefined
   }, [])
 
   useEffect(() => {
@@ -393,22 +186,8 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (
-      !isMarketVisible ||
-      !isDocumentVisible ||
-      isMarketPaused ||
-      marketStories.length < 2 ||
-      prefersReducedMotion.current
-    ) {
-      return undefined
-    }
-
-    const timerId = window.setInterval(() => {
-      setActiveMarketIndex((currentIndex) => (currentIndex + 1) % marketStories.length)
-    }, 6500)
-
-    return () => window.clearInterval(timerId)
-  }, [isDocumentVisible, isMarketPaused, isMarketVisible, marketStories.length])
+    return undefined
+  }, [])
 
   useEffect(() => {
     const activeTab = marketTabRefs.current[activeMarketIndex]
@@ -1059,7 +838,7 @@ function App() {
 
           <div className="metrics-grid metrics-grid-compact">
             {resultMetrics.map((metric, index) => (
-              <ResultMetricCard isActive={resultsActive} key={`${metric.label}-${metric.start}-${metric.end}`} metric={metric} index={index} />
+              <ResultMetricCard key={`${metric.label}-${metric.start}-${metric.end}`} metric={metric} index={index} />
             ))}
           </div>
 
